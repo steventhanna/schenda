@@ -74,7 +74,7 @@ _.merge(exports, {
       displayName: post.firstName + " " + post.lastName
     };
 
-    Usr.create(userAccountData).exec(function(err, user) {
+    User.create(userAccountData).exec(function(err, user) {
       if (err || user == undefined) {
         console.log("There was an error when creating the user account on the database.");
         console.log("Error Code 0001");
