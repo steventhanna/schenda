@@ -38,7 +38,7 @@ passport.deserializeUser(function(id, done) {
     id: id
   }).exec(function(err, user) {
     if (err || user == undefined) {
-      console.log("There was an error looking up the user with the id " + id " in the User Database");
+      console.log("There was an error looking up the user with the id " + id + " in the User Database");
       console.log("Error = " + err);
       return done("NOT IN THE USER DATABASE", null);
     } else {
