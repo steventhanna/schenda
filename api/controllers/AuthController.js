@@ -8,6 +8,7 @@
 // Initalize dependencies
 var bcrypt = require('bcrypt-nodejs');
 var passport = require('passport');
+var GoogleStrategy = require('passport-google').Strategy;
 
 // Debug object to log debug statements
 var debug = {
@@ -22,88 +23,31 @@ var debug = {
 // Turn on debug
 debug.on = true;
 
-var _ = require('lodash');
-var _super = require('sails-auth/api/controllers/AuthController');
-
-_.merge(exports, _super);
-_.merge(exports, {
-
-  renderSignIn: function(req, res) {
-    res.view('landing/login');
-  },
-
-  login: function(req, res) {
-    passport.authenticate('local', function(err, user, info) {
-      if ((err) || (!user)) {
-        console.log("user = " + user);
-        console.log("err = " + err);
-        console.log("info = " + info);
-        // Eventually replace with a send message
-        res.view('auth/loignError');
-      } else if (!err && user) {
-        req.logIn(user, function(err) {
-          if (err) {
-            res.serverError();
-            return;
-          } else {
-            res.send({
-              success: true,
-            });
-          }
-        })
-      }
-    })(req, res);
-  },
-
-  renderSignUp: function(req, res) {
-    res.view('landing/signup');
-  },
-
-  signup: function(req, res) {
-    var post = req.body;
-    var token = Math.floor(Math.random() * 1000000000000000000000);
-    var uid = Math.floor(Math.random() * 1000000000000000000000);
-
-    var userAccountData = {
-      uid: token,
-      email: post.email,
-      password: post.password,
-      emailConfirmed: false,
-      firstName: post.firstName,
-      lastName: post.lastName,
-      displayName: post.firstName + " " + post.lastName
-    };
-
-    User.create(userAccountData).exec(function(err, user) {
-      if (err || user == undefined) {
-        console.log("There was an error when creating the user account on the database.");
-        console.log("Error Code 0001");
-        console.log("Error = " + err);
-        console.log("User Account: ");
-        console.log(user);
-      } else {
-        user.save(function(err) {
-          if (err) {
-            console.log("Unable to save profile.");
-          }
-        });
-        req.logIn(user, function(err) {
-          if (err) {
-            res.serverError;
-            return;
-          } else {
-            res.send({
-              success: true
-            });
-          }
-        });
-      }
-    });
-  },
-
+module.exports = {
+  /*
+   * This function handles the logging out of users
+   */
   logout: function(req, res) {
     req.logout();
-    res.redirect("/");
-    res.end();
+    res.redirect('/');
   },
-});
+
+  /*
+   * Will eventually phase login page out in favor of using just a button on
+   * the home page.
+   */
+  login: function(req, res) {
+    // res.view('landing/login');
+    res.view('/');
+  },
+
+  /*
+   * This function handles github authentication and github authentication callbacks (for more information on the middleware visit config/application.js)
+   */
+  authGoogle: function(req, res) {
+    passport.authenticate('google', {
+      successRedirect: '/',
+      failureRedirect: '/login'
+    });
+  },
+};
