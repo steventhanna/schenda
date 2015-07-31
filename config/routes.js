@@ -62,6 +62,17 @@ module.exports.routes = {
     action: 'dashboard'
   },
 
+  // TODO :: Figure out what the fuck all of these do.
+  'GET /login': 'AuthController.login',
+  'GET /logout': 'AuthController.logout',
+  'GET /register': 'AuthController.register',
+
+  'POST /auth/local': 'AuthController.callback',
+  'POST /auth/local/:action': 'AuthController.callback',
+
+  'GET /auth/:provider': 'AuthController.provider',
+  'GET /auth/:provider/callback': 'AuthController.callback',
+
   /***************************************************************************
    *                                                                          *
    * Custom routes here...                                                    *
