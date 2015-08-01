@@ -6,8 +6,9 @@
  */
 
 // Initalize dependencies
-var bcyprt = require('bcrypt-nodejs');
+var bcrypt = require('bcrypt-nodejs');
 var passport = require('passport');
+var GoogleStrategy = require('passport-google').Strategy;
 
 // Debug object to log debug statements
 var debug = {
@@ -22,10 +23,27 @@ var debug = {
 // Turn on debug
 debug.on = true;
 
-var _ = require('lodash');
-var _super = require('sails-auth/api/controllers/UserController');
 
-_.merge(exports, _super);
-_.merge(exports, {
 
-});
+module.exports = {
+
+  dashboard: function(req, res) {
+    // Lookup user in Database
+    User.findOne({
+      id: req.user.id
+    }).exec(function(err, user) {
+      // Handle errors that could come from looking up the user in the database
+      if (err || user == undefined) {
+        console.log("There was an error looking up the user.");
+        res.serverError();
+      } else {
+        res.view('dashboard/dash', {
+          user: user
+        });
+      }
+    });
+  },
+
+
+
+};

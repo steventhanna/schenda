@@ -58,6 +58,44 @@ module.exports = {
     })(req, res);
   },
 
+  googleCallback: function(req, res) {
+    console.log("Entered google callback");
+    passport.authenticate('google', {
+      failureRedirect: '/'
+    }, function(err, profile) {
+      if (err || profile == undefined) {
+        console.log("There was an error authenticating the user.");
+        res.serverError();
+      } else {
+        // Get the user off the database.
+        console.log("Looking for user on the datbase.");
+        User.findOrCreate({
+          id: req.user.id
+        }).exec(function(err, user) {
+          // Handle errors
+          if (err || user == undefined) {
+            console.log("There was an error looking up the authenticated user.");
+            res.serverError();
+          } else {
+            var profileData = {};
+            profileData.username = profile.userId;
+
+            User.update({
+              id: user.id
+            }, profileData).exec(function(err, updatedUser) {
+              if (err || updatedUser == undefined) {
+                console.log("There was an error while updating the user account with google information.");
+                res.serverError();
+              } else {
+                res.redirect('/dashboard');
+              }
+            });
+          }
+        });
+      }
+    })(req, res);
+  },
+
   callback: function(req, res) {
     passport.authenticate('google', {
       failureRedirect: '/'

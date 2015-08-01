@@ -90,7 +90,12 @@ module.exports.routes = {
 
   'GET /auth/:provider/callback': {
     controller: 'auth',
-    action: 'callback'
+    action: 'googleCallback'
+  },
+
+  'GET /dashboard': {
+    controller: 'user',
+    action: 'dashboard'
   },
 
   /***************************************************************************
