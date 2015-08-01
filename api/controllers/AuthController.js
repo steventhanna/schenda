@@ -44,6 +44,7 @@ module.exports = {
   register: function(req, res) {
     passport.authenticate('google', {
       scope: ['profile', 'email'],
+      callbackURI: 'http://127.0.0.1:1337/auth/google/callback',
       failureRedirect: '/'
     }, function(err, user) {
       req.logIn(user, function(err) {
