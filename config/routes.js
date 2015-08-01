@@ -37,11 +37,6 @@ module.exports.routes = {
     action: 'home',
   },
 
-  'GET /signin': {
-    controller: 'auth',
-    action: 'renderSignIn'
-  },
-
   'POST /signin': {
     controller: 'auth',
     action: 'login'
@@ -63,15 +58,40 @@ module.exports.routes = {
   },
 
   // TODO :: Figure out what the fuck all of these do.
-  'GET /login': 'AuthController.login',
-  'GET /logout': 'AuthController.logout',
-  'GET /register': 'AuthController.register',
+  'GET /login': {
+    controller: 'auth',
+    action: 'login'
+  },
 
-  'POST /auth/local': 'AuthController.callback',
-  'POST /auth/local/:action': 'AuthController.callback',
+  'GET /logout': {
+    controller: 'auth',
+    action: 'logout'
+  },
 
-  'GET /auth/:provider': 'AuthController.provider',
-  'GET /auth/:provider/callback': 'AuthController.callback',
+  'GET /register': {
+    controller: 'auth',
+    action: 'register'
+  },
+
+  'POST /auth/local': {
+    controller: 'auth',
+    action: 'callback'
+  },
+
+  'POST /auth/local/:action': {
+    controller: 'auth',
+    action: 'callback'
+  },
+
+  'POST /auth/google': {
+    controller: 'auth',
+    action: 'provider'
+  },
+
+  'GET /auth/google/callback': {
+    controller: 'auth',
+    action: 'callback'
+  },
 
   /***************************************************************************
    *                                                                          *
