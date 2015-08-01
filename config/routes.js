@@ -83,12 +83,12 @@ module.exports.routes = {
     action: 'callback'
   },
 
-  'POST /auth/google': {
+  'POST /auth/:provider': {
     controller: 'auth',
     action: 'provider'
   },
 
-  'GET /auth/google/callback': {
+  'GET /auth/:provider/callback': {
     controller: 'auth',
     action: 'callback'
   },
