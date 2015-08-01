@@ -68,7 +68,7 @@ module.exports = {
         res.serverError();
       } else {
         // Get the user off the Database
-        User.findOne({
+        User.findOrCreate({
           id: req.user.id
         }).exec(function(err, user) {
           // Handle errors lookng up the user
