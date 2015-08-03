@@ -9,6 +9,26 @@ body {
   margin-top: 15px;
 }
 
+.navbar-default .navbar-nav > li .dark {
+  color: #fff;
+  background: #294F6D;
+  border-radius: 0px;
+  border-color: #fff;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.navbar-default .navbar-nav > li .dark:hover {
+  color: #294F6D;
+  background: #fff;
+  border-radius: 0px;
+  border-color: #294F6D;
+  border-style: solid;
+  border-width: 1px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-left: 10px;
+}
 
 .navbar-default .navbar-nav > li > a {
   color: #294F6D;
@@ -19,6 +39,7 @@ body {
   border-width: 1px;
   padding-top: 10px;
   padding-bottom: 10px;
+  margin-left: 10px;
 }
 
 .navbar-default .navbar-nav > li > a:hover {
@@ -80,10 +101,6 @@ body {
   border-style: solid;
   border-width: 1px;
   font-size: 20px;
-}
-
-.hero .btn-google-signin {
-  background: url("/images/googleSignInbutton.png");
 }
 
 .feature {
