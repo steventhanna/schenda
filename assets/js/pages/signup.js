@@ -15,6 +15,8 @@ $(document).ready(function() {
       password: password,
     };
 
+    console.log(postObj);
+
     $.ajax({
         type: 'POST',
         url: '/signup',
