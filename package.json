@@ -1,8 +1,8 @@
 {
   "name": "schenda",
   "private": true,
-  "version": "0.0.0",
-  "description": "a Sails application",
+  "version": "0.0.1",
+  "description": "Schenda for Students: School without the Stress",
   "keywords": [],
   "dependencies": {
     "bcrypt": "^0.8.4",
@@ -44,6 +44,6 @@
     "type": "git",
     "url": "git://github.com/steventhanna/schenda.git"
   },
-  "author": "steventhanna",
-  "license": ""
+  "author": "Steven T Hanna & Preston Stosur-Bassett",
+  "license": "Copyright 2015 Steven T Hanna & Preston Stosur-Bassett"
 }
