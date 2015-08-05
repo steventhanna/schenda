@@ -31,7 +31,11 @@ $(document).ready(function() {
     } else {
       if (password == "password") {
         swal("Seriously?", "Having your password as 'password' is not security... You can do better than that...", "warning");
-      } else if (password.length <= 7) {
+      }
+      else if(password == "" || password == " ") {
+         swal("Seriously?", "Come on, be real now. Your password CANNOT be nothing or just a space.", "warning");
+      }
+      else if (password.length <= 7) {
         swal({
           title: "You're password is ridiculously insecure.",
           text: "Are you sure you want to proceed using that short of a password?",
