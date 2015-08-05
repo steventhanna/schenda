@@ -1,15 +1,9 @@
-/*!
- * Start Bootstrap - SB Admin Bootstrap Admin Template (http://startbootstrap.com)
- * Code licensed under the Apache License v2.0.
- * For details, see http://www.apache.org/licenses/LICENSE-2.0.
- */
-
-
 /* Global Styles */
 
 body {
   margin-top: 100px;
   background-color: #222;
+  font-family: 'Open Sans', sans-serif;
 }
 @media(min-width:768px) {
   body {
@@ -50,12 +44,26 @@ body {
   padding-top: 15px;
   padding-bottom: 15px;
   line-height: 20px;
-  color: #999;
-}
-.top-nav>li>a:hover, .top-nav>li>a:focus, .top-nav>.open>a, .top-nav>.open>a:hover, .top-nav>.open>a:focus {
   color: #fff;
-  background-color: #000;
 }
+.top-nav>li>a:focus, .top-nav>.open>a, .top-nav>.open>a:focus {
+  color: #fff;
+  background-color: #fff;
+}
+
+.nav>li>a:hover {
+  color: #294F6D;
+  background-color: #fff;
+}
+
+.top-nav>.open>a:hover {
+  color: #294F6D;
+}
+
+.top-nav>.open>a:focus {
+  color: #294F6D;
+}
+
 .top-nav>.open>.dropdown-menu {
   float: left;
   position: absolute;
@@ -91,9 +99,34 @@ ul.alert-dropdown {
   width: 200px;
 }
 
+.navbar-inverse {
+  border-color: #fff;
+  background-color: #294F6D;
+}
+
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus {
+  background-color: #346891;
+  color: #fff;
+}
+
+.navbar-inverse .navbar-nav>.active>a:hover {
+  background-color: #fff;
+  color: #346891;
+}
+
+.navbar-inverse .navbar-brand {
+  color: #294F6D;
+}
+
 /* Side Navigation */
 
 @media(min-width:768px) {
+  .navbar-header {
+    width: 225px;
+    background-color: #fff;
+    color: #294F6D;
+  }
+
   .side-nav {
     position: fixed;
     top: 51px;
@@ -103,7 +136,8 @@ ul.alert-dropdown {
     border: none;
     border-radius: 0;
     overflow-y: auto;
-    background-color: #222;
+    background-color: #294F6D;
+    opacity: 1;
     bottom: 0;
     overflow-x: hidden;
     padding-bottom: 40px;
@@ -113,7 +147,7 @@ ul.alert-dropdown {
   }
   .side-nav li a:hover, .side-nav li a:focus {
     outline: none;
-    background-color: #000 !important;
+    background-color: #fff !important;
   }
 }
 .side-nav>li>ul {
