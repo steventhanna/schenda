@@ -73,30 +73,11 @@ module.exports.routes = {
     action: 'register'
   },
 
-  'POST /auth/local': {
-    controller: 'auth',
-    action: 'callback'
-  },
-
-  'POST /auth/local/:action': {
-    controller: 'auth',
-    action: 'callback'
-  },
-
-  'POST /auth/:provider': {
-    controller: 'auth',
-    action: 'provider'
-  },
-
-  'GET /auth/:provider/callback': {
-    controller: 'auth',
-    action: 'googleCallback'
-  },
-
   'GET /dashboard': {
     controller: 'user',
     action: 'dashboard'
   },
+
 
   /***************************************************************************
    *                                                                          *
