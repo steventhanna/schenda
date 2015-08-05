@@ -1,11 +1,23 @@
 {
   "data": {
-    "user": []
+    "user": [
+      {
+        "email": "mr.junkmail89@yahoo.com",
+        "password": "$2a$10$cy0fTwEd9lwOhKpgqNdQceL2AZrLiTQZun/OXlaScvslp37fAz7aK",
+        "displayName": "Preston Stosur",
+        "firstName": "Preston",
+        "lastName": "Stosur",
+        "createdAt": "2015-08-05T21:21:08.398Z",
+        "updatedAt": "2015-08-05T21:21:08.398Z",
+        "id": 4
+      }
+    ]
   },
   "schema": {
     "user": {
       "email": {
-        "type": "string"
+        "type": "string",
+        "unique": true
       },
       "password": {
         "type": "string"
@@ -34,6 +46,8 @@
     }
   },
   "counters": {
-    "user": {}
+    "user": {
+      "id": 4
+    }
   }
 }

@@ -61,8 +61,10 @@ module.exports = {
       if (err || (!user)) {
         console.log("user = " + user);
         console.log("err = " + err);
-        console.log("info = " + info);
-        res.view('auth/loginError');
+        console.log("info = ");
+        console.log(info);
+
+        res.send({ success: false, errorMessage: "This user does not exist or there was some sort of error. "});
       } else if ((!err) && user) {
         req.logIn(user, function(err) {
           if (err) {
