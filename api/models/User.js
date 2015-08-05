@@ -15,7 +15,7 @@ module.exports = {
      email: {
         required: true,
         type: 'email',
-        unqiue: true
+        unique: true
      },
 
      //Stored a hashed version of the user's password
