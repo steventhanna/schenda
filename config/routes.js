@@ -57,10 +57,9 @@ module.exports.routes = {
     action: 'dashboard'
   },
 
-  // TODO :: Figure out what the fuck all of these do.
   'GET /login': {
     controller: 'auth',
-    action: 'login'
+    action: 'renderLogin'
   },
 
   'GET /logout': {
