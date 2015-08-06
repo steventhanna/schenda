@@ -23,7 +23,8 @@ module.exports = {
       password: post.password,
       displayName: post.firstName + " " + post.lastName,
       firstName: post.firstName,
-      lastName: post.lastName
+      lastName: post.lastName,
+      classes: []
     };
 
     User.create(accountDetails).exec(function(err, user) {
@@ -33,7 +34,6 @@ module.exports = {
         console.log("Error Code 0001.0");
         console.log("Account Details: ");
         console.log(accountDetails);
-
         res.serverError();
       } else {
         req.logIn(user, function(err) {
@@ -43,7 +43,6 @@ module.exports = {
             console.log("Error Code 0001.1");
             console.log("User Account: ");
             console.log(user);
-
             res.serverError();
             return;
           } else {
@@ -64,7 +63,10 @@ module.exports = {
         console.log("info = ");
         console.log(info);
 
-        res.send({ success: false, errorMessage: "This user does not exist or there was some sort of error. "});
+        res.send({
+          success: false,
+          errorMessage: "This user does not exist or there was some sort of error. "
+        });
       } else if ((!err) && user) {
         req.logIn(user, function(err) {
           if (err) {
