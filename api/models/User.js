@@ -45,7 +45,7 @@ module.exports = {
 
     // Array of class id's
     classes: {
-      type: 'array'
+      type: 'array',
       defaultsTo: '[]'
     },
 

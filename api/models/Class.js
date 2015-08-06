@@ -23,7 +23,7 @@ module.exports = {
     },
 
     projects: {
-      type: 'array'
+      type: 'array',
       defaultsTo: '[]'
     }
 
