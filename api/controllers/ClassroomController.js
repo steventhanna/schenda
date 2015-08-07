@@ -83,6 +83,7 @@ module.exports = {
             console.log("There was an error looking up the class.");
             console.log("Error = " + err);
             console.log("Error Code 00006.0");
+            res.serverError();
           } else {
             // Find location of class in array
             var id = post.classId;
@@ -177,5 +178,4 @@ module.exports = {
       }
     });
   },
-
 };

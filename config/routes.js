@@ -92,7 +92,20 @@ module.exports.routes = {
     action: 'update'
   },
 
+  'POST /task/new': {
+    controller: 'task',
+    action: 'new'
+  },
 
+  'POST /task/complete': {
+    controller: 'task',
+    action: 'complete'
+  },
+
+  'POST /task/update': {
+    controller: 'task',
+    action: 'update'
+  },
 
 
   /***************************************************************************
