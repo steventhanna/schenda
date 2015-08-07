@@ -108,6 +108,12 @@ module.exports = {
             Task.findOne({
               tid: tid
             }).exec(function(err, task) {
+              if (err || task == undefined) {
+                console.log("There was an error looking up the task.");
+                console.log("Error = " + err);
+                console.log("Error Code 0012.0");
+                res.serverError();
+              }
               task.status = status;
               task.save(function(err) {
                 if (err) {
@@ -128,6 +134,68 @@ module.exports = {
     });
   },
 
+  update: function(req, res) {
+    var post = req.body;
+    User.findOne({
+      id: req.user.id
+    }).exec(function(err, user) {
+      if (err || user == undefined) {
+        console.log("There was an error looking up the logged in user.");
+        console.log("Error = " + err);
+        console.log("Error Code 0003.0");
+        res.serverError();
+      } else {
+        Class.findOne({
+          cid: post.classId
+        }).exec(function(err, className) {
+          if (err || className == undefined) {
+            console.log("There was an error looking up the class.");
+            console.log("Error = " + err);
+            console.log("Error Code 00006.0");
+            res.serverError();
+          } else {
+            var tid = post.tid;
+            var name = post.name;
+            var duedate = post.duedate;
+            Task.findOne({
+              tid: tid
+            }).exec(function(err, task) {
+              if (err || task == undefined) {
+                console.log("There was an error looking up the task.");
+                console.log("Error = " + err);
+                console.log("Error Code 0012.0");
+                res.serverError();
+              } else {
+                if (name == undefined && duedate == undefined) {
+                  res.send({
+                    success: false,
+                    message: "No data sent"
+                  });
+                } else if (name != undefined && duedate == undefined) {
+                  task.name == name;
+                } else if (name == undefined && duedate != undefined) {
+                  task.duedate = duedate;
+                } else {
+                  console.log("Something went wrong above.");
+                }
+                task.save(function(err) {
+                  if (err) {
+                    console.log("There was an error saving the task after updates were made.");
+                    console.log("Error = " + err);
+                    console.log("Error Code 0013.0");
+                  } else {
+                    res.send({
+                      success: true,
+                    });
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
+    });
+  },
 
 
-};
+}; // Deterine what has changed
