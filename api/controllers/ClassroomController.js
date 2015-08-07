@@ -1,5 +1,5 @@
 /**
- * ClassController
+ * ClassroomController
  *
  * @description :: Server-side logic for managing classes
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
@@ -31,7 +31,7 @@ module.exports = {
           projects: projects
         };
 
-        Class.create(classData).exec(function(err, newClass) {
+        Classroom.create(classData).exec(function(err, newClass) {
           // Handle errors creating hte new Class
           if (err || newClass == undefined) {
             console.log("There was an error creating the new class.");
@@ -76,7 +76,7 @@ module.exports = {
         console.log("Error Code 0003.0");
       } else {
         // Find the class to be removed
-        Class.findOne({
+        Classroom.findOne({
           cid: post.classId
         }).exec(function(err, className) {
           if (err || className == undefined) {
@@ -107,13 +107,14 @@ module.exports = {
           }
         });
         // Destroy the class in question
-        Class.destroy({
+        Classroom.destroy({
           id: post.classId
         }).exec(function(err) {
           if (err) {
             console.log("The class could not be destroyed from the databse.");
             console.log("Error = " + err);
             console.log("Error Code 0007.0");
+            res.serverError();
           } else {
             res.send({
               success: true
@@ -123,4 +124,58 @@ module.exports = {
       }
     });
   },
+
+  update: function(req, res) {
+    var post = req.body;
+
+    User.findOne({
+      id: req.user.id
+    }).exec(function(err, user) {
+      if (err || user == undefined) {
+        console.log("There was an error looking up the logged in user.");
+        console.log("Error = " + err);
+        console.log("Error Code 0003.0");
+        res.serverError();
+      } else {
+        // Find out what has been altered
+        var classId = post.cid; // This must be present
+        var name = post.name;
+
+        // No data sent
+        if (name == undefined || name == " ") {
+          console.log("No data sent to be updated");
+          res.send({
+            success: false,
+            message: "No data sent."
+          });
+        } else {
+          Classroom.findOne({
+            id: classId
+          }).exec(function(err, className) {
+            if (err || className == undefined) {
+              console.log("There was an error looking up the class.");
+              console.log("Error = " + err);
+              console.log("Error Code 00006.0");
+              res.serverError();
+            } else {
+              classroom.name = name;
+              classroom.save(function(err) {
+                if (err) {
+                  console.log("There was an error updating the class information.");
+                  console.log("Error = " + err);
+                  console.log("Error Code 00007.0");
+                  res.serverError();
+                } else {
+                  res.send({
+                    success: true
+                  });
+                }
+              });
+            }
+          });
+        }
+      }
+    });
+  },
+
 };

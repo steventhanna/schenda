@@ -77,6 +77,23 @@ module.exports.routes = {
     action: 'dashboard'
   },
 
+  'POST /class/new': {
+    controller: 'class',
+    action: 'new'
+  },
+
+  'POST /class/remove': {
+    controller: 'class',
+    action: 'remove'
+  },
+
+  'POST /class/update': {
+    controller: 'class',
+    action: 'update'
+  },
+
+
+
 
   /***************************************************************************
    *                                                                          *
