@@ -60,8 +60,8 @@ module.exports.connections = {
     adapter: 'sails-mongo',
     host: 'localhost',
     port: 27017,
-    user: 'username',
-    password: 'password',
+    user: 'admin',
+    password: '',
     database: 'schenda_db'
   },
 

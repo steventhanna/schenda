@@ -19,7 +19,8 @@ module.exports = {
       } else {
         res.view('dashboard/dash', {
           currentPage: 'dashboard',
-          user: user
+          user: user,
+          classes: user.classes
         });
       }
     });
