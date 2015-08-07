@@ -35,7 +35,8 @@ module.exports = {
             var taskData = {
               tid: tid,
               nane: name,
-              dueDate: duedate
+              dueDate: duedate,
+              status: 'incomplete'
             };
 
             // Create the task
@@ -73,5 +74,60 @@ module.exports = {
       }
     });
   },
+
+  status: function(req, res) {
+    var post = req.body;
+
+    User.findOne({
+      id: req.user.id
+    }).exec(function(err, user) {
+      if (err || user == undefined) {
+        console.log("There was an error looking up the logged in user.");
+        console.log("Error = " + err);
+        console.log("Error Code 0003.0");
+        res.serverError();
+      } else {
+        // Lookup classroom
+        Classroom.findOne({
+          cid: post.classId
+        }).exec(function(err, className) {
+          if (err || className == undefined) {
+            console.log("There was an error looking up the class.");
+            console.log("Error = " + err);
+            console.log("Error Code 00006.0");
+            res.serverError();
+          } else {
+            var tid = post.tid;
+            var statusBool = post.status;
+            // If status == true, then complete.... else incomplete
+            if (statusBool == true) {
+              var status = 'complete';
+            } else {
+              var status = 'incomplete';
+            }
+            Task.findOne({
+              tid: tid
+            }).exec(function(err, task) {
+              task.status = status;
+              task.save(function(err) {
+                if (err) {
+                  console.log("The status on the task could not be updated");
+                  console.log("Error = " + err);
+                  console.log("Error Code 0011.0");
+                  res.serverError();
+                } else {
+                  res.send({
+                    success: true
+                  });
+                }
+              });
+            });
+          }
+        });
+      }
+    });
+  },
+
+
 
 };

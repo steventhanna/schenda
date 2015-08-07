@@ -17,6 +17,11 @@ module.exports = {
       type: 'string'
     },
 
+    status: {
+      type: 'string',
+      defaultsTo: 'incomplete'
+    },
+
     // MM/DD/YY
     dueDate: {
       type: 'string'
