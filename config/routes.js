@@ -72,9 +72,9 @@ module.exports.routes = {
     action: 'register'
   },
 
-  'GET /dashboard': {
+  'GET /overview': {
     controller: 'user',
-    action: 'dashboard'
+    action: 'overview'
   },
 
   'POST /class/new': {

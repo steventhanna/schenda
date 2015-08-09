@@ -7,7 +7,7 @@
 
 module.exports = {
 
-  dashboard: function(req, res) {
+  overview: function(req, res) {
     User.findOne({
       id: req.user.id
     }).exec(function(err, user) {
@@ -17,8 +17,8 @@ module.exports = {
         console.log("Error Code 0003.0");
         res.serverError();
       } else {
-        res.view('dashboard/dash', {
-          currentPage: 'dashboard',
+        res.view('dashboard/overview', {
+          currentPage: 'overview',
           user: user,
           classes: user.classes
         });

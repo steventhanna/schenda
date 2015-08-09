@@ -49,8 +49,17 @@
       <li class="active">
         <a href="index.html">
           <i class="fa fa-fw fa-dashboard"></i>
-          Dashboard</a>
+          Overview</a>
       </li>
+      <% if (classes.length > 0) { %>
+        <% for (var i = 0; i < classes.length; i++) { %>
+          <li>
+            <a href="#">
+              <%= classes[i].name %>
+            </a>
+          </li>
+        <% } %>
+      <% } %>
     </ul>
   </div>
 <!-- /.navbar-collapse -->
