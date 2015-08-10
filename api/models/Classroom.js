@@ -17,6 +17,10 @@ module.exports = {
       type: 'string',
     },
 
+    urlName: {
+      type: 'string'
+    },
+
     tasks: {
       type: 'array',
       defaultsTo: '[]'

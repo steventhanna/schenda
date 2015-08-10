@@ -23,12 +23,14 @@ module.exports = {
         var name = post.name;
         var tasks = [];
         var projects = [];
+        var className = name.split(' ').join('-');
 
         var classData = {
           cid: cid,
           name: name,
           tasks: tasks,
-          projects: projects
+          projects: projects,
+          urlName: className,
         };
 
         Classroom.create(classData).exec(function(err, newClass) {

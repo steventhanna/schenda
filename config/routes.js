@@ -92,6 +92,11 @@ module.exports.routes = {
     action: 'update'
   },
 
+  'GET /class/:className': {
+    controller: 'user',
+    action: 'classHome'
+  },
+
   'POST /task/new': {
     controller: 'task',
     action: 'new'
