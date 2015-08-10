@@ -15,7 +15,7 @@
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">
         <i class="fa fa-user"></i>
         <!-- TODO :: Replace with display name -->
-        John Smith
+        <%= user.displayName %>
         <b class="caret"></b>
       </a>
       <ul class="dropdown-menu">
@@ -46,10 +46,16 @@
 <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
   <div class="collapse navbar-collapse navbar-ex1-collapse">
     <ul class="nav navbar-nav side-nav">
+      <h1 class="name"><%= user.displayName %></h1>
       <li class="active">
         <a href="index.html">
           <i class="fa fa-fw fa-dashboard"></i>
           Overview</a>
+      </li>
+      <li class="">
+        <a href="#">
+          <i class="fa fa-fw fa-plus"></i>
+          Add Class</a>
       </li>
       <% if (classes.length > 0) { %>
         <% for (var i = 0; i < classes.length; i++) { %>
@@ -59,6 +65,8 @@
             </a>
           </li>
         <% } %>
+      <% } else { %>
+          <p style="text-align: center">You haven't created any classes yet.</p>
       <% } %>
     </ul>
   </div>

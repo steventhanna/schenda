@@ -2,8 +2,8 @@
 
 body {
   margin-top: 100px;
-  background-color: #222;
-  font-family: 'Open Sans', sans-serif;
+  background-color: #fff;
+  font-family: 'Raleway', sans-serif;
 }
 @media(min-width:768px) {
   body {
@@ -24,7 +24,7 @@ body {
 }
 @media(min-width:768px) {
   #wrapper {
-    padding-left: 225px;
+    padding-left: 300px;
   }
   #page-wrapper {
     padding: 10px;
@@ -44,15 +44,15 @@ body {
   padding-top: 15px;
   padding-bottom: 15px;
   line-height: 20px;
-  color: #fff;
+  color: #294F6D;
 }
 .top-nav>li>a:focus, .top-nav>.open>a, .top-nav>.open>a:focus {
-  color: #fff;
+  color: #294F6D;
   background-color: #fff;
 }
 
 .nav>li>a:hover {
-  color: #294F6D;
+  color: #000;
   background-color: #fff;
 }
 
@@ -101,7 +101,7 @@ ul.alert-dropdown {
 
 .navbar-inverse {
   border-color: #fff;
-  background-color: #294F6D;
+  background-color: #fff;
 }
 
 .navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus {
@@ -116,13 +116,24 @@ ul.alert-dropdown {
 
 .navbar-inverse .navbar-brand {
   color: #294F6D;
+  font-size: 32px;
+  font-weight: 300;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+  color: #555;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover {
+  color: #294F6D;
+  background-color: #fff;
 }
 
 /* Side Navigation */
 
 @media(min-width:768px) {
   .navbar-header {
-    width: 225px;
+    width: 300px;
     background-color: #fff;
     color: #294F6D;
   }
@@ -131,36 +142,57 @@ ul.alert-dropdown {
     position: fixed;
     top: 51px;
     left: 225px;
-    width: 225px;
+    width: 300px;
     margin-left: -225px;
     border: none;
     border-radius: 0;
     overflow-y: auto;
-    background-color: #294F6D;
+    background-color: #fff;
+    color: #294F6D;
     opacity: 1;
     bottom: 0;
     overflow-x: hidden;
     padding-bottom: 40px;
+    font-family: 'Open Sans', sans-serif;
   }
+
+  .side-nav .name {
+    font-size: 28px;
+    text-align: left;
+    font-weight: 300;
+    margin-left: 15px;
+    margin-top: 50px;
+  }
+
   .side-nav>li>a {
-    width: 225px;
+    width: 300px;
   }
+
+  .navbar-inverse .navbar-nav>li>a i {
+    margin-right: 5px;
+  }
+
   .side-nav li a:hover, .side-nav li a:focus {
     outline: none;
+    color: #294F6D;
     background-color: #fff !important;
   }
 }
 .side-nav>li>ul {
   padding: 0;
 }
+
+.side-nav>li .active {
+  color: #294F6D;
+}
 .side-nav>li>ul>li>a {
   display: block;
   padding: 10px 15px 10px 38px;
   text-decoration: none;
-  color: #999;
+  color: #000;
 }
 .side-nav>li>ul>li>a:hover {
-  color: #fff;
+  color: #294F6D;
 }
 
 /* Flot Chart Containers */
@@ -247,4 +279,9 @@ ul.alert-dropdown {
 .card .card-title h1 {
   font-weight: 300;
 
+}
+
+.page-header {
+  color: #294F6D;
+  font-weight: 300;
 }
