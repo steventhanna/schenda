@@ -8,51 +8,111 @@
 module.exports = {
 
   overview: function(req, res) {
-    //Lookup the user in the database.
+    var post = req.body;
     User.findOne({
       id: req.user.id
     }).exec(function(err, user) {
-      //Handle errors looking up the user in the database.
       if (err || user == undefined) {
-        console.log("There was an error looking up the user.  Error Code 007");
-        //Report a 500
+        console.log("There was an error looking up the logged in user.");
+        console.log("Error = " + err);
+        console.log("Error Code 0003.0");
         res.serverError();
       } else {
-        var classIdList = user.classes;
-        // console.log(classIdList);
-        // console.log(classIdList.length);
-        var allClasses = [];
-        for (var i = 0; i < classIdList.length; i++) {
-          Classroom.findOne({
-            cid: classIdList[i]
-          }).exec(function(err, className) {
-            if (err || className == undefined) {
-              console.log("There was an error looking up the classes from the CID list");
-              res.serverError();
-            } else {
-              var classroom = {
-                cid: className.cid,
-                name: className.name,
-                urlName: className.urlName,
-                tasks: className.tasks,
-                projects: className.projects,
-                notes: className.notes
-              };
-              allClasses.push(classroom);
-              // console.log(className);
-              // console.log(className.name);
+        var classArr = [];
+        var userHasNoClasses = false;
+        var fullClassList = [];
+
+        var classIterator = classArr.length;
+        var iteratorCounter = 0;
+
+        Classroom.find().exec(function(err, allClasses) {
+          if (err || allClasses == undefined) {
+            console.log("There was an error finding all of the classes.");
+            res.serverError();
+          } else {
+            for (var j = 0; j < allClasses.length; j++) {
+              if (iteratorCounter >= classIterator) {
+                break;
+              }
+              for (var i = 0; i < classArr.length; i++) {
+                if (classArr[i] == allClasses[i].cid) {
+                  fullClassList[fullClassList.length] = allClasses[j];
+                  iteratorCounter++;
+                }
+              }
             }
-          });
-        }
-        console.log(allClasses);
-        console.log(allClasses.length);
-        res.view('dashboard/overview', {
-          user: user,
-          classes: allClasses
+
+            if (user.classes == null || user.classes == undefined) {
+              user.classes = [];
+              user.save(function(err) {
+                if (err) {
+                  console.log("There was an error saving the user after initalizing a new class array.");
+                  res.serverError();
+                }
+              });
+            }
+
+            // Possible error here using user.classes instead of fullClassList
+            if (user.classes.length == 0) {
+              userHasNoClasses = true;
+            }
+
+            console.log("Classes? " + userHasNoClasses);
+            console.log("INFO");
+            console.log(fullClassList);
+
+            res.view('dashboard/overview', {
+              user: user,
+              currentPage: 'overview',
+              classes: fullClassList,
+              userHasNoClasses: userHasNoClasses
+            });
+          }
         });
       }
     });
   },
+
+  // overview: function(req, res) {
+  //   // Lookup the user in the database.
+  //   User.findOne({
+  //     id: req.user.id
+  //   }).exec(function(err, user) {
+  //     // Handle errors looking up the user in the database.
+  //     if (err || user == undefined) {
+  //       console.log("There was an error looking up the user.  Error Code 007");
+  //       //Report a 500
+  //       res.serverError();
+  //     } else {
+  //       var classIdList = user.classes;
+  //       // console.log(classIdList);
+  //       // console.log(classIdList.length);
+  //       var allClasses = [];
+  //       for (var i = 0; i < classIdList.length; i++) {
+  //         Classroom.findOne({
+  //           cid: classIdList[i]
+  //         }).exec(function(err, className) {
+  //           if (err || className == undefined) {
+  //             console.log("There was an error looking up the classes from the CID list");
+  //             res.serverError();
+  //           } else {
+  //             allClasses.push(className);
+  //             console.log("INSIDE");
+  //             console.log(className);
+  //             console.log(className.name);
+  //           }
+  //         });
+  //       }
+  //       console.log("OUTSIDE");
+  //       console.log(allClasses);
+  //       console.log(allClasses.length);
+  //       res.view('dashboard/overview', {
+  //         user: user,
+  //         classes: allClasses
+  //       });
+  //     }
+  //   });
+  // },
 
   // overview: function(req, res) {
   //   User.findOne({
