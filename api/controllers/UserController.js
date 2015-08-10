@@ -44,7 +44,7 @@ module.exports = {
         // Find the CID associated with that url-name
         var cid = "";
         for (var i = 0; i < user.classes.length; i++) {
-          if (user.classes[i].urlName == className) {
+          if (user.classes[i].urlName == classroom) {
             cid = user.classes[i].cid;
           }
         }
@@ -59,7 +59,7 @@ module.exports = {
           } else {
             res.view('dashboard/classHome', {
               user: user,
-              classroom: className,
+              classroom: className
             });
             res.end();
           }

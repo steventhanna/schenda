@@ -166,7 +166,7 @@ module.exports = {
           });
         } else {
           Classroom.findOne({
-            id: classId
+            cid: classId
           }).exec(function(err, className) {
             if (err || className == undefined) {
               console.log("There was an error looking up the class.");
