@@ -19,18 +19,28 @@ module.exports = {
         res.serverError();
       } else {
         var classIdList = user.classes;
-        console.log(classIdList);
-        console.log(classIdList.length);
+        // console.log(classIdList);
+        // console.log(classIdList.length);
         var allClasses = [];
         for (var i = 0; i < classIdList.length; i++) {
           Classroom.findOne({
             cid: classIdList[i]
           }).exec(function(err, className) {
-            if (err) {
+            if (err || className == undefined) {
               console.log("There was an error looking up the classes from the CID list");
               res.serverError();
             } else {
-              allClasses[allClasses.length] = className;
+              var classroom = {
+                cid: className.cid,
+                name: className.name,
+                urlName: className.urlName,
+                tasks: className.tasks,
+                projects: className.projects,
+                notes: className.notes
+              };
+              allClasses.push(classroom);
+              // console.log(className);
+              // console.log(className.name);
             }
           });
         }
