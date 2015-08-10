@@ -52,9 +52,9 @@ module.exports.routes = {
     action: 'signup'
   },
 
-  '/dashboard': {
+  '/overview': {
     controller: 'user',
-    action: 'dashboard'
+    action: 'overview'
   },
 
   'GET /login': {
@@ -67,28 +67,23 @@ module.exports.routes = {
     action: 'logout'
   },
 
-  'GET /register': {
-    controller: 'auth',
-    action: 'register'
-  },
-
   'GET /overview': {
     controller: 'user',
     action: 'overview'
   },
 
   'POST /class/new': {
-    controller: 'class',
+    controller: 'classroom',
     action: 'new'
   },
 
   'POST /class/remove': {
-    controller: 'class',
+    controller: 'classroom',
     action: 'remove'
   },
 
   'POST /class/update': {
-    controller: 'class',
+    controller: 'classroom',
     action: 'update'
   },
 

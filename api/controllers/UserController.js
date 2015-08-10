@@ -27,7 +27,7 @@ module.exports = {
   },
 
   // This function handles the logic and page view requests for specific class pages
-  projectHome: function(req, res) {
+  classHome: function(req, res) {
     User.findOne({
       id: req.user.id
     }).exec(function(err, user) {

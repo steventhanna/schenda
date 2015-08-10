@@ -7,7 +7,7 @@
 
 module.exports = {
 
-  add: function(req, res) {
+  new: function(req, res) {
     var post = req.body;
     User.findOne({
       id: req.user.id
