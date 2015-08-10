@@ -24,6 +24,7 @@ module.exports = {
         var tasks = [];
         var projects = [];
         var className = name.split(' ').join('-');
+        var notes = [];
 
         var classData = {
           cid: cid,
@@ -31,6 +32,7 @@ module.exports = {
           tasks: tasks,
           projects: projects,
           urlName: className,
+          notes: notes,
         };
 
         Classroom.create(classData).exec(function(err, newClass) {

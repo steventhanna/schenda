@@ -1,5 +1,5 @@
 /**
- * Classroom.js
+ * Note.js
  *
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/#!documentation/models
@@ -8,32 +8,21 @@
 module.exports = {
 
   attributes: {
-
-    cid: {
+    nid: {
       type: 'string'
     },
 
     name: {
-      type: 'string',
-    },
-
-    urlName: {
       type: 'string'
     },
 
-    tasks: {
-      type: 'array',
-      defaultsTo: '[]'
+    body: {
+      type: 'string',
     },
 
-    projects: {
-      type: 'array',
-      defaultsTo: '[]'
+    // MM/DD/YYYY
+    date: {
+      type: 'string'
     },
-
-    notes: {
-      type: 'array',
-      defaultsTo: '[]'
-    }
   }
 };
