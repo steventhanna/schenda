@@ -35,34 +35,49 @@ module.exports = {
           notes: notes,
         };
 
-        Classroom.create(classData).exec(function(err, newClass) {
-          // Handle errors creating hte new Class
-          if (err || newClass == undefined) {
-            console.log("There was an error creating the new class.");
-            console.log("Error = " + err);
-            console.log("Error Code 0004.0");
-          } else {
-            // Add the class to the user
-            if (user.classes == null || user.classes == undefined) {
-              user.classes = [];
-            }
-            var classCount = user.classes.length;
-            user.classes[classCount] = newClass.cid;
-
-            // Save the user
-            user.save(function(err) {
-              if (err) {
-                console.log("There was an error saving the user after creating the new class.");
-                console.log("Error = " + err);
-                console.log("Error Code 0005.0");
-              } else {
-                res.send({
-                  success: true
-                });
-              }
-            });
+        // Check to see if class name exists already
+        var existance = false;
+        for (var i = 0; i < user.classes.length; i++) {
+          if (className == user.classes[i].className) {
+            existance = true;
           }
-        });
+        }
+
+        if (existance == false) {
+          Classroom.create(classData).exec(function(err, newClass) {
+            // Handle errors creating hte new Class
+            if (err || newClass == undefined) {
+              console.log("There was an error creating the new class.");
+              console.log("Error = " + err);
+              console.log("Error Code 0004.0");
+            } else {
+              // Add the class to the user
+              if (user.classes == null || user.classes == undefined) {
+                user.classes = [];
+              }
+              var classCount = user.classes.length;
+              user.classes[classCount] = newClass.cid;
+
+              // Save the user
+              user.save(function(err) {
+                if (err) {
+                  console.log("There was an error saving the user after creating the new class.");
+                  console.log("Error = " + err);
+                  console.log("Error Code 0005.0");
+                } else {
+                  res.send({
+                    success: true
+                  });
+                }
+              });
+            }
+          });
+        } else {
+          res.send({
+            success: false,
+            message: "That classname already exists."
+          });
+        }
       }
     });
   },
