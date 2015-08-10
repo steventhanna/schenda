@@ -115,29 +115,25 @@ module.exports = {
             // Save the user
             user.save(function(err) {
               if (err) {
-                console.log("There was an error saving the user after creating the new class.");
+                console.log("There was an error saving the user after updating the class array.");
                 console.log("Error = " + err);
                 console.log("Error Code 0005.0");
               } else {
-                res.send({
-                  success: true
+                Classroom.destroy({
+                  id: post.classId
+                }).exec(function(err) {
+                  if (err) {
+                    console.log("The class could not be destroyed from the database.");
+                    console.log("Error = " + err);
+                    console.log("Error Code 0007.0");
+                    res.serverError();
+                  } else {
+                    res.send({
+                      success: true
+                    });
+                  }
                 });
               }
-            });
-          }
-        });
-        // Destroy the class in question
-        Classroom.destroy({
-          id: post.classId
-        }).exec(function(err) {
-          if (err) {
-            console.log("The class could not be destroyed from the databse.");
-            console.log("Error = " + err);
-            console.log("Error Code 0007.0");
-            res.serverError();
-          } else {
-            res.send({
-              success: true
             });
           }
         });

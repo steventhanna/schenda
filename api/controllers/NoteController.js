@@ -86,4 +86,68 @@ module.exports = {
     });
   },
 
+  remove: function(req, res) {
+    var post = req.body;
+
+    User.findOne({
+      id: req.user.id
+    }).exec(function(err, user) {
+      if (err || user == undefined) {
+        console.log("There was an error looking up the logged in user.");
+        console.log("Error = " + err);
+        console.log("Error Code 0003.0");
+        res.serverError();
+      } else {
+        // Remove the note
+        Classroom.findOne({
+          cid: post.classId
+        }).exec(function(err, className) {
+          if (err || className == undefined) {
+            console.log("There was an error looking up the class.");
+            console.log("Error = " + err);
+            console.log("Error Code 00006.0");
+            res.serverError();
+          } else {
+            // Find location of note in array
+            var id = post.noteId;
+            var index = user.classes.notes.indexOf(id);
+            // Update the user
+            if (index > -1) {
+              user.classes.notes.splice(index, 1);
+            }
+            // Save the user
+            user.save(function(err) {
+              if (err) {
+                console.log("There was an error saving the user after updating the note array.");
+                console.log("Error = " + err);
+                console.log("Error Code 0014.0");
+                res.send({
+                  success: false,
+                  message: err
+                });
+              } else {
+                // Destroy the note
+                Note.destroy({
+                  id: post.noteId
+                }).exec(function(err) {
+                  if (err) {
+                    console.log("The note could not be destroyed from the database.")
+                    console.log("Error = " + err);
+                    console.log("Error Code 0015.0");
+                    res.serverError();
+                  } else {
+                    res.send({
+                      success: true
+                    });
+                  }
+                });
+              }
+            });
+
+          }
+        });
+      }
+    });
+  },
+
 };
