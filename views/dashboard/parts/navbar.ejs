@@ -13,7 +13,6 @@
   <ul class="nav navbar-right top-nav">
     <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        <i class="fa fa-user"></i>
         <!-- TODO :: Replace with display name -->
         <%= user.displayName %>
         <b class="caret"></b>
@@ -53,7 +52,7 @@
           Overview</a>
       </li>
       <li class="">
-        <a href="#">
+        <a href="#" data-toggle="modal" data-target="#myModal">
           <i class="fa fa-fw fa-plus"></i>
           Add Class</a>
       </li>
@@ -61,7 +60,7 @@
         <% for (var i = 0; i < classes.length; i++) { %>
           <li>
             <a href="#">
-              <%= classes[i].name %>
+              <%= classes[0].name %>
             </a>
           </li>
         <% } %>
@@ -72,3 +71,28 @@
   </div>
 <!-- /.navbar-collapse -->
 </nav>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Add Class</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="className">Class Name</label>
+            <input class="form-control" id="className" placeholder="Class Name" type="text">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <a id="addClassButton" class="btn btn-primary">Add Class</a>
+      </div>
+    </div>
+  </div>
+</div>

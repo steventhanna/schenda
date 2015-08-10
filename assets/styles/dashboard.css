@@ -285,3 +285,7 @@ ul.alert-dropdown {
   color: #294F6D;
   font-weight: 300;
 }
+
+.btn-primary {
+  background-color: #294F6D;
+}
