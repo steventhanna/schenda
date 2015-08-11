@@ -146,7 +146,6 @@ module.exports = {
 
   update: function(req, res) {
     var post = req.body;
-
     User.findOne({
       id: req.user.id
     }).exec(function(err, user) {

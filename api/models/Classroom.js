@@ -30,6 +30,11 @@ module.exports = {
       defaultsTo: '[]'
     },
 
+    taskList: {
+      type: 'array',
+      defaultsTo: '[]'
+    },
+
     projects: {
       type: 'array',
       defaultsTo: '[]'

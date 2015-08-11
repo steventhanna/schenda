@@ -34,11 +34,13 @@ module.exports = {
             var tid = Math.floor(Math.random() * 1000000000000000000000);
             var name = post.name;
             var duedate = post.duedate;
+            var note = post.note;
 
             var taskData = {
               tid: tid,
               nane: name,
               dueDate: duedate,
+              note: note,
               status: 'incomplete'
             };
 
@@ -56,6 +58,7 @@ module.exports = {
                 }
                 var taskCount = className.tasks.length;
                 className.tasks[taskCount] = newTask.tid;
+                className.taskList[className.taskList.length] = newTask;
 
                 // Save the class
                 className.save(function(err) {

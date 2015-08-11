@@ -1,6 +1,7 @@
 $(document).ready(function() {
+  console.log("TRIGGER");
   $("#editClassroomButton").click(function() {
-      console.log("TRIGGER");
+      console.log("TRIGGER 1");
       // var cid = $('#classId').val();
       var cid = document.getElementById('classId').innerHTML;
       console.log(cid);
@@ -13,7 +14,6 @@ $(document).ready(function() {
 
       if (name == undefined && color == undefined) {
         swal("Uh-oh!", "You need to enter new information in order to update the class", "error");
-        break;
       }
       if (name !== " " && name !== "") {
         postObj.name = name;

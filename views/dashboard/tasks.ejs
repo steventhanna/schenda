@@ -94,34 +94,34 @@ window.onload = function() {
 
 <!-- Modal -->
 <div aria-labelledby="addTaskLabel" class="modal fade" id="addTask" role="dialog" tabindex="-1">
-<div class="modal-dialog" role="document">
-  <div class="modal-content">
-    <div class="modal-header">
-      <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-        <span aria-hidden="true">&times;</span>
-      </button>
-      <h4 class="modal-title" id="addTaskLabel">Add Task</h4>
-    </div>
-    <div class="modal-body">
-      <form>
-        <div class="form-group">
-          <label for="newTaskName">New Task Name</label>
-          <input class="form-control" id="newTaskName" placeholder="Add New Task" style="border-color: <%= classroom.color %>" type="text">
-        </div>
-        <div class="form-group">
-          <label for="newNote">Notes</label>
-          <textarea class="form-control" rows="3" style="border-color: <%= classroom.color %>"></textarea>
-        </div>
-        <div class="form-group">
-          <label for="datepicker">Due Date</label>
-          <input class="form-control" id="datepicker" style="border-color: <%= classroom.color %>" type="text">
-        </div>
-      </form>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
-      <a class="btn btn-primary" href="#" id="addTaskButton">Add Task</a>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="addTaskLabel">Add Task</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="newTaskName">New Task Name</label>
+            <input class="form-control" id="newTaskName" placeholder="Add New Task" style="border-color: <%= classroom.color %>" type="text">
+          </div>
+          <div class="form-group">
+            <label for="newNote">Notes</label>
+            <textarea id="newNote" class="form-control" rows="3" style="border-color: <%= classroom.color %>"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="datepicker">Due Date</label>
+            <input class="form-control" id="datepicker" style="border-color: <%= classroom.color %>" type="text">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
+        <a class="btn btn-primary" href="#" id="addTaskButton">Add Task</a>
+      </div>
     </div>
   </div>
-</div>
 </div>

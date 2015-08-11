@@ -4,6 +4,7 @@ $(document).ready(function() {
     var cid = document.getElementById('classId').innerHTML;
     console.log(cid);
     var name = $("#newTaskName").val();
+    var notes = $("newNote").val();
     var picker = new Pikaday({
       field: document.getElementById('datepicker')
     });
@@ -16,11 +17,12 @@ $(document).ready(function() {
         classId: cid,
         name: name
       };
-    } else {
+    } else if (note == "" || picker == " ") {
       var postObj = {
         classId: cid,
         name: name,
-        duedate: duedate
+        duedate: duedate,
+        note: notes,
       };
     }
     // var postObj = {
