@@ -5,9 +5,11 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
+var async = require("async");
+
 module.exports = {
 
-  overview: function(req, res) {
+  overview: function(req, res, next) {
     var post = req.body;
     User.findOne({
       id: req.user.id
@@ -18,60 +20,122 @@ module.exports = {
         console.log("Error Code 0003.0");
         res.serverError();
       } else {
-        var classArr = [];
-        var userHasNoClasses = false;
-        var fullClassList = [];
-
-        var classIterator = classArr.length;
-        var iteratorCounter = 0;
-
-        Classroom.find().exec(function(err, allClasses) {
-          if (err || allClasses == undefined) {
-            console.log("There was an error finding all of the classes.");
-            res.serverError();
-          } else {
-            for (var j = 0; j < allClasses.length; j++) {
-              if (iteratorCounter >= classIterator) {
-                break;
-              }
-              for (var i = 0; i < classArr.length; i++) {
-                if (classArr[i] == allClasses[i].cid) {
-                  fullClassList[fullClassList.length] = allClasses[j];
-                  iteratorCounter++;
-                }
-              }
-            }
-
-            if (user.classes == null || user.classes == undefined) {
-              user.classes = [];
-              user.save(function(err) {
-                if (err) {
-                  console.log("There was an error saving the user after initalizing a new class array.");
+        // Get the Classes
+        var classIds = user.classes;
+        var finalClassList = [];
+        if (classIds.length > 0) {
+          for (var i = 0; i < classIds.length; i++) {
+            console.log("1. ClassId: " + classIds.length);
+            console.log("1. FinalClassList: " + finalClassList.length);
+            if (finalClassList.length == classIds.length) {
+              // Send info to page
+              res.view('dashboard/overview', {
+                user: user,
+                classes: finalClassList
+              });
+            } else {
+              console.log("FINDING CLASS");
+              Classroom.findOne({
+                cid: classIds[i]
+              }).exec(function(err, className) {
+                if (err || className == undefined) {
+                  console.log("There was an error looking up the class in the for loop.");
                   res.serverError();
+                } else {
+                  console.log("ADDING CLASS");
+                  console.log(className);
+                  finalClassList.push(className);
+                  console.log("ADDED CLASS");
+                  console.log("2. ClassId: " + classIds.length);
+                  console.log("2. FinalClassList: " + finalClassList.length);
+                  // Put another if here?
+                  // Why not
+                  if (finalClassList.length == classIds.length) {
+                    res.view('dashboard/overview', {
+                      user: user,
+                      classes: finalClassList
+                    });
+                  }
                 }
               });
+
             }
-
-            // Possible error here using user.classes instead of fullClassList
-            if (user.classes.length == 0) {
-              userHasNoClasses = true;
-            }
-
-            console.log("Classes? " + userHasNoClasses);
-            console.log("INFO");
-            console.log(fullClassList);
-
-            res.view('dashboard/overview', {
-              user: user,
-              currentPage: 'overview',
-              classes: fullClassList,
-              userHasNoClasses: userHasNoClasses
-            });
           }
-        });
+        } else {
+          res.view('dashboard/overview', {
+            user: user,
+            classes: finalClassList
+          });
+        }
       }
     });
   },
+
+  // overview: function(req, res) {
+  //   var post = req.body;
+  //   User.findOne({
+  //     id: req.user.id
+  //   }).exec(function(err, user) {
+  //     if (err || user == undefined) {
+  //       console.log("There was an error looking up the logged in user.");
+  //       console.log("Error = " + err);
+  //       console.log("Error Code 0003.0");
+  //       res.serverError();
+  //     } else {
+  //       var classArr = [];
+  //       var userHasNoClasses = false;
+  //       var fullClassList = [];
+  //
+  //       var classIterator = classArr.length;
+  //       var iteratorCounter = 0;
+  //
+  //       Classroom.find().exec(function(err, allClasses) {
+  //         if (err || allClasses == undefined) {
+  //           console.log("There was an error finding all of the classes.");
+  //           res.serverError();
+  //         } else {
+  //           for (var j = 0; j < allClasses.length; j++) {
+  //             if (iteratorCounter >= classIterator) {
+  //               break;
+  //             }
+  //             for (var i = 0; i < classArr.length; i++) {
+  //               if (classArr[i] == allClasses[i].cid) {
+  //                 fullClassList[fullClassList.length] = allClasses[j];
+  //                 iteratorCounter++;
+  //               }
+  //             }
+  //           }
+  //
+  //           if (user.classes == null || user.classes == undefined) {
+  //             user.classes = [];
+  //             user.save(function(err) {
+  //               if (err) {
+  //                 console.log("There was an error saving the user after initalizing a new class array.");
+  //                 res.serverError();
+  //               }
+  //             });
+  //           }
+  //
+  //           // Possible error here using user.classes instead of fullClassList
+  //           if (user.classes.length == 0) {
+  //             userHasNoClasses = true;
+  //           }
+  //
+  //           console.log("Classes? " + userHasNoClasses);
+  //           console.log("INFO");
+  //           console.log(fullClassList);
+  //
+  //           res.view('dashboard/overview', {
+  //             user: user,
+  //             currentPage: 'overview',
+  //             classes: fullClassList,
+  //             userHasNoClasses: userHasNoClasses
+  //           });
+  //         }
+  //       });
+  //     }
+  //   });
+  // },
 
   // overview: function(req, res) {
   //   // Lookup the user in the database.
