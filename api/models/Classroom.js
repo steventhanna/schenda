@@ -17,6 +17,10 @@ module.exports = {
       type: 'string',
     },
 
+    color: {
+      type: 'string'
+    },
+
     urlName: {
       type: 'string'
     },

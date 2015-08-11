@@ -25,11 +25,13 @@ module.exports = {
         var projects = [];
         var className = name.split(' ').join('-');
         var notes = [];
+        var color = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
 
         var classData = {
           cid: cid,
           name: name,
           tasks: tasks,
+          color: color,
           projects: projects,
           urlName: className,
           notes: notes,
@@ -156,9 +158,10 @@ module.exports = {
         // Find out what has been altered
         var classId = post.cid; // This must be present
         var name = post.name;
+        var color = post.color;
 
         // No data sent
-        if (name == undefined || name == " ") {
+        if (name == undefined || name == " " || color == undefined || color == " ") {
           console.log("No data sent to be updated");
           res.send({
             success: false,
@@ -174,7 +177,12 @@ module.exports = {
               console.log("Error Code 00006.0");
               res.serverError();
             } else {
-              classroom.name = name;
+              if (name !== undefined || name !== " ") {
+                classroom.name = name;
+              }
+              if (color !== undefined || color !== " ") {
+                classroom.color == color;
+              }
               classroom.save(function(err) {
                 if (err) {
                   console.log("There was an error updating the class information.");
