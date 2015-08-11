@@ -38,7 +38,7 @@ module.exports = {
 
             var taskData = {
               tid: tid,
-              nane: name,
+              name: name,
               dueDate: duedate,
               note: note,
               status: 'incomplete'
@@ -58,7 +58,6 @@ module.exports = {
                 }
                 var taskCount = className.tasks.length;
                 className.tasks[taskCount] = newTask.tid;
-                className.taskList[className.taskList.length] = newTask;
 
                 // Save the class
                 className.save(function(err) {

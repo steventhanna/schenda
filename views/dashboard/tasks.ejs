@@ -50,8 +50,13 @@ window.onload = function() {
         <div class="col-lg-12">
           <h1 class="page-header" style="color: <%= classroom.color %>">Tasks
             <span class="date" id="date"></span>
-            <a class="btn btn-success pull-right" data-target="#addTask" data-toggle="modal" href="#">Add Task</a>
+            <a class="hidden-xs btn btn-success pull-right" data-target="#addTask" data-toggle="modal" href="#">Add Task</a>
           </h1>
+        </div>
+      </div>
+      <div class="row visible-xs">
+        <div class="col-lg-12">
+          <a class="visible-xs btn btn-block btn-success btn-md" style="margin-top: 10px;" data-target="#addTask" data-toggle="modal" href="#">Add Task</a>
         </div>
       </div>
       <% if (tasks !== undefined && tasks !== null && tasks.length > 0) { %>
@@ -61,14 +66,31 @@ window.onload = function() {
               <div class="task">
                 <div class="title">
                   <%= tasks[i].name %>
+                  <% if (tasks[i].duedate !== undefined) { %>
                   <span class="date">
-                    <% if (tasks[i].duedate !== undefined) { %>
-                      <%= tasks[i].duedate %></span>
+                      <%= tasks[i].duedate %>
+                  </span>
                   <% } %>
+                  <span style="margin-top: 10px;" class="pull-right">
+                    <input id="<%= tasks[i].tid %>" type="checkbox"/>
+                  </span>
+                  <script>
+                  $(document).ready(function(){
+                    $(":checkbox").labelauty({ label: false });
+                  });
+                  </script>
+                  <br />
+
                 </div>
-                <div class="note">
-                  <%= tasks[i].note %>
-                </div>
+                <% if (tasks[i].note !== undefined && tasks[i].note !== null) { %>
+                  <div class="note">
+                    <%= tasks[i].note %>
+                  </div>
+                <% } else { %>
+                  <div class="note">
+                    No notes.
+                  </div>
+                <% } %>
               </div>
             <% } %>
           </div>
@@ -113,8 +135,8 @@ window.onload = function() {
             <textarea id="newNote" class="form-control" rows="3" style="border-color: <%= classroom.color %>"></textarea>
           </div>
           <div class="form-group">
-            <label for="datepicker">Due Date</label>
-            <input class="form-control" id="datepicker" style="border-color: <%= classroom.color %>" type="text">
+            <label for="date">Due Date</label>
+            <input class="form-control" id="date" style="border-color: <%= classroom.color %>" type="date">
           </div>
         </form>
       </div>

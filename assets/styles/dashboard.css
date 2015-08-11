@@ -296,6 +296,21 @@ ul.alert-dropdown {
   border-radius: 15px;
 }
 
+.btn-success {
+  background-color: #2cc36b;
+  border-color: #2cc36b;
+}
+
+.btn-danger {
+  background-color: #e74c3c;
+  border-color: #e74c3c;
+}
+
+.btn-warning {
+  background-color: #f1c40f;
+  border-color: #f1c40f;
+}
+
 .date {
   font-family: 'Open Sans', sans-serif;
   color: #636363;

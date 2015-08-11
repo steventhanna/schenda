@@ -4,20 +4,22 @@ $(document).ready(function() {
     var cid = document.getElementById('classId').innerHTML;
     console.log(cid);
     var name = $("#newTaskName").val();
-    var notes = $("newNote").val();
-    var picker = new Pikaday({
-      field: document.getElementById('datepicker')
-    });
-    var duedate = picker.toString('DD-MM-YYYY');
+    var notes = document.getElementById('newNote').value;
+    // var picker = new Pikaday({
+    //   field: document.getElementById('datepicker')
+    // });
+    // var duedate = picker.toString('DD-MM-YYYY');
+    // var duedate = $("#date").val();
+    var duedate = document.getElementById("date").value;
 
     if (name == " " || name == "") {
       swal("Enter Task Name", "You need to enter a task name to create a task.", "error");
-    } else if (picker == "" || picker == " ") {
+    } else if (duedate == "" || duedate == " ") {
       var postObj = {
         classId: cid,
         name: name
       };
-    } else if (note == "" || picker == " ") {
+    } else if (notes !== "" || notes !== " ") {
       var postObj = {
         classId: cid,
         name: name,
@@ -30,7 +32,7 @@ $(document).ready(function() {
     //   name: name,
     //   duedate: duedate
     // };
-    console.log(postObj);
+    console.log("postOBj " + postObj.duedate);
     $.ajax({
       type: 'POST',
       url: '/task/new',
