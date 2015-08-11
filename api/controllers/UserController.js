@@ -138,12 +138,13 @@ module.exports = {
             res.serverError();
           } else {
             // Get the tasks
-            var taskIdList = className.tasks;
-            console.log(className.tasks);
-            if (taskIdList !== undefined && taskIdList.length > 0) {
+            console.log("1" + className.tasks);
+            // console.log("2" + taskIdList);
+            if (className.tasks !== undefined && className.tasks.length > 0) {
               console.log("INSIDE IF");
-              for (var i = 0; i < tasksIdList.length; i++) {
-                if (taskIdList.length == taskList.length) {
+              for (var i = 0; i < className.tasks.length; i++) {
+
+                if (className.tasks.length == taskList.length) {
                   console.log("SENDING TO PAGE");
                   res.view('dashboard/tasks', {
                     user: user,
@@ -153,9 +154,38 @@ module.exports = {
                   });
                   console.log("SENT TO PAGE");
                 } else {
-                  console.log("ADDING TO ARRAY");
-                  taskList[taskList.length] = taskIdList[i];
-                  console.log("ADDED TO ARRAY");
+                  console.log("LOOKING UP TASKS");
+                  Task.findOne({
+                    tid: className.tasks[i]
+                  }).exec(function(err, taskName) {
+                    if (err || taskName == undefined) {
+                      console.log("There was an error looking up the task.");
+                      res.serverError();
+                    } else {
+                      console.log("ADDING TASKS");
+                      taskList[taskList.length] = taskName;
+                      if (className.tasks.length == taskList.length) {
+                        console.log("SENDING TO PAGE");
+                        res.view('dashboard/tasks', {
+                          user: user,
+                          classroom: className,
+                          currentPage: 'tasks',
+                          tasks: taskList
+                        });
+                      }
+                    }
+                  });
+                  if (className.tasks.length == taskList.length) {
+                    console.log("SENDING TO PAGE");
+                    res.view('dashboard/tasks', {
+                      user: user,
+                      classroom: className,
+                      currentPage: 'tasks',
+                      tasks: taskList
+                    });
+                  }
+                  console.log("CLASSNAME " + className.tasks.length);
+                  console.log("TASKLIST " + taskList.length);
                 }
               }
             } else {

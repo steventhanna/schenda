@@ -1,7 +1,9 @@
 $(document).ready(function() {
   $("#addTaskButton").click(function() {
-    var cid = $("#classId").val();
-    var name = $("#newTaskname").val();
+    // var cid = $('#classId').val();
+    var cid = document.getElementById('classId').innerHTML;
+    console.log(cid);
+    var name = $("#newTaskName").val();
     var picker = new Pikaday({
       field: document.getElementById('datepicker')
     });
@@ -21,29 +23,28 @@ $(document).ready(function() {
         duedate: duedate
       };
     }
-    var postObj = {
-      classId: cid,
-      name: name,
-      duedate: duedate
-    };
-    if (postObj !== undefined) {
-      $.ajax({
-        type: 'POST',
-        url: '/task/new',
-        data: postObj,
-        success: function(data) {
-          console.log(data);
-          if (data.success == true) {
-            location.reload();
-          } else {
-            swal("Uh-oh! - ", "There was an error creating a task.", "error");
-          }
-        },
-        error: function(data) {
-          console.log(data);
-          swal("Uh-oh!", "There was an error creating a task.", "error");
+    // var postObj = {
+    //   classId: cid,
+    //   name: name,
+    //   duedate: duedate
+    // };
+    console.log(postObj);
+    $.ajax({
+      type: 'POST',
+      url: '/task/new',
+      data: postObj,
+      success: function(data) {
+        console.log(data);
+        if (data.success == true) {
+          location.reload();
+        } else {
+          swal("Uh-oh! - ", "There was an error creating a task.", "error");
         }
-      });
-    }
+      },
+      error: function(data) {
+        console.log(data);
+        swal("Uh-oh!", "There was an error creating a task.", "error");
+      }
+    });
   });
 });

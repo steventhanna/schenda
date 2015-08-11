@@ -60,7 +60,11 @@ window.onload = function() {
                 <%= tasks[i].name %>
               </div>
               <div class="date">
-                <%= tasks[i].duedate %>
+                <% if (tasks[i].duedate !== undefined) { %>
+                  <%= tasks[i].duedate %>
+                <% } else { %>
+                  No Due Date
+                <% } %>
               </div>
             </div>
           <% } %>
