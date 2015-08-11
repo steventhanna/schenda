@@ -1,0 +1,49 @@
+$(document).ready(function() {
+  $("#addTaskButton").click(function() {
+    var cid = $("#classId").val();
+    var name = $("#newTaskname").val();
+    var picker = new Pikaday({
+      field: document.getElementById('datepicker')
+    });
+    var duedate = picker.toString('DD-MM-YYYY');
+
+    if (name == " " || name == "") {
+      swal("Enter Task Name", "You need to enter a task name to create a task.", "error");
+    } else if (picker == "" || picker == " ") {
+      var postObj = {
+        classId: cid,
+        name: name
+      };
+    } else {
+      var postObj = {
+        classId: cid,
+        name: name,
+        duedate: duedate
+      };
+    }
+    var postObj = {
+      classId: cid,
+      name: name,
+      duedate: duedate
+    };
+    if (postObj !== undefined) {
+      $.ajax({
+        type: 'POST',
+        url: '/task/new',
+        data: postObj,
+        success: function(data) {
+          console.log(data);
+          if (data.success == true) {
+            location.reload();
+          } else {
+            swal("Uh-oh! - ", "There was an error creating a task.", "error");
+          }
+        },
+        error: function(data) {
+          console.log(data);
+          swal("Uh-oh!", "There was an error creating a task.", "error");
+        }
+      });
+    }
+  });
+});

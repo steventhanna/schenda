@@ -46,10 +46,30 @@
   <div class="collapse navbar-collapse navbar-ex1-collapse">
     <ul class="nav navbar-nav side-nav">
       <h1 class="name"><%= user.displayName %></h1>
-      <li class="active">
-        <a href="index.html">
+      <li <% if (currentPage == "overview") { %>class="active" <% } %>>
+        <a href="/overview">
           <i class="fa fa-fw fa-dashboard"></i>
           Overview</a>
+      </li>
+      <li <% if (currentPage == "classHome") { %>class="active" <% } %>>
+        <a href="/class/<%= classroom.urlName %>">
+          <i style="color: <%= classroom.color %>;" class="fa fa-fw fa-circle"></i><%= classroom.name %>
+        </a>
+      </li>
+      <li <% if (currentPage == "tasks") { %> class="active"<% } %>>
+        <a href="/class/<%= classroom.urlName %>/tasks">
+          <i class="fa fa-fw fa-check"></i>Tasks
+        </a>
+      </li>
+      <li <% if (currentPage == "projects") { %> class="active"<% } %>>
+        <a href="/class/<%= classroom.urlName %>/projects">
+          <i class="fa fa-fw fa-folder"></i>Projects
+        </a>
+      </li>
+      <li <% if (currentPage == "notes") { %> class="active"<% } %>>
+        <a href="/class/<%= classroom.urlName %>/notes">
+          <i class="fa fa-fw fa-sticky-note"></i>Notes
+        </a>
       </li>
     </ul>
   </div>

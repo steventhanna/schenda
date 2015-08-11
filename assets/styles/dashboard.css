@@ -284,8 +284,62 @@ ul.alert-dropdown {
 .page-header {
   color: #294F6D;
   font-weight: 300;
+  border-color: #d5d5d5;
 }
 
 .btn-primary {
   background-color: #294F6D;
+}
+
+.btn {
+  border-radius: 15px;
+}
+
+.date {
+  font-family: 'Open Sans', sans-serif;
+  color: #636363;
+  font-size: 24px;
+  font-weight: 300;
+  margin-left: 15px;
+}
+
+.task {
+  border-top: 1px;
+  border-bottom: 1px;
+  border-color: #d5d5d5;
+  border-style: solid;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-left-style: none;
+  border-right-style: none;
+}
+
+.task .title {
+  font-weight: 400;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 18px;
+}
+
+.task .title label {
+  font-weight: 500;
+}
+
+.task .title .form-control {
+  border-radius: 0px;
+  box-shadow: none;
+}
+
+.task .date {
+  color: 636363;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.upcoming {
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+  margin-top: 0px;
 }

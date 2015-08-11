@@ -22,7 +22,7 @@ $(document).ready(function() {
           if (data.success == true) {
             window.location.href = "/overview";
           } else {
-            swal("Uh-oh!", "There was an error logging you into your account.", "error");
+            swal("Uh-oh! - ", "There was an error logging you into your account.", "error");
           }
         },
         error: function(data) {

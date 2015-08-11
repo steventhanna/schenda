@@ -66,7 +66,8 @@ module.exports = {
 
         res.send({
           success: false,
-          errorMessage: "This user does not exist or there was some sort of error. "
+          errorMessage: "This user does not exist or there was some sort of error. ",
+          info: info
         });
       } else if ((!err) && user) {
         req.logIn(user, function(err) {

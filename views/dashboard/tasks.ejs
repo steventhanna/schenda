@@ -1,0 +1,109 @@
+<!-- Load dependencies -->
+<link rel="stylesheet" href="/styles/pikaday.css">
+<% include parts/dependencies.ejs %>
+<!-- Load navbar -->
+<script src="/js/pages/pikaday.js"></script>
+<script src="/js/pages/task.js"></script>
+
+<script>
+
+
+window.onload = function() {
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth()+1; //January is 0!
+  var yyyy = today.getFullYear();
+
+  if(dd<10) {
+      dd='0'+dd
+  }
+
+  if(mm<10) {
+      mm='0'+mm
+  }
+
+  var picker = new Pikaday(
+  {
+      field: document.getElementById('datepicker'),
+      firstDay: 1,
+      minDate: new Date(2000, 0, 1),
+      maxDate: new Date(2020, 12, 31),
+      yearRange: [2000,2020]
+  });
+
+  today = mm+'/'+dd+'/'+yyyy;
+  document.getElementById('date').innerHTML = today;
+  // $("date").update(today);
+}
+</script>
+
+<div id="wrapper">
+
+<!-- Navigation -->
+<% include parts/classNav.ejs %>
+  <div id="page-wrapper">
+    <div class="container-fluid">
+      <div class="hidden" id="classId"><%= classroom.cid %></div>
+      <!-- Page Heading -->
+      <div class="row">
+        <div class="col-lg-12">
+          <h1 class="page-header" style="color: <%= classroom.color %>">Tasks<span id="date" class="date"></span>
+            <a href="#" data-toggle="modal" data-target="#addTask" class="btn btn-success pull-right">Add Task</a>
+          </h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-8">
+          <% for (var i = 0; i < tasks.length; i++) { %>
+            <div class="task">
+              <div class="title">
+                <%= tasks[i].name %>
+              </div>
+              <div class="date">
+                <%= tasks[i].duedate %>
+              </div>
+            </div>
+          <% } %>
+        </div>
+        <div class="col-lg-4">
+          <h2 class="upcoming">Upcoming Tasks</h2>
+        </div>
+      </div>
+<!-- /.row -->
+
+    </div>
+<!-- /.container-fluid -->
+
+  </div>
+<!-- /#page-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+<!-- Modal -->
+<div class="modal fade" id="addTask" tabindex="-1" role="dialog" aria-labelledby="addTaskLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="addTaskLabel">Add Task</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="newTaskName">New Task Name</label>
+            <input class="form-control" style="border-color: <%= classroom.color %>" id="newTaskName" placeholder="Add New Task" type="text">
+          </div>
+          <div class="form-group">
+            <label for="datepicker">Due Date</label>
+            <input class="form-control" style="border-color: <%= classroom.color %>" type="text" id="datepicker">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <a href="#" id="addTaskButton" class="btn btn-primary">Add Task</a>
+      </div>
+    </div>
+  </div>
+</div>
