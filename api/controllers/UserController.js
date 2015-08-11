@@ -25,8 +25,8 @@ module.exports = {
         var finalClassList = [];
         if (classIds.length > 0) {
           for (var i = 0; i < classIds.length; i++) {
-            console.log("1. ClassId: " + classIds.length);
-            console.log("1. FinalClassList: " + finalClassList.length);
+            // console.log("1. ClassId: " + classIds.length);
+            // console.log("1. FinalClassList: " + finalClassList.length);
             if (finalClassList.length == classIds.length) {
               // Send info to page
               res.view('dashboard/overview', {
@@ -34,7 +34,7 @@ module.exports = {
                 classes: finalClassList
               });
             } else {
-              console.log("FINDING CLASS");
+              // console.log("FINDING CLASS");
               Classroom.findOne({
                 cid: classIds[i]
               }).exec(function(err, className) {
@@ -42,12 +42,12 @@ module.exports = {
                   console.log("There was an error looking up the class in the for loop.");
                   res.serverError();
                 } else {
-                  console.log("ADDING CLASS");
-                  console.log(className);
+                  // console.log("ADDING CLASS");
+                  // console.log(className);
                   finalClassList.push(className);
-                  console.log("ADDED CLASS");
-                  console.log("2. ClassId: " + classIds.length);
-                  console.log("2. FinalClassList: " + finalClassList.length);
+                  // console.log("ADDED CLASS");
+                  // console.log("2. ClassId: " + classIds.length);
+                  // console.log("2. FinalClassList: " + finalClassList.length);
                   // Put another if here?
                   // Why not
                   if (finalClassList.length == classIds.length) {
@@ -84,29 +84,21 @@ module.exports = {
       } else {
         var url = req.url;
         var classnameEncoded = (url.substring('/class/'.length));
+        // console.log("CLASSNAMEENCODED: " + classnameEncoded);
         var classroom = (decodeURI(classnameEncoded));
-
-        // Find the CID associated with that url-name
-        var cid = "";
-        for (var i = 0; i < user.classes.length; i++) {
-          if (user.classes[i].urlName == classroom) {
-            cid = user.classes[i].cid;
-          }
-        }
+        // console.log("CLASSROOMDECODED: " + classroom);
+        var id = user.classUrlNames.indexOf(classroom);
         Classroom.findOne({
-          cid: cid
+          cid: user.classes[id]
         }).exec(function(err, className) {
-          if (err) {
+          if (err || className == undefined) {
             console.log("There was an error looking up the class.");
             console.log("Error = " + err);
-            console.log("Error Code 0006.0");
-            res.serverError();
           } else {
             res.view('dashboard/classHome', {
               user: user,
               classroom: className
             });
-            res.end();
           }
         });
       }

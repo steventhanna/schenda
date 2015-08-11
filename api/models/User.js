@@ -49,6 +49,11 @@ module.exports = {
       defaultsTo: '[]'
     },
 
+    classUrlNames: {
+      type: 'array',
+      defaultsTo: '[]'
+    },
+
     //Remove the password before it is returned as a JSON object
     toJSON: function() {
       var obj = this.toObject();

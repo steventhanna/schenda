@@ -51,48 +51,7 @@
           <i class="fa fa-fw fa-dashboard"></i>
           Overview</a>
       </li>
-      <li class="">
-        <a href="#" data-toggle="modal" data-target="#myModal">
-          <i class="fa fa-fw fa-plus"></i>
-          Add Class</a>
-      </li>
-      <% if (classes.length > 0) { %>
-        <% for (var i = 0; i < classes.length; i++) { %>
-          <li>
-            <a href="/class/<%= classes[i].urlName %>">
-              <i style="color: <%= classes[i].color %>;" class="fa fa-fw fa-circle"></i><%= classes[i].name %>
-            </a>
-          </li>
-        <% } %>
-      <% } else { %>
-          <p style="text-align: center">You haven't created any classes yet.</p>
-      <% } %>
     </ul>
   </div>
 <!-- /.navbar-collapse -->
 </nav>
-
-
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Add Class</h4>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="form-group">
-            <label for="className">Class Name</label>
-            <input class="form-control" id="className" placeholder="Class Name" type="text">
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <a id="addClassButton" class="btn btn-primary">Add Class</a>
-      </div>
-    </div>
-  </div>
-</div>

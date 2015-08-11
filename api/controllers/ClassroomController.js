@@ -59,6 +59,7 @@ module.exports = {
               }
               var classCount = user.classes.length;
               user.classes[classCount] = newClass.cid;
+              user.classUrlNames[user.classUrlNames.length] = newClass.urlName;
 
               // Save the user
               user.save(function(err) {

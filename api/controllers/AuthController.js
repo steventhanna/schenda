@@ -24,7 +24,8 @@ module.exports = {
       displayName: post.firstName + " " + post.lastName,
       firstName: post.firstName,
       lastName: post.lastName,
-      classes: []
+      classes: [],
+      classUrlNames: []
     };
 
     User.create(accountDetails).exec(function(err, user) {
