@@ -9,7 +9,7 @@ var async = require("async");
 
 module.exports = {
 
-  overview: function(req, res, next) {
+  overview: function(req, res) {
     var post = req.body;
     User.findOne({
       id: req.user.id
@@ -25,16 +25,12 @@ module.exports = {
         var finalClassList = [];
         if (classIds.length > 0) {
           for (var i = 0; i < classIds.length; i++) {
-            // console.log("1. ClassId: " + classIds.length);
-            // console.log("1. FinalClassList: " + finalClassList.length);
             if (finalClassList.length == classIds.length) {
-              // Send info to page
               res.view('dashboard/overview', {
                 user: user,
                 classes: finalClassList
               });
             } else {
-              // console.log("FINDING CLASS");
               Classroom.findOne({
                 cid: classIds[i]
               }).exec(function(err, className) {
@@ -42,14 +38,7 @@ module.exports = {
                   console.log("There was an error looking up the class in the for loop.");
                   res.serverError();
                 } else {
-                  // console.log("ADDING CLASS");
-                  // console.log(className);
                   finalClassList.push(className);
-                  // console.log("ADDED CLASS");
-                  // console.log("2. ClassId: " + classIds.length);
-                  // console.log("2. FinalClassList: " + finalClassList.length);
-                  // Put another if here?
-                  // Why not
                   if (finalClassList.length == classIds.length) {
                     res.view('dashboard/overview', {
                       user: user,
@@ -58,7 +47,6 @@ module.exports = {
                   }
                 }
               });
-
             }
           }
         } else {
@@ -70,6 +58,8 @@ module.exports = {
       }
     });
   },
+
+
 
   // This function handles the logic and page view requests for specific class pages
   classHome: function(req, res) {
@@ -118,81 +108,72 @@ module.exports = {
         console.log("Error Code 0003.0");
         res.serverError();
       } else {
+        // Get the cid
         var url = req.url;
-        // var classnameEncoded = (url.substring('/class/'.length));
+        var array = url.split("/");
+        var index = user.classUrlNames.indexOf(array[2]);
+        var cid = user.classes[index];
 
-        var arrayString = url.split("/");
-        var classroom = arrayString[2];
+        console.log(cid);
 
-        // console.log("CLASSNAMEENCODED: " + classnameEncoded);
-        // var classroom = (decodeURI(classnameEncoded));
-        // console.log("CLASSROOMDECODED: " + classroom);
-        var id = user.classUrlNames.indexOf(classroom);
-        var taskList = [];
+        // var cid = post.classId;
         Classroom.findOne({
-          cid: user.classes[id]
+          cid: cid
         }).exec(function(err, className) {
           if (err || className == undefined) {
             console.log("There was an error looking up the class.");
-            console.log("Error = " + err);
             res.serverError();
           } else {
-            // Get the tasks
-            console.log("1" + className.tasks);
-            // console.log("2" + taskIdList);
-            if (className.tasks !== undefined && className.tasks.length > 0) {
-              console.log("INSIDE IF");
-              for (var i = 0; i < className.tasks.length; i++) {
-
-                if (className.tasks.length == taskList.length) {
-                  console.log("SENDING TO PAGE");
+            console.log("CLASS FOUND");
+            console.log(className.name);
+            console.log(className.tasks);
+            var taskIds = className.tasks;
+            console.log("CLASS IDS");
+            console.log(taskIds);
+            if (taskIds.length > 0) {
+              var finalTaskList = [];
+              for (var i = 0; i < taskIds.length; i++) {
+                if (finalTaskList.length == taskIds.length) {
                   res.view('dashboard/tasks', {
                     user: user,
                     classroom: className,
-                    currentPage: 'tasks',
-                    tasks: taskList
+                    tasks: null,
+                    currentPage: 'tasks'
                   });
-                  console.log("SENT TO PAGE");
                 } else {
-                  console.log("LOOKING UP TASKS");
+                  console.log("FINAL: " + finalTaskList.length);
+                  console.log("TID LIST: " + taskIds.length);
+                  console.log(finalTaskList);
+
                   Task.findOne({
-                    tid: className.tasks[i]
+                    tid: taskIds[i]
                   }).exec(function(err, taskName) {
                     if (err || taskName == undefined) {
-                      console.log("There was an error looking up the task.");
+                      console.log("There was an error lookign up the task.");
                       res.serverError();
                     } else {
-                      console.log("ADDING TASKS");
-                      taskList[taskList.length] = taskName;
-                      if (className.tasks.length == taskList.length) {
-                        console.log("SENDING TO PAGE");
+                      console.log(taskName);
+                      finalTaskList.push(taskName);
+                      console.log("FINAL: " + finalTaskList.length);
+                      console.log("TID LIST: " + taskIds.length);
+                      if (finalTaskList.length == taskIds.length) {
                         res.view('dashboard/tasks', {
                           user: user,
                           classroom: className,
-                          currentPage: 'tasks',
-                          tasks: taskList
+                          tasks: finalTaskList,
+                          currentPage: 'tasks'
                         });
                       }
                     }
                   });
-                  if (className.tasks.length == taskList.length) {
-                    console.log("SENDING TO PAGE");
-                    res.view('dashboard/tasks', {
-                      user: user,
-                      classroom: className,
-                      currentPage: 'tasks',
-                      tasks: taskList
-                    });
-                  }
-                  console.log("CLASSNAME " + className.tasks.length);
-                  console.log("TASKLIST " + taskList.length);
+                  console.log(finalTaskList);
                 }
               }
             } else {
               res.view('dashboard/tasks', {
                 user: user,
                 classroom: className,
-                tasks: taskList,
+                tasks: finalTaskList,
                 currentPage: 'tasks'
               });
             }

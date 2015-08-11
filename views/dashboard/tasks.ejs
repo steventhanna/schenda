@@ -1,113 +1,127 @@
 <!-- Load dependencies -->
-<link rel="stylesheet" href="/styles/pikaday.css">
+<link href="/styles/pikaday.css" rel="stylesheet">
 <% include parts/dependencies.ejs %>
 <!-- Load navbar -->
 <script src="/js/pages/pikaday.js"></script>
 <script src="/js/pages/task.js"></script>
 
 <script>
-
-
 window.onload = function() {
   var today = new Date();
   var dd = today.getDate();
-  var mm = today.getMonth()+1; //January is 0!
+  var mm = today.getMonth() + 1; //January is 0!
   var yyyy = today.getFullYear();
 
-  if(dd<10) {
-      dd='0'+dd
+  if (dd < 10) {
+    dd = '0' + dd
   }
 
-  if(mm<10) {
-      mm='0'+mm
+  if (mm < 10) {
+    mm = '0' + mm
   }
 
-  var picker = new Pikaday(
-  {
-      field: document.getElementById('datepicker'),
-      firstDay: 1,
-      minDate: new Date(2000, 0, 1),
-      maxDate: new Date(2020, 12, 31),
-      yearRange: [2000,2020]
+  var picker = new Pikaday({
+    field: document.getElementById('datepicker'),
+    firstDay: 1,
+    minDate: new Date(2000, 0, 1),
+    maxDate: new Date(2020, 12, 31),
+    yearRange: [
+      2000, 2020
+    ]
   });
 
-  today = mm+'/'+dd+'/'+yyyy;
+  today = mm +
+    '/' + dd +
+    '/' + yyyy;
   document.getElementById('date').innerHTML = today;
-  // $("date").update(today);
+// $("date").update(today);
 }
 </script>
 
 <div id="wrapper">
 
 <!-- Navigation -->
-<% include parts/classNav.ejs %>
+  <% include parts/classNav.ejs %>
   <div id="page-wrapper">
     <div class="container-fluid">
       <div class="hidden" id="classId"><%= classroom.cid %></div>
-      <!-- Page Heading -->
+<!-- Page Heading -->
       <div class="row">
         <div class="col-lg-12">
-          <h1 class="page-header" style="color: <%= classroom.color %>">Tasks<span id="date" class="date"></span>
-            <a href="#" data-toggle="modal" data-target="#addTask" class="btn btn-success pull-right">Add Task</a>
+          <h1 class="page-header" style="color: <%= classroom.color %>">Tasks
+            <span class="date" id="date"></span>
+            <a class="btn btn-success pull-right" data-target="#addTask" data-toggle="modal" href="#">Add Task</a>
           </h1>
         </div>
       </div>
-      <div class="row">
-        <div class="col-lg-8">
-          <% for (var i = 0; i < tasks.length; i++) { %>
-            <div class="task">
-              <div class="title">
-                <%= tasks[i].name %>
+      <% if (tasks !== undefined && tasks !== null && tasks.length > 0) { %>
+        <div class="row">
+          <div class="col-lg-8">
+            <% for (var i = 0; i < tasks.length; i++) { %>
+              <div class="task">
+                <div class="title">
+                  <%= tasks[i].name %>
+                  <span class="date">
+                    <% if (tasks[i].duedate !== undefined) { %>
+                      <%= tasks[i].duedate %></span>
+                  <% } %>
+                </div>
+                <div class="note">
+                  <%= tasks[i].note %>
+                </div>
               </div>
-              <div class="date">
-                <% if (tasks[i].duedate !== undefined) { %>
-                  <%= tasks[i].duedate %>
-                <% } else { %>
-                  No Due Date
-                <% } %>
-              </div>
-            </div>
-          <% } %>
+            <% } %>
+          </div>
+          <div class="col-lg-4">
+            <h2 class="upcoming">Upcoming Tasks</h2>
+          </div>
         </div>
-        <div class="col-lg-4">
-          <h2 class="upcoming">Upcoming Tasks</h2>
-        </div>
-      </div>
+      <% } else { %>
+      <center>
+        <h1 style="margin-top: 50px; font-weight: 300;">No Tasks</h1>
+      </center>
+    <% } %>
 <!-- /.row -->
 
-    </div>
+  </div>
 <!-- /.container-fluid -->
 
-  </div>
+</div>
 <!-- /#page-wrapper -->
 
 </div>
 <!-- /#wrapper -->
 
 <!-- Modal -->
-<div class="modal fade" id="addTask" tabindex="-1" role="dialog" aria-labelledby="addTaskLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="addTaskLabel">Add Task</h4>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="form-group">
-            <label for="newTaskName">New Task Name</label>
-            <input class="form-control" style="border-color: <%= classroom.color %>" id="newTaskName" placeholder="Add New Task" type="text">
-          </div>
-          <div class="form-group">
-            <label for="datepicker">Due Date</label>
-            <input class="form-control" style="border-color: <%= classroom.color %>" type="text" id="datepicker">
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <a href="#" id="addTaskButton" class="btn btn-primary">Add Task</a>
-      </div>
+<div aria-labelledby="addTaskLabel" class="modal fade" id="addTask" role="dialog" tabindex="-1">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="modal-title" id="addTaskLabel">Add Task</h4>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="form-group">
+          <label for="newTaskName">New Task Name</label>
+          <input class="form-control" id="newTaskName" placeholder="Add New Task" style="border-color: <%= classroom.color %>" type="text">
+        </div>
+        <div class="form-group">
+          <label for="newNote">Notes</label>
+          <textarea class="form-control" rows="3" style="border-color: <%= classroom.color %>"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="datepicker">Due Date</label>
+          <input class="form-control" id="datepicker" style="border-color: <%= classroom.color %>" type="text">
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
+      <a class="btn btn-primary" href="#" id="addTaskButton">Add Task</a>
     </div>
   </div>
+</div>
 </div>

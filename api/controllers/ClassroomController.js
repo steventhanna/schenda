@@ -160,6 +160,7 @@ module.exports = {
         var classId = post.cid; // This must be present
         var name = post.name;
         var color = post.color;
+        var urlname = name.split(' ').join('-');
 
         // No data sent
         if (name == undefined || name == " " || color == undefined || color == " ") {
@@ -179,10 +180,11 @@ module.exports = {
               res.serverError();
             } else {
               if (name !== undefined || name !== " ") {
-                classroom.name = name;
+                className.name = name;
+                className.urlName = urlname;
               }
               if (color !== undefined || color !== " ") {
-                classroom.color == color;
+                className.color == color;
               }
               classroom.save(function(err) {
                 if (err) {

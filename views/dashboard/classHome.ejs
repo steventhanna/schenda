@@ -1,6 +1,7 @@
 <!-- Load dependencies -->
 <% include parts/dependencies.ejs %>
 <!-- Load navbar -->
+<script scr="/js/pages/classHome.js"></script>
 
 
 <div id="wrapper">
@@ -14,7 +15,8 @@
       <div class="row">
         <div class="col-lg-12">
           <h1 class="page-header" style="color: <%= classroom.color %>">
-            <%= classroom.name %>
+            <%= classroom.name %><a class="btn btn-primary pull-right" data-target="#editClassroom" data-toggle="modal" href="#">Edit <%= classroom.name %></a>
+            <div id="classId" class="hidden"><%= classroom.cid %></div>
           </h1>
         </div>
       </div>
@@ -28,3 +30,32 @@
 
 </div>
 <!-- /#wrapper -->
+<!-- Modal -->
+<div aria-labelledby="editClassroom" class="modal fade" id="editClassroom" role="dialog" tabindex="-1">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="editClassroom">Edit <%= classroom.name %></h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="className">Name</label>
+            <input class="form-control" id="className" placeholder="<%= classroom.name %>" style="border-color: <%= classroom.color %>" type="text">
+          </div>
+          <div class="form-group">
+            <label for="color">Color</label>
+            <input class="form-control" id="color" placeholder="<%= classroom.color %>" style="border-color: <%= classroom.color %>" type="text">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
+        <a class="btn btn-primary" href="#" id="editClassroomButton">Update <%= classroom.name %></a>
+      </div>
+    </div>
+  </div>
+</div>

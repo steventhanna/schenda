@@ -17,12 +17,16 @@ module.exports = {
       type: 'string'
     },
 
+    note: {
+      type: 'string'
+    },
+
     status: {
       type: 'string',
       defaultsTo: 'incomplete'
     },
 
-    // MM/DD/YY
+    // MM/DD/YYYY
     dueDate: {
       type: 'string'
     },
