@@ -168,13 +168,34 @@ module.exports = {
         console.log(color);
         console.log(name);
         // No data sent
-        if (name == undefined && name == " " && color == undefined && color == " ") {
+        if (name == undefined && color == undefined) {
           console.log("No data sent to be updated");
           res.send({
             success: false,
             message: "No data sent."
           });
         } else {
+          // Look through db and see if that name already exists
+          var counter = 0;
+          var there = false;
+          if (urlname !== undefined) {
+            while (counter < user.classUrlNames) {
+              if (urlname === user.classUrlNames[counter]) {
+                there = true;
+                break;
+              } else {
+                counter++;
+              }
+            }
+            if (there == true) {
+              console.log("Name already exists.");
+              res.send({
+                success: false,
+                error: true,
+              });
+            }
+          }
+
           Classroom.findOne({
             cid: classId
           }).exec(function(err, className) {
@@ -185,29 +206,38 @@ module.exports = {
               res.serverError();
             } else {
               var updatedUrl = false;
-              if (name !== undefined || name !== " ") {
+              if (name !== undefined) {
                 className.name = name;
                 className.urlName = urlname;
+                user.classUrlNames = urlname;
                 updatedUrl = true;
-
               }
               if (color !== undefined || color !== " ") {
                 className.color == color;
               }
-              className.save(function(err) {
+              user.save(function(err) {
                 if (err) {
-                  console.log("There was an error updating the class information.");
+                  console.log("There was an error updating the class information on the user.");
                   console.log("Error = " + err);
                   console.log("Error Code 00007.0");
                   res.serverError();
                 } else {
-                  // if (updatedUrl == true) {
-                  //   res.redirect('/class/' + className.urlName);
-                  // }
-                  res.send({
-                    success: true,
-                    updatedUrl: updatedUrl,
-                    url: className.urlName,
+                  className.save(function(err) {
+                    if (err) {
+                      console.log("There was an error updating the class information.");
+                      console.log("Error = " + err);
+                      console.log("Error Code 00007.0");
+                      res.serverError();
+                    } else {
+                      // if (updatedUrl == true) {
+                      //   res.redirect('/class/' + className.urlName);
+                      // }
+                      res.send({
+                        success: true,
+                        updatedUrl: updatedUrl,
+                        url: className.urlName,
+                      });
+                    }
                   });
                 }
               });

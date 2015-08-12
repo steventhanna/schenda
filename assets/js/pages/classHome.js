@@ -68,20 +68,19 @@ $(document).ready(function() {
         if (data.success) {
           swal({
             title: "Success!",
-            text: "The class has been created.",
+            type: "success",
+            text: "The class has been updated.",
             showConfirmButton: true,
             showCancelButton: false,
-            type: "success",
           }, function() {
+            console.log(updatedUrl)
             if (data.updatedUrl == true) {
-              window.location.href('/class/' + data.url);
+              window.location.href = '/class/' + data.url;
             }
-            if (data.updatedUrl == false) {
-              location.reload();
-            }
+            location.reload();
           });
         } else {
-          swal("Uh-Oh!", "The class could be updated.", "error");
+          swal("Uh-Oh!", "The class could not be updated.", "error");
         }
       },
       error: function(data) {
