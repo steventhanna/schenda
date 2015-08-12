@@ -107,6 +107,11 @@ module.exports.routes = {
     action: 'notes'
   },
 
+  'GET /class/:className/tasks/:taskID': {
+    controller: 'user',
+    action: 'specificTask'
+  },
+
   'POST /task/new': {
     controller: 'task',
     action: 'new'

@@ -40,10 +40,38 @@ module.exports = {
                 } else {
                   finalClassList.push(className);
                   if (finalClassList.length == classIds.length) {
-                    res.view('dashboard/overview', {
-                      user: user,
-                      classes: finalClassList
-                    });
+                    // Get all of task
+                    var taskIdList = [];
+                    for (var j = 0; j < finalClassList.length; j++) {
+                      for (var k = 0; k < finalClassList[j].tasks.length; k++) {
+                        taskIdList.push(finalClassList[j].tasks[k]);
+                      }
+                    }
+                    var taskList = [];
+                    for (var j = 0; j < taskIdList.length; j++) {
+                      Task.findOne({
+                        tid: taskIdList[j]
+                      }).exec(function(err, taskName) {
+                        if (err || taskName == undefined) {
+                          console.log("Ther task could not be looked up.");
+                          res.serverError();
+                        } else {
+                          taskList.push(taskName);
+                          if (taskList.length == taskIdList.length) {
+                            res.view('dashboard/overview', {
+                              user: user,
+                              classes: finalClassList,
+                              tasks: taskList,
+                              currentPage: 'overview'
+                            });
+                          }
+                        }
+                      });
+                    }
+                    // res.view('dashboard/overview', {
+                    //   user: user,
+                    //   classes: finalClassList
+                    // });
                   }
                 }
               });
@@ -177,6 +205,53 @@ module.exports = {
                 currentPage: 'tasks'
               });
             }
+          }
+        });
+      }
+    });
+  },
+
+  specificTask: function(req, res) {
+    var post = req.body;
+    User.findOne({
+      id: req.user.id
+    }).exec(function(err, user) {
+      if (err || user == undefined) {
+        console.log("There was an error looking up the logged in user.");
+        console.log("Error = " + err);
+        console.log("Error Code 0003.0");
+        res.serverError();
+      } else {
+        // Get the classname
+        var url = req.url;
+        var array = url.split("/");
+        var index = user.classUrlNames.indexOf(array[2]);
+        var cid = user.classes[index];
+        var tid = array[4];
+        Classroom.findOne({
+          cid: cid
+        }).exec(function(err, className) {
+          if (err || className == undefined) {
+            console.log("There was an error locating the class from the database.");
+            console.log("Error = " + err);
+            res.serverError();
+          } else {
+            Task.findOne({
+              tid: tid
+            }).exec(function(err, taskName) {
+              if (err || taskName == undefined) {
+                console.log("There was an error locating the task from the database.");
+                console.log("Error = " + err);
+                res.serverError();
+              } else {
+                res.view('dashboard/taskDetails', {
+                  user: user,
+                  classroom: className,
+                  task: taskName,
+                  currentPage: 'specificTask',
+                });
+              }
+            });
           }
         });
       }

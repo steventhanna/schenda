@@ -19,8 +19,20 @@
       </div>
       <div class="row">
         <div class="col-lg-6">
-          <h2>Active Tasks</h2>
+          <h2 class="col-heading">Active Tasks</h2>
           <!-- TODO :: Pass all of the tasks and projects to the page -->
+          <% for (var i = 0; i < tasks.length; i++) { %>
+            <div class="task">
+              <div class="title">
+                <%= tasks[i].name %>
+              </div>
+              <div class="body">
+                <%= tasks[i].note %>
+              </div>
+            </div>
+
+            <br />
+          <% } %>
 
         </div>
         <div class="col-lg-6">

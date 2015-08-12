@@ -94,7 +94,7 @@ module.exports = {
       } else {
         // Lookup classroom
         Classroom.findOne({
-          cid: post.classId
+          cid: post.cid
         }).exec(function(err, className) {
           if (err || className == undefined) {
             console.log("There was an error looking up the class.");
