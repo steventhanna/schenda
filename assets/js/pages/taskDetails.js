@@ -10,7 +10,7 @@ $(document).ready(function() {
       cid: cid,
     };
     $.ajax({
-      type: POST,
+      type: 'POST',
       url: '/task/status',
       data: postObj,
       success: function(data) {
