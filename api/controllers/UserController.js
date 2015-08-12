@@ -7,6 +7,21 @@
 
 var async = require("async");
 
+var debug = {
+  on: false,
+  log: function(message, data) {
+    if (this.on == true) {
+      console.log("=== BEGIN DEBUG ===");
+      console.log("Message: " + message);
+      console.log(data);
+      console.log("=== END DEBUG === ");
+    }
+  }
+}
+
+// turn on debug
+debug.on = true;
+
 module.exports = {
 
   overview: function(req, res) {
@@ -40,38 +55,10 @@ module.exports = {
                 } else {
                   finalClassList.push(className);
                   if (finalClassList.length == classIds.length) {
-                    // Get all of task
-                    var taskIdList = [];
-                    for (var j = 0; j < finalClassList.length; j++) {
-                      for (var k = 0; k < finalClassList[j].tasks.length; k++) {
-                        taskIdList.push(finalClassList[j].tasks[k]);
-                      }
-                    }
-                    var taskList = [];
-                    for (var j = 0; j < taskIdList.length; j++) {
-                      Task.findOne({
-                        tid: taskIdList[j]
-                      }).exec(function(err, taskName) {
-                        if (err || taskName == undefined) {
-                          console.log("Ther task could not be looked up.");
-                          res.serverError();
-                        } else {
-                          taskList.push(taskName);
-                          if (taskList.length == taskIdList.length) {
-                            res.view('dashboard/overview', {
-                              user: user,
-                              classes: finalClassList,
-                              tasks: taskList,
-                              currentPage: 'overview'
-                            });
-                          }
-                        }
-                      });
-                    }
-                    // res.view('dashboard/overview', {
-                    //   user: user,
-                    //   classes: finalClassList
-                    // });
+                    res.view('dashboard/overview', {
+                      user: user,
+                      classes: finalClassList
+                    });
                   }
                 }
               });
@@ -86,7 +73,6 @@ module.exports = {
       }
     });
   },
-
 
 
   // This function handles the logic and page view requests for specific class pages

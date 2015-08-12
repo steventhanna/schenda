@@ -1,7 +1,7 @@
 <!-- Load dependencies -->
 <% include parts/dependencies.ejs %>
 <!-- Load navbar -->
-<script scr="/js/pages/classHome.js"></script>
+<script src="/js/pages/classHome.js"></script>
 
 
 <div id="wrapper">
@@ -18,7 +18,7 @@
             <%= classroom.name %><a class="btn btn-primary pull-right" data-target="#editClassroom" data-toggle="modal" href="#">Edit <%= classroom.name %></a>
             <div id="classId" class="hidden"><%= classroom.cid %></div>
           </h1>
-          
+
         </div>
       </div>
 <!-- /.row -->
@@ -54,8 +54,10 @@
         </form>
       </div>
       <div class="modal-footer">
+        <div class="hidden" id="className"><%= classroom.name %></div>
+        <a class="btn btn-danger pull-left" href="#" id="deleteClassroomButton">Delete <%= classroom.name %></a>
+        <a class="btn btn-success" href="#" id="editClassroomButton">Update <%= classroom.name %></a>
         <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
-        <a class="btn btn-primary" href="#" id="editClassroomButton">Update <%= classroom.name %></a>
       </div>
     </div>
   </div>

@@ -21,17 +21,19 @@
         <div class="col-lg-6">
           <h2 class="col-heading">Active Tasks</h2>
           <!-- TODO :: Pass all of the tasks and projects to the page -->
-          <% for (var i = 0; i < tasks.length; i++) { %>
-            <div class="task">
-              <div class="title">
-                <%= tasks[i].name %>
+          <% if (typeof tasks !== "undefined") { %>
+            <% for (var i = 0; i < tasks.length; i++) { %>
+              <div class="task">
+                <div class="title">
+                  <%= tasks[i].name %>
+                </div>
+                <div class="body">
+                  <%= tasks[i].note %>
+                </div>
               </div>
-              <div class="body">
-                <%= tasks[i].note %>
-              </div>
-            </div>
 
-            <br />
+              <br />
+            <% } %>
           <% } %>
 
         </div>
