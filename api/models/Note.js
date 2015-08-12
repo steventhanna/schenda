@@ -9,7 +9,8 @@ module.exports = {
 
   attributes: {
     nid: {
-      type: 'string'
+      type: 'string',
+      unique: true
     },
 
     name: {

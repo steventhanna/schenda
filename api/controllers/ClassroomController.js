@@ -112,7 +112,9 @@ module.exports = {
             var index = user.classes.indexOf(id);
             if (index > -1) {
               user.classes.splice(index, 1);
+              user.classUrlNames.splice(index, 1);
             }
+
 
             // Update the user
             // Save the user
@@ -159,10 +161,14 @@ module.exports = {
         var classId = post.cid; // This must be present
         var name = post.name;
         var color = post.color;
-        var urlname = name.split(' ').join('-');
+        if (name !== undefined && name !== null) {
+          var urlname = name.split(' ').join('-');
+        }
 
+        console.log(color);
+        console.log(name);
         // No data sent
-        if (name == undefined || name == " " || color == undefined || color == " ") {
+        if (name == undefined && name == " " && color == undefined && color == " ") {
           console.log("No data sent to be updated");
           res.send({
             success: false,
@@ -178,22 +184,30 @@ module.exports = {
               console.log("Error Code 00006.0");
               res.serverError();
             } else {
+              var updatedUrl = false;
               if (name !== undefined || name !== " ") {
                 className.name = name;
                 className.urlName = urlname;
+                updatedUrl = true;
+
               }
               if (color !== undefined || color !== " ") {
                 className.color == color;
               }
-              classroom.save(function(err) {
+              className.save(function(err) {
                 if (err) {
                   console.log("There was an error updating the class information.");
                   console.log("Error = " + err);
                   console.log("Error Code 00007.0");
                   res.serverError();
                 } else {
+                  // if (updatedUrl == true) {
+                  //   res.redirect('/class/' + className.urlName);
+                  // }
                   res.send({
-                    success: true
+                    success: true,
+                    updatedUrl: updatedUrl,
+                    url: className.urlName,
                   });
                 }
               });

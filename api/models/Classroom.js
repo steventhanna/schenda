@@ -10,7 +10,8 @@ module.exports = {
   attributes: {
 
     cid: {
-      type: 'string'
+      type: 'string',
+      unique: true
     },
 
     name: {

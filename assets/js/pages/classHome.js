@@ -11,8 +11,9 @@ $(document).ready(function() {
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: "#2cc36b",
+      showLoaderOnConfirm: true,
       confirmButtonText: "Yes, delete it!",
-      closeOnConfirm: false
+      closeOnConfirm: false,
     }, function() {
       $.ajax({
         type: 'POST',
@@ -36,6 +37,56 @@ $(document).ready(function() {
           swal("Uh-oh!", "There was an error deleting the class.", "error");
         }
       });
+    });
+  });
+
+  $("#editClassroomButton").click(function() {
+    var cid = document.getElementById('classId').innerHTML;
+    var name = $("#className").val();
+    var color = $("#color").val();
+    var postObj = {
+      cid: cid,
+    };
+    if (name !== undefined && name !== null && name !== " " && name !== "") {
+      postObj.name = name;
+    }
+    if (color !== undefined && color !== null && color !== " " && color !== "") {
+      var isOk = /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(color);
+      if (isOk == true) {
+        postObj.color = color;
+      } else {
+        swal("Uh-oh!", "The color you entered is not a valid HEX color.", "error");
+        return;
+      }
+    }
+
+    $.ajax({
+      type: 'POST',
+      url: '/class/update',
+      data: postObj,
+      success: function(data) {
+        if (data.success) {
+          swal({
+            title: "Success!",
+            text: "The class has been created.",
+            showConfirmButton: true,
+            showCancelButton: false,
+            type: "success",
+          }, function() {
+            if (data.updatedUrl == true) {
+              window.location.href('/class/' + data.url);
+            }
+            if (data.updatedUrl == false) {
+              location.reload();
+            }
+          });
+        } else {
+          swal("Uh-Oh!", "The class could be updated.", "error");
+        }
+      },
+      error: function(data) {
+        swal("Uh-Oh!", "The class could be updated.", "error");
+      }
     });
   });
 

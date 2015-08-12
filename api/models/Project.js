@@ -10,7 +10,8 @@ module.exports = {
   attributes: {
 
     pid: {
-      type: 'string'
+      type: 'string',
+      unique: true
     },
 
     name: {
