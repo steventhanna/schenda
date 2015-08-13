@@ -203,6 +203,7 @@ module.exports = {
                       res.send({
                         success: false,
                         error: true,
+                        message: "Error saving note"
                       });
                     } else {
                       console.log("success");

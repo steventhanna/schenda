@@ -26,6 +26,7 @@ $(document).ready(function() {
             location.reload();
           } else {
             swal("Uh-oh! - ", "There was an error creating a task.", "error");
+
           }
         },
         error: function(data) {

@@ -77,12 +77,14 @@ $(document).ready(function() {
               location.reload();
             });
           } else {
-            swal("Uh-Oh", "There was an error updating the note.", "error");
+            swal("Uh-Oh", "There was an error updating the note. 1", "error");
+            console.log(data.message);
           }
         },
         error: function(data) {
-          swal("Uh-Oh", "There was an error updating the note.", "error");
-        },
+          swal("Uh-Oh", "There was an error updating the note. 2", "error");
+          console.log(data.message);
+        }
       });
     } else {
       swal("Uh-Oh", "Please make your changes above.", "error");
