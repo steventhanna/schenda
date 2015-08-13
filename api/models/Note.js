@@ -17,6 +17,10 @@ module.exports = {
       type: 'string'
     },
 
+    description: {
+      type: 'string'
+    },
+
     body: {
       type: 'string',
     },

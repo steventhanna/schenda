@@ -1,3 +1,26 @@
+<script>
+window.onload = function() {
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth() + 1; //January is 0!
+  var yyyy = today.getFullYear();
+
+  if (dd < 10) {
+    dd = '0' + dd
+  }
+
+  if (mm < 10) {
+    mm = '0' + mm
+  }
+
+  today = mm +
+    '/' + dd +
+    '/' + yyyy;
+  document.getElementById('date').innerHTML = today;
+// $("date").update(today);
+}
+</script>
+
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 <!-- Brand and toggle get grouped for better mobile display -->
   <div class="navbar-header">
@@ -45,7 +68,7 @@
 <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
   <div class="collapse navbar-collapse navbar-ex1-collapse">
     <ul class="nav navbar-nav side-nav">
-      <h1 class="name"><%= user.displayName %></h1>
+      <h1 class="name" id="date"></h1>
       <li <% if (currentPage == "overview") { %>class="active" <% } %>>
         <a href="/overview">
           <i class="fa fa-fw fa-dashboard"></i>Overview</a>
@@ -65,7 +88,7 @@
           <i style="color: #9b59b6;" class="fa fa-fw fa-folder"></i>Projects
         </a>
       </li>
-      <li <% if (currentPage == "notes") { %> class="active"<% } %>>
+      <li <% if (currentPage == "note") { %> class="active"<% } %>>
         <a href="/class/<%= classroom.urlName %>/notes">
           <i style="color: #3498db;" class="fa fa-fw fa-sticky-note"></i>Notes
         </a>

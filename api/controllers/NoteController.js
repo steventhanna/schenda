@@ -31,7 +31,8 @@ module.exports = {
           } else {
             var name = post.name;
             var nid = Math.floor(Math.random() * 1000000000000000000000);
-            var body = post.body;
+            var body = "";
+            var description = post.description;
             var today = new Date();
             var dd = today.getDate();
             var mm = today.getMonth() + 1; //January is 0!
@@ -47,6 +48,7 @@ module.exports = {
             var noteData = {
               name: name,
               nid: nid,
+              description: description,
               body: body,
               dateCreated: today,
               dateUpdated: today,
@@ -64,7 +66,7 @@ module.exports = {
                   className.notes = [];
                 }
                 var noteCount = className.notes.length;
-                className.notes[noteCount] = newNote.tid;
+                className.notes[noteCount] = newNote.nid;
 
                 // Save the class
                 className.save(function(err) {
@@ -320,6 +322,7 @@ module.exports = {
                   } else {
                     fullNoteList.push(noteName);
                     if (fullNoteList.length == noteIdList.length) {
+                      console.log(fullNoteList);
                       res.view("dashboard/note", {
                         user: user,
                         classroom: className,

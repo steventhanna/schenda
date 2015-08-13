@@ -1,4 +1,26 @@
 <script src="/js/pages/general.js"></script>
+<script>
+window.onload = function() {
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth() + 1; //January is 0!
+  var yyyy = today.getFullYear();
+
+  if (dd < 10) {
+    dd = '0' + dd
+  }
+
+  if (mm < 10) {
+    mm = '0' + mm
+  }
+
+  today = mm +
+    '/' + dd +
+    '/' + yyyy;
+  document.getElementById('date').innerHTML = today;
+// $("date").update(today);
+}
+</script>
 
 </script>
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -48,7 +70,7 @@
 <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
   <div class="collapse navbar-collapse navbar-ex1-collapse">
     <ul class="nav navbar-nav side-nav">
-      <h1 class="name"><%= user.displayName %></h1>
+      <h1 class="name" id="date"></h1>
       <li class="active">
         <a href="/overview">
           <i class="fa fa-fw fa-dashboard"></i>

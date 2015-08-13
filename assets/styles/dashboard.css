@@ -332,7 +332,26 @@ ul.alert-dropdown {
   border-right-style: none;
 }
 
+.note {
+  border-top: 0px;
+  border-bottom: 1px;
+  border-color: #d5d5d5;
+  border-style: solid;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-left-style: none;
+  border-right-style: none;
+}
+
 .task .title {
+  font-weight: 400;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 18px;
+}
+
+.note .title {
   font-weight: 400;
   font-family: 'Open Sans', sans-serif;
   font-size: 18px;
@@ -342,16 +361,35 @@ ul.alert-dropdown {
   font-weight: 500;
 }
 
+.note .title label {
+  font-weight: 500;
+}
+
 .task .title .form-control {
   border-radius: 0px;
   box-shadow: none;
 }
 
-.task .note {
-  color: 636363;
+.task .title a {
+  color: #000;
+}
+
+.task .description {
+  color: #636363;
   font-weight: 400;
   font-size: 14px;
   margin-left: 0px;
+}
+
+.note .description {
+  color: #636363;
+  font-weight: 400;
+  font-size: 14px;
+  margin-left: 0px;
+}
+
+.note .title a {
+  color: #000;
 }
 
 .upcoming {
