@@ -137,6 +137,11 @@ module.exports.routes = {
     action: 'new'
   },
 
+  'POST /note/updateBody': {
+    controller: 'note',
+    action: 'updateBody'
+  },
+
 
   /***************************************************************************
    *                                                                          *

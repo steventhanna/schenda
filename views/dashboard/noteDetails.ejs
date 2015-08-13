@@ -4,20 +4,20 @@
 <script src="/js/pages/noteDetails.js"></script>
 <link href='http://fonts.googleapis.com/css?family=Roboto+Mono' rel='stylesheet' type='text/css'>
 
-<style type="text/css" media="screen">
-    #editor {
-        position: absolute;
-        height: 75%;
-        width: 75%;
-        margin-left: 15px;
-        margin-right: 0px;
-        margin-top: 25px;
-        padding-left: 10px;
-    }
+<style media="screen" type="text/css">
+  #editor {
+    position: absolute;
+    height: 75%;
+    width: 75%;
+    margin-left: 15px;
+    margin-right: 0;
+    margin-top: 25px;
+    padding-left: 10px;
+  }
 
-    .ace_gutter {
-      display: none;
-    }
+  .ace_gutter {
+    display: none;
+  }
 </style>
 
 <div id="wrapper">
@@ -31,7 +31,9 @@
       <div class="row">
         <div class="col-lg-12">
           <h1 class="page-header" style="color: <%= classroom.color %>">
-            <a class="pull-right btn btn-primary" href="#">Edit
+            <a class="pull-right btn btn-primary" href="#" id="editNote">Edit
+              <%= note.name %></a>
+            <a class="pull-right btn btn-success" href="#" id="saveNote" style="margin-right: 5px;">Save
               <%= note.name %></a>
             <div class="hidden" id="classId"><%= classroom.cid %></div>
             <div class="hidden" id="noteId"><%= note.nid %></div>
@@ -87,12 +89,12 @@
 </div>
 <script charset="utf-8" src="/js/src-noconflict/ace.js" type="text/javascript"></script>
 <script>
-  var editor = ace.edit("editor");
-  editor.setTheme("ace/theme/tomorrow");
-  editor.getSession().setMode("ace/mode/markdown");
-  // editor.setGutter(false);
-  document.getElementById('editor').style.fontFamily='Roboto Mono';
-  document.getElementById('editor').style.fontSize='14px';
-  editor.setShowPrintMargin(false);
-  editor.getSession().setUseWrapMode(true);
+var editor = ace.edit("editor");
+editor.setTheme("ace/theme/tomorrow");
+editor.getSession().setMode("ace/mode/markdown");
+// editor.setGutter(false);
+document.getElementById('editor').style.fontFamily = 'Roboto Mono';
+document.getElementById('editor').style.fontSize = '14px';
+editor.setShowPrintMargin(false);
+editor.getSession().setUseWrapMode(true);
 </script>

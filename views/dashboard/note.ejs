@@ -70,7 +70,7 @@ window.onload = function() {
         </div>
         <% } else {%>
           <div class="col-lg-12">
-            <center><h1 style="margin-top: 50px; font-weight: 300;">No Tasks</h1></center>
+            <center><h1 style="margin-top: 50px; font-weight: 300;">No Notes</h1></center>
           </div>
         <% } %>
       </div>
@@ -100,7 +100,7 @@ window.onload = function() {
           <div class="hidden" id="cid"><%= classroom.cid %></div>
           <div class="form-group">
             <label for="newNoteName">New Note Name</label>
-            <input class="form-control" id="newNoteName" placeholder="Add New Note" style="border-color: <%= classroom.color %>" type="text">
+            <input class="form-control" id="newNoteName" style="border-color: <%= classroom.color %>" type="text">
           </div>
           <div class="form-group">
             <label for="newNoteDescription">Description</label>

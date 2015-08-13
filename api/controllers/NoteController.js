@@ -89,6 +89,70 @@ module.exports = {
     });
   },
 
+  updateBody: function(req, res) {
+    var post = req.body;
+    User.findOne({
+      id: req.user.id
+    }).exec(function(err, user) {
+      if (err || user == undefined) {
+        console.log("There was an error looking up the logged in user.");
+        console.log("Error = " + err);
+        console.log("Error Code 0003.0");
+        res.serverError();
+      } else {
+        Classroom.findOne({
+          cid: post.classId
+        }).exec(function(err, className) {
+          if (err || className == undefined) {
+            console.log("There was an error looking up the class.");
+            console.log("Error = " + err);
+            console.log("Error Code 00006.0");
+            res.serverError();
+          } else {
+            Note.findOne({
+              nid: post.noteId
+            }).exec(function(err, noteName) {
+              if (err || noteName == undefined) {
+                console.log("There was an error looking up the note.");
+                console.log("Error = " + err);
+                console.log("Error Code 0018.0");
+                res.serverError();
+              } else {
+                // Get current Date
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth() + 1; //January is 0!
+                var yyyy = today.getFullYear();
+                if (dd < 10) {
+                  dd = '0' + dd
+                }
+                if (mm < 10) {
+                  mm = '0' + mm
+                }
+                today = mm + '/' + dd + '/' + yyyy;
+
+                noteName.body = post.contents;
+                noteName.dateUpdated = today;
+
+                noteName.save(function(err) {
+                  if (err) {
+                    console.log("The note could not be updated with the new contents.");
+                    console.log("Error = " + err);
+                    res.serverError();
+                  } else {
+                    res.send({
+                      success: true,
+                    });
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
+    });
+  },
+
   edit: function(req, res) {
     var post = req.body;
     User.findOne({
@@ -100,7 +164,7 @@ module.exports = {
         console.log("Error Code 0003.0");
         res.serverError();
       } else {
-        Class.findOne({
+        Classroom.findOne({
           cid: post.classId
         }).exec(function(err, className) {
           if (err || className == undefined) {
