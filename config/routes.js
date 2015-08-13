@@ -107,7 +107,7 @@ module.exports.routes = {
     action: 'notes'
   },
 
-  'GET /class:className/notes/:noteID': {
+  'GET /class/:className/notes/:noteID': {
     controller: 'note',
     action: 'specificNote'
   },

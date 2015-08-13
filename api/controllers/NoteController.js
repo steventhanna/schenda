@@ -174,8 +174,15 @@ module.exports = {
         console.log("Error Code 0003.0");
         res.serverError();
       } else {
+        // Find the classroom
+        var url = req.url;
+        var array = url.split("/");
+        var classUrl = array[2];
+        var nid = array[4];
+        var index = user.classUrlNames.indexOf(classUrl);
+        var cid = user.classes[index];
         Classroom.findOne({
-          cid: post.classId
+          cid: cid
         }).exec(function(err, className) {
           if (err || className == undefined) {
             console.log("There was an error looking up the class.");
@@ -183,10 +190,6 @@ module.exports = {
             console.log("Error Code 00006.0");
             res.serverError();
           } else {
-            // Find the task from the url
-            var url = req.url;
-            var array = url.split("/");
-            var nid = array[4];
             Note.findOne({
               nid: nid
             }).exec(function(err, noteName) {
@@ -196,9 +199,9 @@ module.exports = {
                 console.log("Error Code 0018.0");
                 res.serverError();
               } else {
-                res.view('dashboard/specificNote', {
+                res.view('dashboard/noteDetails', {
                   user: user,
-                  classroom: cassName,
+                  classroom: className,
                   note: noteName,
                   currentPage: 'specificNote'
                 });
