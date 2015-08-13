@@ -153,7 +153,7 @@ module.exports = {
     });
   },
 
-  edit: function(req, res) {
+  udpate: function(req, res) {
     var post = req.body;
     User.findOne({
       id: req.user.id
@@ -164,6 +164,7 @@ module.exports = {
         console.log("Error Code 0003.0");
         res.serverError();
       } else {
+        console.log("looking up class");
         Classroom.findOne({
           cid: post.classId
         }).exec(function(err, className) {
@@ -173,6 +174,7 @@ module.exports = {
             console.log("Error Code 00006.0");
             res.serverError();
           } else {
+            console.log("looking up note");
             Note.findOne({
               nid: post.noteId
             }).exec(function(err, noteName) {
@@ -182,43 +184,40 @@ module.exports = {
                 console.log("Error Code 0018.0");
                 res.serverError();
               } else {
-                var body = post.noteBody;
-                var title = post.noteTitle;
-                var today = new Date();
-                var dd = today.getDate();
-                var mm = today.getMonth() + 1; //January is 0!
-                var yyyy = today.getFullYear();
-                if (dd < 10) {
-                  dd = '0' + dd
+                console.log("note looked up");
+                var updated = false;
+                if (post.name !== undefined && post.name !== "" && post.name !== " ") {
+                  noteName.name = post.name;
+                  updated = true;
                 }
-                if (mm < 10) {
-                  mm = '0' + mm
+                if (post.description !== undefined && post.description !== "" && post.description !== " ") {
+                  noteName.description = post.description;
+                  updated = true;
                 }
-                today = mm + '/' + dd + '/' + yyyy;
-                var updated = today;
-                var change = false;
-                if (title !== undefined && title !== "" && title !== " ") {
-                  noteName.name = name;
-                  change = true;
+                if (updated == true) {
+                  console.log("beginning save");
+                  noteName.save(function(err) {
+                    if (err) {
+                      console.log("There was an error saving the note.");
+                      res.serverError();
+                      res.send({
+                        success: false,
+                        error: true,
+                      });
+                    } else {
+                      console.log("success");
+                      res.send({
+                        success: true,
+                      });
+                    }
+                  });
+                } else {
+                  res.send({
+                    success: false,
+                    error: true,
+                    message: "No data sent",
+                  });
                 }
-                if (body !== undefined) {
-                  noteName.body = body;
-                  change = true;
-                }
-                if (change == true) {
-                  noteName.datUpdated = today;
-                }
-                noteName.save(function(err) {
-                  if (err) {
-                    console.log("The note could not be updated.");
-                    console.log("Error = " + err);
-                    res.serverError();
-                  } else {
-                    res.send({
-                      success: true
-                    });
-                  }
-                });
               }
             });
           }
