@@ -247,4 +247,40 @@ module.exports = {
       }
     });
   },
+
+  // This function handles the logic and page view requests for specific class pages
+  classHome: function(req, res) {
+    User.findOne({
+      id: req.user.id
+    }).exec(function(err, user) {
+      if (err || user == undefined) {
+        console.log("There was an error looking up the logged in user.");
+        console.log("Error = " + err);
+        console.log("Error Code 0003.0");
+        res.serverError();
+      } else {
+        var url = req.url;
+        var classnameEncoded = (url.substring('/class/'.length));
+        // console.log("CLASSNAMEENCODED: " + classnameEncoded);
+        var classroom = (decodeURI(classnameEncoded));
+        // console.log("CLASSROOMDECODED: " + classroom);
+        var id = user.classUrlNames.indexOf(classroom);
+        Classroom.findOne({
+          cid: user.classes[id]
+        }).exec(function(err, className) {
+          if (err || className == undefined) {
+            console.log("There was an error looking up the class.");
+            console.log("Error = " + err);
+            res.serverError();
+          } else {
+            res.view('dashboard/classHome', {
+              user: user,
+              classroom: className,
+              currentPage: 'classHome'
+            });
+          }
+        });
+      }
+    });
+  },
 };

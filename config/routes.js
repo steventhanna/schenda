@@ -88,12 +88,12 @@ module.exports.routes = {
   },
 
   'GET /class/:className': {
-    controller: 'user',
+    controller: 'classroom',
     action: 'classHome'
   },
 
   'GET /class/:className/tasks': {
-    controller: 'user',
+    controller: 'task',
     action: 'tasks'
   },
 
@@ -103,12 +103,17 @@ module.exports.routes = {
   },
 
   'GET /class/:className/notes': {
-    controller: 'user',
+    controller: 'note',
     action: 'notes'
   },
 
+  'GET /class:className/notes/:noteID': {
+    controller: 'note',
+    action: 'specificNote'
+  },
+
   'GET /class/:className/tasks/:taskID': {
-    controller: 'user',
+    controller: 'task',
     action: 'specificTask'
   },
 

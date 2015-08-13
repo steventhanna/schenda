@@ -48,7 +48,8 @@ module.exports = {
               name: name,
               nid: nid,
               body: body,
-              date: today
+              dateCreated: today,
+              dateUpdated: today,
             };
 
             Note.create(noteData).exec(function(err, newNote) {
@@ -77,6 +78,127 @@ module.exports = {
                       success: true
                     });
                   }
+                });
+              }
+            });
+          }
+        });
+      }
+    });
+  },
+
+  edit: function(req, res) {
+    var post = req.body;
+    User.findOne({
+      id: req.user.id
+    }).exec(function(err, user) {
+      if (err || user == undefined) {
+        console.log("There was an error looking up the logged in user.");
+        console.log("Error = " + err);
+        console.log("Error Code 0003.0");
+        res.serverError();
+      } else {
+        Class.findOne({
+          cid: post.classId
+        }).exec(function(err, className) {
+          if (err || className == undefined) {
+            console.log("There was an error looking up the class.");
+            console.log("Error = " + err);
+            console.log("Error Code 00006.0");
+            res.serverError();
+          } else {
+            Note.findOne({
+              nid: post.noteId
+            }).exec(function(err, noteName) {
+              if (err || noteName == undefined) {
+                console.log("There was an error looking up the note.");
+                console.log("Error = " + err);
+                console.log("Error Code 0018.0");
+                res.serverError();
+              } else {
+                var body = post.noteBody;
+                var title = post.noteTitle;
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth() + 1; //January is 0!
+                var yyyy = today.getFullYear();
+                if (dd < 10) {
+                  dd = '0' + dd
+                }
+                if (mm < 10) {
+                  mm = '0' + mm
+                }
+                today = mm + '/' + dd + '/' + yyyy;
+                var updated = today;
+                var change = false;
+                if (title !== undefined && title !== "" && title !== " ") {
+                  noteName.name = name;
+                  change = true;
+                }
+                if (body !== undefined) {
+                  noteName.body = body;
+                  change = true;
+                }
+                if (change == true) {
+                  noteName.datUpdated = today;
+                }
+                noteName.save(function(err) {
+                  if (err) {
+                    console.log("The note could not be updated.");
+                    console.log("Error = " + err);
+                    res.serverError();
+                  } else {
+                    res.send({
+                      success: true
+                    });
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
+    });
+  },
+
+  specificNote: function(req, res) {
+    var post = req.body;
+    User.findOne({
+      id: req.user.id
+    }).exec(function(err, user) {
+      if (err || user == undefined) {
+        console.log("There was an error looking up the logged in user.");
+        console.log("Error = " + err);
+        console.log("Error Code 0003.0");
+        res.serverError();
+      } else {
+        Classroom.findOne({
+          cid: post.classId
+        }).exec(function(err, className) {
+          if (err || className == undefined) {
+            console.log("There was an error looking up the class.");
+            console.log("Error = " + err);
+            console.log("Error Code 00006.0");
+            res.serverError();
+          } else {
+            // Find the task from the url
+            var url = req.url;
+            var array = url.split("/");
+            var nid = array[4];
+            Note.findOne({
+              nid: nid
+            }).exec(function(err, noteName) {
+              if (err || noteName == undefined) {
+                console.log("There was an error looking up the note.");
+                console.log("Error = " + err);
+                console.log("Error Code 0018.0");
+                res.serverError();
+              } else {
+                res.view('dashboard/specificNote', {
+                  user: user,
+                  classroom: cassName,
+                  note: noteName,
+                  currentPage: 'specificNote'
                 });
               }
             });
@@ -150,4 +272,75 @@ module.exports = {
     });
   },
 
+  notes: function(req, res) {
+    var post = req.body;
+    User.findOne({
+      id: req.user.id
+    }).exec(function(err, user) {
+      if (err || user == undefined) {
+        console.log("There was an error looking up the logged in user.");
+        console.log("Error = " + err);
+        console.log("Error Code 0003.0");
+        res.serverError();
+      } else {
+        var url = req.url;
+        var array = url.split("/");
+        var index = user.classUrlNames.indexOf(array[2]);
+        var cid = user.classes[index];
+        Classroom.findOne({
+          cid: cid
+        }).exec(function(err, className) {
+          if (err || className == undefined) {
+            console.log("There was an error looking up the class.");
+            console.log("Error = " + err);
+            console.log("Error Code 00006.0");
+            res.serverError();
+          } else {
+            // Gather the notes
+            var noteIdList = className.notes;
+            var fullNoteList = [];
+            if (noteIdList.length > 0) {
+              for (var i = 0; i < noteIdList.length; i++) {
+                if (fullNoteList.length == noteIdList.length) {
+                  res.view("dashboard/note", {
+                    user: user,
+                    classroom: className,
+                    notes: fullNoteList,
+                    currentPage: 'note'
+                  });
+                }
+                Note.findOne({
+                  nid: noteIdList[i]
+                }).exec(function(err, noteName) {
+                  if (err || noteName == undefined) {
+                    console.log("There was an error looking up the note.");
+                    console.log("Error = " + err);
+                    console.log("Error Code 0018.0");
+                    res.serverError();
+                  } else {
+                    fullNoteList.push(noteName);
+                    if (fullNoteList.length == noteIdList.length) {
+                      res.view("dashboard/note", {
+                        user: user,
+                        classroom: className,
+                        notes: fullNoteList,
+                        currentPage: 'note'
+                      });
+                    }
+                  }
+                });
+              }
+            } else {
+              res.view("dashboard/note", {
+                user: user,
+                classroom: className,
+                notes: null,
+                currentPage: 'note'
+              });
+            }
+          }
+        });
+      }
+    });
+  },
 };

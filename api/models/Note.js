@@ -22,7 +22,11 @@ module.exports = {
     },
 
     // MM/DD/YYYY
-    date: {
+    dateCreated: {
+      type: 'string'
+    },
+
+    dateUpdated: {
       type: 'string'
     },
   }

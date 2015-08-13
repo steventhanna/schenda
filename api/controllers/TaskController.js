@@ -202,5 +202,138 @@ module.exports = {
     });
   },
 
+  specificTask: function(req, res) {
+    var post = req.body;
+    User.findOne({
+      id: req.user.id
+    }).exec(function(err, user) {
+      if (err || user == undefined) {
+        console.log("There was an error looking up the logged in user.");
+        console.log("Error = " + err);
+        console.log("Error Code 0003.0");
+        res.serverError();
+      } else {
+        // Get the classname
+        var url = req.url;
+        var array = url.split("/");
+        var index = user.classUrlNames.indexOf(array[2]);
+        var cid = user.classes[index];
+        var tid = array[4];
+        Classroom.findOne({
+          cid: cid
+        }).exec(function(err, className) {
+          if (err || className == undefined) {
+            console.log("There was an error locating the class from the database.");
+            console.log("Error = " + err);
+            res.serverError();
+          } else {
+            Task.findOne({
+              tid: tid
+            }).exec(function(err, taskName) {
+              if (err || taskName == undefined) {
+                console.log("There was an error locating the task from the database.");
+                console.log("Error = " + err);
+                res.serverError();
+              } else {
+                res.view('dashboard/taskDetails', {
+                  user: user,
+                  classroom: className,
+                  task: taskName,
+                  currentPage: 'specificTask',
+                });
+              }
+            });
+          }
+        });
+      }
+    });
+  },
+
+  tasks: function(req, res) {
+    var post = req.body;
+    User.findOne({
+      id: req.user.id
+    }).exec(function(err, user) {
+      if (err || user == undefined) {
+        console.log("There was an error looking up the logged in user.");
+        console.log("Error = " + err);
+        console.log("Error Code 0003.0");
+        res.serverError();
+      } else {
+        // Get the cid
+        var url = req.url;
+        var array = url.split("/");
+        var index = user.classUrlNames.indexOf(array[2]);
+        var cid = user.classes[index];
+
+        console.log(cid);
+
+        // var cid = post.classId;
+        Classroom.findOne({
+          cid: cid
+        }).exec(function(err, className) {
+          if (err || className == undefined) {
+            console.log("There was an error looking up the class.");
+            res.serverError();
+          } else {
+            console.log("CLASS FOUND");
+            console.log(className.name);
+            console.log(className.tasks);
+            var taskIds = className.tasks;
+            console.log("CLASS IDS");
+            console.log(taskIds);
+            if (taskIds.length > 0) {
+              var finalTaskList = [];
+              for (var i = 0; i < taskIds.length; i++) {
+                if (finalTaskList.length == taskIds.length) {
+                  res.view('dashboard/tasks', {
+                    user: user,
+                    classroom: className,
+                    tasks: null,
+                    currentPage: 'tasks'
+                  });
+                } else {
+                  console.log("FINAL: " + finalTaskList.length);
+                  console.log("TID LIST: " + taskIds.length);
+                  console.log(finalTaskList);
+
+                  Task.findOne({
+                    tid: taskIds[i]
+                  }).exec(function(err, taskName) {
+                    if (err || taskName == undefined) {
+                      console.log("There was an error lookign up the task.");
+                      res.serverError();
+                    } else {
+                      console.log(taskName);
+                      finalTaskList.push(taskName);
+                      console.log("FINAL: " + finalTaskList.length);
+                      console.log("TID LIST: " + taskIds.length);
+                      if (finalTaskList.length == taskIds.length) {
+                        res.view('dashboard/tasks', {
+                          user: user,
+                          classroom: className,
+                          tasks: finalTaskList,
+                          currentPage: 'tasks'
+                        });
+                      }
+                    }
+                  });
+                  console.log(finalTaskList);
+                }
+              }
+            } else {
+              res.view('dashboard/tasks', {
+                user: user,
+                classroom: className,
+                tasks: finalTaskList,
+                currentPage: 'tasks'
+              });
+            }
+          }
+        });
+      }
+    });
+  },
+
 
 }; // Deterine what has changed
