@@ -147,6 +147,11 @@ module.exports.routes = {
     action: 'updateInfo'
   },
 
+  'POST /project/new': {
+    controller: 'project',
+    action: 'new',
+  }
+
 
 
   /***************************************************************************

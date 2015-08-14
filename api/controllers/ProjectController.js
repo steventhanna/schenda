@@ -44,9 +44,19 @@ module.exports = {
                 console.log("Error = " + err);
                 res.serverError();
               } else {
-                res.send({
-                  success: true
-                });
+                className.projects[className.projects.length] = newProject.pid;
+                className.save(function(err) {
+                  if (err) {
+                    console.log("There was an error saving the classroom.");
+                    res.serverError();
+                  } else {
+                    console.log("THE PROJECT WAS CREATED.");
+                    console.log(newProject);
+                    res.send({
+                      success: true
+                    });
+                  }
+                })
               }
             });
           }
@@ -81,8 +91,10 @@ module.exports = {
           } else {
             // Find all projects and send to page
             if (className.projects.length == 0) {
-              res.view('dashboard/projectHome', {
+              console.log("NO PROJECTS");
+              res.view('dashboard/project', {
                 user: user,
+                currentPage: 'project',
                 classroom: className,
                 projects: undefined
               });
@@ -90,20 +102,26 @@ module.exports = {
               var projectIdList = className.projects;
               var fullProjectList = [];
               if (fullProjectList.length == projectIdList.length) {
-                res.view('dashboard/projectHome', {
+                console.log("LISTS EQUAL");
+                res.view('dashboard/project', {
                   user: user,
+                  currentPage: 'project',
                   classroom: className,
                   projects: fullProjectList
                 });
               } else {
+                console.log("ENTER FOR LOOP");
                 for (var i = 0; i < projectIdList.length; i++) {
                   if (fullProjectList.length == projectIdList.length) {
-                    res.view('dashboard/projectHome', {
+                    console.log("LISTS EQUAL IN FOR LOOP");
+                    res.view('dashboard/project', {
                       user: user,
+                      currentPage: 'project',
                       classroom: className,
                       projects: fullProjectList
                     });
                   } else {
+                    console.log("LOOK UP PROJECT IN FOR LOOP");
                     Project.findOne({
                       pid: projectIdList[i]
                     }).exec(function(err, projectName) {
@@ -112,10 +130,13 @@ module.exports = {
                         console.log("Error = " + err);
                         res.serverError();
                       } else {
+                        console.log("LOOPED UP PROJECT");
                         fullProjectList[i] = projectName;
                         if (fullProjectList.length == projectIdList.length) {
-                          res.view('dashboard/projectHome', {
+                          console.log("LISTS EQUAL IN LOOK UP");
+                          res.view('dashboard/project', {
                             user: user,
+                            currentPage: 'project',
                             classroom: className,
                             projects: fullProjectList
                           });
@@ -131,5 +152,4 @@ module.exports = {
       }
     });
   },
-
 };
