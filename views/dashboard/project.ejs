@@ -51,7 +51,6 @@ window.onload = function() {
         <div class="row">
           <div class="col-lg-8">
             <% for (var i = 0; i < projects.length; i++) { %>
-              <% if (projects[i].status == "incomplete") { %>
                 <div class="task">
                   <div class="title">
                     <a href="/class/<%= classroom.urlName %>/projects/<%= projects[i].pid %>"> <%= projects[i].name %></a>
@@ -59,10 +58,7 @@ window.onload = function() {
                     <span class="date">
                         <%= projects[i].duedate %>
                     </span>
-                    <% } %>
                   </div>
-
-
                   <!-- TODO :: This is not operating correctly -->
                   <div class="description">
                     <% if (projects[i].description == "") { %>
