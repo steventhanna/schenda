@@ -89,4 +89,49 @@ $(document).ready(function() {
       swal("Uh-Oh", "Please make your changes above.", "error");
     }
   });
+
+  $("#deleteNoteButton").click(function() {
+    var cid = document.getElementById('classId').innerHTML;
+    var nid = document.getElementById('noteId').innerHTML;
+
+    var postObj = {
+      classId: cid,
+      noteId: nid
+    };
+
+    swal({
+      title: "Are you sure?",
+      text: "You will not be able to recover this note!",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#2cc36b",
+      showLoaderOnConfirm: true,
+      confirmButtonText: "Yes, delete it!",
+      closeOnConfirm: false,
+    }, function() {
+      $.ajax({
+        type: 'POST',
+        url: '/note/remove',
+        data: postObj,
+        success: function(data) {
+          if (data.success) {
+            swal({
+              title: "Deleted!",
+              text: "The note has been deleted.",
+              type: "success",
+              confirmButtonText: "OK",
+            }, function() {
+              var url = "/class/" + data.urlName + "/notes";
+              window.location.href = url;
+            });
+          } else {
+            swal("Uh-oh!", "There was an error deleting the class.", "error");
+          }
+        },
+        error: function(data) {
+          swal("Uh-oh!", "There was an error deleting the class.", "error");
+        }
+      });
+    });
+  });
 });

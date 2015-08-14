@@ -274,7 +274,6 @@ module.exports = {
 
   remove: function(req, res) {
     var post = req.body;
-
     User.findOne({
       id: req.user.id
     }).exec(function(err, user) {
@@ -296,13 +295,16 @@ module.exports = {
           } else {
             // Find location of note in array
             var id = post.noteId;
-            var index = user.classes.notes.indexOf(id);
+            // console.log(id);
+            var index = className.notes.indexOf(id);
             // Update the user
+            // console.log(index);
             if (index > -1) {
-              user.classes.notes.splice(index, 1);
+              className.notes.splice(index, 1);
+              // console.log("SPLICE");
             }
             // Save the user
-            user.save(function(err) {
+            className.save(function(err) {
               if (err) {
                 console.log("There was an error saving the user after updating the note array.");
                 console.log("Error = " + err);
@@ -314,7 +316,7 @@ module.exports = {
               } else {
                 // Destroy the note
                 Note.destroy({
-                  id: post.noteId
+                  nid: post.noteId
                 }).exec(function(err) {
                   if (err) {
                     console.log("The note could not be destroyed from the database.")
@@ -323,7 +325,8 @@ module.exports = {
                     res.serverError();
                   } else {
                     res.send({
-                      success: true
+                      success: true,
+                      urlName: className.urlName,
                     });
                   }
                 });
@@ -363,6 +366,8 @@ module.exports = {
             // Gather the notes
             var noteIdList = className.notes;
             var fullNoteList = [];
+            console.log(noteIdList.length);
+            console.log(noteIdList);
             if (noteIdList.length > 0) {
               for (var i = 0; i < noteIdList.length; i++) {
                 if (fullNoteList.length == noteIdList.length) {

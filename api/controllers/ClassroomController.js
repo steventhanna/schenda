@@ -125,7 +125,7 @@ module.exports = {
                 console.log("Error Code 0005.0");
               } else {
                 Classroom.destroy({
-                  id: post.classId
+                  cid: post.classId
                 }).exec(function(err) {
                   if (err) {
                     console.log("The class could not be destroyed from the database.");
