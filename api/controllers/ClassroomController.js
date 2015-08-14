@@ -157,6 +157,81 @@ module.exports = {
         console.log("Error Code 0003.0");
         res.serverError();
       } else {
+        Classroom.findOne({
+          cid: post.classId
+        }).exec(function(err, className) {
+          if (err || className == undefined) {
+            console.log("There was an error looking up the class.");
+            console.log("Error = " + err);
+            console.log("Error Code 00006.0");
+            res.serverError();
+          } else {
+            // Find the cid index
+            var index = user.classes.indexOf(post.classId);
+            if (post.name !== undefined && post.name !== "") {
+              // Check to see if the class name already exists.
+              var existance = false;
+              // Create  the url Name
+              var url = post.name.split(' ').join('-');
+              for (var i = 0; i < user.urlNames.length; i++) {
+                if (url === user.urlNames[i]) {
+                  existance = true;
+                }
+              }
+              if (existance == true) {
+                res.send({
+                  success: false,
+                  error: true,
+                  message: "The classname already exists"
+                });
+              } else {
+                className.name = post.name;
+                user.classUrlNames[index] = url;
+                className.urlName = url;
+              }
+            }
+            if (post.color !== undefined && post.color !== "") {
+              className.color = post.color;
+            }
+            // Save everything
+            user.save(function(err) {
+              if (err) {
+                console.log("The user could not be saved.");
+                console.log("Error = " + err);
+                res.serverError();
+              } else {
+                className.save(function(err) {
+                  if (err) {
+                    console.log("The classroom could not be saved.");
+                    console.log("Error = " + err);
+                    res.serverError();
+                  } else {
+                    res.send({
+                      success: true,
+                      error: false,
+                      updatedUrl: url
+                    });
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
+    });
+  },
+
+  update: function(req, res) {
+    var post = req.body;
+    User.findOne({
+      id: req.user.id
+    }).exec(function(err, user) {
+      if (err || user == undefined) {
+        console.log("There was an error looking up the logged in user.");
+        console.log("Error = " + err);
+        console.log("Error Code 0003.0");
+        res.serverError();
+      } else {
         // Find out what has been altered
         var classId = post.cid; // This must be present
         var name = post.name;

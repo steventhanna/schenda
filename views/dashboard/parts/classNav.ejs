@@ -87,6 +87,7 @@ window.onload = function() {
       <li <% if (currentPage == "projects") { %> class="active"<% } %>>
         <a href="/class/<%= classroom.urlName %>/projects">
           <i style="color: #9b59b6;" class="fa fa-fw fa-folder"></i>Projects
+          <span class="pull-right badge" style="background-color: #9b59b6;"><%= classroom.projects.length %></span>
         </a>
       </li>
       <li <% if (currentPage == "note") { %> class="active"<% } %>>
