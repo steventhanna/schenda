@@ -18,6 +18,10 @@ module.exports = {
       type: 'string'
     },
 
+    description: {
+      type: 'string'
+    },
+
     // MM/DD/YY
     dueDate: {
       type: 'string',

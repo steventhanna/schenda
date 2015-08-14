@@ -92,14 +92,14 @@ module.exports.routes = {
     action: 'classHome'
   },
 
+  'GET /class/:className/projects': {
+    controller: 'project',
+    action: 'projects'
+  },
+
   'GET /class/:className/tasks': {
     controller: 'task',
     action: 'tasks'
-  },
-
-  'GET /class/:className/projects': {
-    controller: 'user',
-    action: 'projects'
   },
 
   'GET /class/:className/notes': {
@@ -146,6 +146,7 @@ module.exports.routes = {
     controller: 'note',
     action: 'updateInfo'
   },
+
 
 
   /***************************************************************************
