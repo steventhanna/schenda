@@ -38,8 +38,10 @@
             <div class="hidden" id="classId"><%= classroom.cid %></div>
             <div class="hidden" id="noteId"><%= note.nid %></div>
             <%= note.name %>
-            <small>-
-              <%= note.description %></small>
+            <% if (note.description !== "" && note.description !== undefined) { %>
+              <small>-
+                <%= note.description %></small>
+            <% } %>
           </h1>
         </div>
       </div>

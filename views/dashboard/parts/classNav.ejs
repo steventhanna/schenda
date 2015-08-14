@@ -81,6 +81,7 @@ window.onload = function() {
       <li <% if (currentPage == "tasks") { %> class="active"<% } %>>
         <a href="/class/<%= classroom.urlName %>/tasks">
           <i style="color: #16a085;"class="fa fa-fw fa-check"></i>Tasks
+          <span class="pull-right badge" style="background-color: #16a085;"><%= classroom.tasks.length %></span>
         </a>
       </li>
       <li <% if (currentPage == "projects") { %> class="active"<% } %>>
@@ -91,6 +92,7 @@ window.onload = function() {
       <li <% if (currentPage == "note") { %> class="active"<% } %>>
         <a href="/class/<%= classroom.urlName %>/notes">
           <i style="color: #3498db;" class="fa fa-fw fa-sticky-note"></i>Notes
+          <span class="pull-right badge" style="background-color: #3498db;"><%= classroom.notes.length %></span>
         </a>
       </li>
     </ul>
