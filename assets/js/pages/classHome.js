@@ -45,7 +45,7 @@ $(document).ready(function() {
     var name = $("#className").val();
     var color = $("#color").val();
     var postObj = {
-      cid: cid,
+      classId: cid,
     };
     if (name !== undefined && name !== null && name !== " " && name !== "") {
       postObj.name = name;
@@ -59,7 +59,6 @@ $(document).ready(function() {
         return;
       }
     }
-
     $.ajax({
       type: 'POST',
       url: '/class/update',
@@ -73,9 +72,10 @@ $(document).ready(function() {
             showConfirmButton: true,
             showCancelButton: false,
           }, function() {
-            console.log(updatedUrl)
-            if (data.updatedUrl == true) {
-              window.location.href = '/class/' + data.url;
+            if (data.updatedUrl !== undefined) {
+              window.location.href = '/class/' + data.updatedUrl;
+            } else {
+              location.reload();
             }
           });
         } else {

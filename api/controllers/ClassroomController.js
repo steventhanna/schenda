@@ -173,11 +173,12 @@ module.exports = {
               var existance = false;
               // Create  the url Name
               var url = post.name.split(' ').join('-');
-              for (var i = 0; i < user.urlNames.length; i++) {
-                if (url === user.urlNames[i]) {
+              for (var i = 0; i < user.classUrlNames.length; i++) {
+                if (url === user.classUrlNames[i]) {
                   existance = true;
                 }
               }
+
               if (existance == true) {
                 res.send({
                   success: false,
@@ -189,8 +190,9 @@ module.exports = {
                 user.classUrlNames[index] = url;
                 className.urlName = url;
               }
+
             }
-            if (post.color !== undefined && post.color !== "") {
+            if (post.color !== undefined) {
               className.color = post.color;
             }
             // Save everything
@@ -217,108 +219,6 @@ module.exports = {
             });
           }
         });
-      }
-    });
-  },
-
-  update: function(req, res) {
-    var post = req.body;
-    User.findOne({
-      id: req.user.id
-    }).exec(function(err, user) {
-      if (err || user == undefined) {
-        console.log("There was an error looking up the logged in user.");
-        console.log("Error = " + err);
-        console.log("Error Code 0003.0");
-        res.serverError();
-      } else {
-        // Find out what has been altered
-        var classId = post.cid; // This must be present
-        var name = post.name;
-        var color = post.color;
-        if (name !== undefined && name !== null) {
-          var urlname = name.split(' ').join('-');
-        }
-
-        console.log(color);
-        console.log(name);
-        // No data sent
-        if (name == undefined && color == undefined) {
-          console.log("No data sent to be updated");
-          res.send({
-            success: false,
-            message: "No data sent."
-          });
-        } else {
-          // Look through db and see if that name already exists
-          var counter = 0;
-          var there = false;
-          if (urlname !== undefined) {
-            while (counter < user.classUrlNames) {
-              if (urlname === user.classUrlNames[counter]) {
-                there = true;
-                break;
-              } else {
-                counter++;
-              }
-            }
-            if (there == true) {
-              console.log("Name already exists.");
-              res.send({
-                success: false,
-                error: true,
-              });
-            }
-          }
-
-          Classroom.findOne({
-            cid: classId
-          }).exec(function(err, className) {
-            if (err || className == undefined) {
-              console.log("There was an error looking up the class.");
-              console.log("Error = " + err);
-              console.log("Error Code 00006.0");
-              res.serverError();
-            } else {
-              var updatedUrl = false;
-              if (name !== undefined) {
-                className.name = name;
-                className.urlName = urlname;
-                user.classUrlNames = urlname;
-                updatedUrl = true;
-              }
-              if (color !== undefined || color !== " ") {
-                className.color == color;
-              }
-              user.save(function(err) {
-                if (err) {
-                  console.log("There was an error updating the class information on the user.");
-                  console.log("Error = " + err);
-                  console.log("Error Code 00007.0");
-                  res.serverError();
-                } else {
-                  className.save(function(err) {
-                    if (err) {
-                      console.log("There was an error updating the class information.");
-                      console.log("Error = " + err);
-                      console.log("Error Code 00007.0");
-                      res.serverError();
-                    } else {
-                      // if (updatedUrl == true) {
-                      //   res.redirect('/class/' + className.urlName);
-                      // }
-                      res.send({
-                        success: true,
-                        updatedUrl: updatedUrl,
-                        url: className.urlName,
-                      });
-                    }
-                  });
-                }
-              });
-            }
-          });
-        }
       }
     });
   },
