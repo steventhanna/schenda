@@ -153,7 +153,7 @@ module.exports = {
     });
   },
 
-  udpate: function(req, res) {
+  updateInfo: function(req, res) {
     var post = req.body;
     User.findOne({
       id: req.user.id
@@ -164,7 +164,6 @@ module.exports = {
         console.log("Error Code 0003.0");
         res.serverError();
       } else {
-        console.log("looking up class");
         Classroom.findOne({
           cid: post.classId
         }).exec(function(err, className) {
@@ -174,7 +173,6 @@ module.exports = {
             console.log("Error Code 00006.0");
             res.serverError();
           } else {
-            console.log("looking up note");
             Note.findOne({
               nid: post.noteId
             }).exec(function(err, noteName) {
@@ -184,7 +182,6 @@ module.exports = {
                 console.log("Error Code 0018.0");
                 res.serverError();
               } else {
-                console.log("note looked up");
                 var updated = false;
                 if (post.name !== undefined && post.name !== "" && post.name !== " ") {
                   noteName.name = post.name;
@@ -195,7 +192,6 @@ module.exports = {
                   updated = true;
                 }
                 if (updated == true) {
-                  console.log("beginning save");
                   noteName.save(function(err) {
                     if (err) {
                       console.log("There was an error saving the note.");
@@ -206,7 +202,6 @@ module.exports = {
                         message: "Error saving note"
                       });
                     } else {
-                      console.log("success");
                       res.send({
                         success: true,
                       });

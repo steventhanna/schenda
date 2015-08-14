@@ -37,12 +37,11 @@ $(document).ready(function() {
 
   $("#editNoteButton").click(function() {
     var name = $("#editName").val();
-    try {
-      var description = document.getElementById('noteDescription').innerHTML;
-      console.log(description);
-    } catch (e) {
-      console.log(e);
-    }
+    // var description = document.getElementById('editDescription').innerHTML;
+    var description = document.getElementById("editDescription").value;
+    // var note = document.getElementById('newNote').innerHTML;
+    // console.log(description);
+    // alert(description);
     var cid = document.getElementById('classId').innerHTML;
     var nid = document.getElementById('noteId').innerHTML;
 

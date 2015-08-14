@@ -144,7 +144,7 @@ module.exports.routes = {
 
   'POST /note/update': {
     controller: 'note',
-    action: 'update'
+    action: 'updateInfo'
   },
 
 
