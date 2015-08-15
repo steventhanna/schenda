@@ -87,7 +87,6 @@ module.exports = {
 
   remove: function(req, res) {
     var post = req.body;
-
     // Find the user on the db
     User.findOne({
       id: req.user.id
@@ -107,34 +106,30 @@ module.exports = {
             console.log("Error Code 00006.0");
             res.serverError();
           } else {
-            // Find location of class in array
-            var id = post.classId;
-            var index = user.classes.indexOf(id);
-            if (index > -1) {
-              user.classes.splice(index, 1);
-              user.classUrlNames.splice(index, 1);
-            }
 
-
-            // Update the user
-            // Save the user
-            user.save(function(err) {
+            Classroom.destroy({
+              cid: post.classId
+            }).exec(function(err) {
               if (err) {
-                console.log("There was an error saving the user after updating the class array.");
+                console.log("There was an error deleting the classroom.");
                 console.log("Error = " + err);
-                console.log("Error Code 0005.0");
+                res.serverError();
               } else {
-                Classroom.destroy({
-                  cid: post.classId
-                }).exec(function(err) {
+                var id = post.classId;
+                var index = user.classes.indexOf(id);
+                if (index > -1) {
+                  user.classes.splice(index, 1);
+                  user.classUrlNames.splice(index, 1);
+                }
+                user.save(function(err) {
                   if (err) {
-                    console.log("The class could not be destroyed from the database.");
+                    console.log("There was an error saving the user after updating the class array.");
                     console.log("Error = " + err);
-                    console.log("Error Code 0007.0");
+                    console.log("Error Code 0005.0");
                     res.serverError();
                   } else {
                     res.send({
-                      success: true
+                      success: true,
                     });
                   }
                 });
