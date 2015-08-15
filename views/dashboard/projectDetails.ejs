@@ -55,7 +55,7 @@ window.onload = function() {
               <% if (tasks[i].status == "incomplete") { %>
                 <div class="task">
                   <div class="title">
-                    <a href="/class/<%= classroom.urlName %>/tasks/<%= tasks[i].tid %>"> <%= tasks[i].name %></a>
+                    <a href="/class/<%= classroom.urlName %>/projects/<%= project.pid %>/<%= tasks[i].tid %>"> <%= tasks[i].name %></a>
                     <% if (tasks[i].duedate !== undefined) { %>
                     <span class="date">
                         <%= tasks[i].duedate %>

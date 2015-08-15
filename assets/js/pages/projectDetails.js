@@ -33,6 +33,7 @@ $(document).ready(function() {
     var name = $("#newTaskName").val();
     var note = document.getElementById('newNote').innerHTML;
     var cid = document.getElementById('classId').innerHTML;
+    var pid = document.getElementById('projectId').innerHTML;
     // var duedate = document.getElementById('date').innerHTML;
     var duedate = $("#date").val();
     if (name == undefined) {
@@ -40,6 +41,7 @@ $(document).ready(function() {
     } else {
       var postObj = {
         classId: cid,
+        projectId: pid,
         name: name,
         note: note,
         duedate: duedate
@@ -47,7 +49,7 @@ $(document).ready(function() {
       console.log("postOBj " + postObj.duedate);
       $.ajax({
         type: 'POST',
-        url: '/task/new',
+        url: '/project/addTask',
         data: postObj,
         success: function(data) {
           console.log(data);

@@ -190,13 +190,53 @@ module.exports = {
                 console.log("Error = " + err);
                 res.serverError();
               } else {
-                res.view('dashboard/projectDetails', {
-                  user: user,
-                  classroom: className,
-                  project: projectName,
-                  tasks: projectName.tasks,
-                  currentPage: 'specificProject'
-                });
+                // Look up all the tasks
+                var taskList = projectName.tasks;
+                var fullTaskList = [];
+                if (taskList.length != fullTaskList.length) {
+                  for (var i = 0; i < taskList.length; i++) {
+                    if (taskList.length == fullTaskList.length) {
+                      res.view('dashboard/projectDetails', {
+                        user: user,
+                        classroom: className,
+                        project: projectName,
+                        tasks: fullTaskList,
+                        currentPage: 'specificProject'
+                      });
+                    } else {
+                      Task.findOne({
+                        tid: taskList[i]
+                      }).exec(function(err, taskName) {
+                        if (err || taskName == undefined) {
+                          console.log("There was an error looking up the task name.");
+                          console.log("Error = " + err);
+                          res.serverError();
+                        } else {
+                          fullTaskList[fullTaskList.length] = taskName;
+                          if (taskList.length == fullTaskList.length) {
+                            res.view('dashboard/projectDetails', {
+                              user: user,
+                              classroom: className,
+                              project: projectName,
+                              tasks: fullTaskList,
+                              currentPage: 'specificProject'
+                            });
+                          }
+                        }
+                      });
+                    }
+                  }
+                } else {
+                  if (taskList.length == fullTaskList.length) {
+                    res.view('dashboard/projectDetails', {
+                      user: user,
+                      classroom: className,
+                      project: projectName,
+                      tasks: fullTaskList,
+                      currentPage: 'specificProject'
+                    });
+                  }
+                }
               }
             });
           }
@@ -313,8 +353,8 @@ module.exports = {
                     console.log("Error = " + err);
                     res.serverError();
                   } else {
-                    projectName.projects[projectName.projects.length] = newTask.tid;
-                    projectName.save().exec(function(err) {
+                    projectName.tasks[projectName.tasks.length] = newTask.tid;
+                    projectName.save(function(err) {
                       if (err) {
                         console.log("There was an error saving the project.");
                         console.log("Error = " + err);

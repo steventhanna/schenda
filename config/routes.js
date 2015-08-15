@@ -162,6 +162,11 @@ module.exports.routes = {
     action: 'specificProject'
   },
 
+  'POST /project/addTask': {
+    controller: 'project',
+    action: 'addTask',
+  },
+
 
 
   /***************************************************************************
