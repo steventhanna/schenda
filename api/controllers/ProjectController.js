@@ -268,4 +268,70 @@ module.exports = {
       }
     });
   },
+
+  addTask: function(req, res) {
+    var post = req.body;
+    User.findOne({
+      id: req.user.id
+    }).exec(function(err, user) {
+      if (err || user == undefined) {
+        console.log("There was an error looking up the logged in user.");
+        console.log("Error = " + err);
+        console.log("Error Code 0003.0");
+        res.serverError();
+      } else {
+        Classroom.findOne({
+          cid: post.classId
+        }).exec(function(err, className) {
+          if (err || className == undefined) {
+            console.log("There was an error looking up the classroom.");
+            console.log("Error = " + err);
+            res.serverError();
+          } else {
+            Project.findOne({
+              pid: post.projectId
+            }).exec(function(err, projectName) {
+              if (err || projectName == undefined) {
+                console.log("There was an error looking up the project.");
+                console.log("Error = " + err);
+                res.serverError();
+              } else {
+                var name = post.name;
+                var note = post.note;
+                var duedate = post.duedate;
+                var tid = Math.floor(Math.random() * 1000000000000000000000);
+                var taskData = {
+                  tid: tid,
+                  name: name,
+                  note: note,
+                  duedate: duedate,
+                  status: 'incomplete',
+                };
+                Task.create(taskData).exec(function(err, newTask) {
+                  if (err || newTask == undefined) {
+                    console.log("There was an error creating the new task.");
+                    console.log("Error = " + err);
+                    res.serverError();
+                  } else {
+                    projectName.projects[projectName.projects.length] = newTask.tid;
+                    projectName.save().exec(function(err) {
+                      if (err) {
+                        console.log("There was an error saving the project.");
+                        console.log("Error = " + err);
+                        res.serverError();
+                      } else {
+                        res.send({
+                          success: true,
+                        });
+                      }
+                    });
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
+    });
+  },
 };
