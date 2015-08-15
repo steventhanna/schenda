@@ -1,7 +1,7 @@
 <!-- Load dependencies -->
 <% include parts/dependencies.ejs %>
 <!-- Load navbar -->
-<script src="/js/pages/projecDetails.js"></script>
+<script src="/js/pages/projectDetails.js"></script>
 
 <script>
 window.onload = function() {
@@ -33,6 +33,7 @@ window.onload = function() {
   <div id="page-wrapper">
     <div class="container-fluid">
       <div class="hidden" id="classId"><%= classroom.cid %></div>
+      <div class="hidden" id="projectId"><%= project.pid %></div>
 <!-- Page Heading -->
       <div class="row">
         <div class="col-lg-12">
@@ -155,7 +156,7 @@ window.onload = function() {
         </form>
       </div>
       <div class="modal-footer">
-        <a href="#" class="pull-left btn btn-danger" id="deleteProject">Delete <%= project.name %></a>
+        <a href="#" class="pull-left btn btn-danger" id="removeProject">Delete <%= project.name %></a>
         <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
         <a class="btn btn-primary" href="#" id="addTaskButton">Add Task</a>
       </div>

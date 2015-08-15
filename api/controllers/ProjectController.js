@@ -207,6 +207,7 @@ module.exports = {
 
   remove: function(req, res) {
     var post = req.body;
+    var url = req.url;
     User.findOne({
       id: req.user.id
     }).exec(function(err, user) {
@@ -230,7 +231,7 @@ module.exports = {
               if (err || projectName == undefined) {
                 console.log("There was an error looking up the project.");
                 console.log("Error = " + err);
-                res.serverError():
+                res.serverError();
               } else {
                 // Delete the project
                 // remove from classroom
@@ -250,10 +251,11 @@ module.exports = {
                       if (err) {
                         console.log("There was an error saving the classroom.");
                         console.log("Error = " + err);
-                        res.serverError():
+                        res.serverError();
                       } else {
                         res.send({
-                          success: true
+                          success: true,
+                          url: '/class/' + className.urlName + '/projects'
                         });
                       }
                     });

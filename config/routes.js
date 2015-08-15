@@ -152,6 +152,11 @@ module.exports.routes = {
     action: 'new',
   },
 
+  'POST /project/remove': {
+    controller: 'project',
+    action: 'remove'
+  },
+
   'GET /class/:className/projects/:projectID': {
     controller: 'project',
     action: 'specificProject'
