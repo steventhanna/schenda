@@ -150,7 +150,12 @@ module.exports.routes = {
   'POST /project/new': {
     controller: 'project',
     action: 'new',
-  }
+  },
+
+  'GET /class/:className/projects/:projectID': {
+    controller: 'project',
+    action: 'specificProject'
+  },
 
 
 

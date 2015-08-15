@@ -155,4 +155,53 @@ module.exports = {
       }
     });
   },
+
+  specificProject: function(req, res) {
+    var post = req.body;
+    User.findOne({
+      id: req.user.id
+    }).exec(function(err, user) {
+      if (err || user == undefined) {
+        console.log("There was an error looking up the logged in user.");
+        console.log("Error = " + err);
+        console.log("Error Code 0003.0");
+        res.serverError();
+      } else {
+        // Find the project
+        var url = req.url;
+        var array = url.split("/");
+        var classUrl = array[2];
+        var projectId = array[4];
+        var index = user.classUrlNames.indexOf(classUrl);
+        var cid = user.classes[index];
+        Classroom.findOne({
+          cid: cid
+        }).exec(function(err, className) {
+          if (err || className == undefined) {
+            console.log("There was an error looking up the class.");
+            console.log("Error = " + err);
+            res.serverError();
+          } else {
+            Project.findOne({
+              pid: projectId
+            }).exec(function(err, projectName) {
+              if (err || projectName == undefined) {
+                console.log("There was an error looking up the project.");
+                console.log("Error = " + err);
+                res.serverError();
+              } else {
+                res.view('dashboard/projectDetails', {
+                  user: user,
+                  classroom: className,
+                  project: projectName,
+                  tasks: projectName.tasks,
+                  currentPage: 'specificProject'
+                });
+              }
+            });
+          }
+        });
+      }
+    });
+  },
 };
