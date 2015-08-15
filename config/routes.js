@@ -167,6 +167,11 @@ module.exports.routes = {
     action: 'addTask',
   },
 
+  'GET /class/:className/projects/:projectID/:taskID': {
+    controller: 'project',
+    action: 'specificTask'
+  },
+
 
 
   /***************************************************************************

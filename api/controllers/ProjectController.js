@@ -374,4 +374,63 @@ module.exports = {
       }
     });
   },
+
+  specificTask: function(req, res) {
+    var post = req.body;
+    var url = req.url;
+    User.findOne({
+      id: req.user.id
+    }).exec(function(err, user) {
+      if (err || user == undefined) {
+        console.log("There was an error looking up the logged in user.");
+        console.log("Error = " + err);
+        console.log("Error Code 0003.0");
+        res.serverError();
+      } else {
+        var array = url.split("/");
+        var classUrlName = array[2];
+        var index = user.classUrlNames.indexOf(classUrlName);
+        var cid = user.classes[index];
+        var pid = array[4];
+        var tid = array[5];
+        Classroom.findOne({
+          cid: cid
+        }).exec(function(err, className) {
+          if (err || className == undefined) {
+            console.log("There was an error looking up the class.");
+            console.log("Error = " + err);
+            res.serverError();
+          } else {
+            Project.findOne({
+              pid: pid
+            }).exec(function(err, projectName) {
+              if (err || projectName == undefined) {
+                console.log("There was an error looking up the project.");
+                console.log("Error = " + err);
+                res.serverError();
+              } else {
+                Task.findOne({
+                  tid: tid
+                }).exec(function(err, taskName) {
+                  if (err || taskName == undefined) {
+                    console.log("There was an error looking up the task.");
+                    console.log("Error = " + err);
+                    res.serverError();
+                  } else {
+                    res.view('dashboard/projectTaskDetails', {
+                      user: user,
+                      classroom: className,
+                      project: projectName,
+                      task: taskName,
+                      currentPage: 'taskDetails'
+                    });
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
+    });
+  },
 };
