@@ -2,10 +2,10 @@ $(document).ready(function() {
   $("#addProjectButton").click(function() {
     // var cid = $('#classId').val();
     var name = $("#newProjectName").val();
-    var note = document.getElementById('newDescription').innerHTML;
+    var note = document.getElementById('newDescription').value;
     var cid = document.getElementById('classId').innerHTML;
     // var duedate = document.getElementById('date').innerHTML;
-    var duedate = $("#date").val();
+    var duedate = document.getElementById('date').innerHTML;
     if (name == undefined) {
       swal("Uh-oh", "Please include a project name.", "error");
     } else {
