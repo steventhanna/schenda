@@ -2,10 +2,11 @@ $(document).ready(function() {
   $("#addTaskButton").click(function() {
     // var cid = $('#classId').val();
     var name = $("#newTaskName").val();
-    var note = document.getElementById('newNote').innerHTML;
+    var note = document.getElementById('newNote').value;
     var cid = document.getElementById('classId').innerHTML;
-    // var duedate = document.getElementById('date').innerHTML;
-    var duedate = $("#date").val();
+    var duedate = document.getElementById('date').innerHTML;
+    // var duedate = $("#date").val();
+    alert(note + duedate);
     if (name == undefined) {
       swal("Uh-oh", "Please include a task name.", "error");
     } else {
@@ -15,7 +16,7 @@ $(document).ready(function() {
         note: note,
         duedate: duedate
       };
-      console.log("postOBj " + postObj.duedate);
+      console.log("postOBj " + postObj);
       $.ajax({
         type: 'POST',
         url: '/task/new',

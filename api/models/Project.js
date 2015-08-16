@@ -18,6 +18,10 @@ module.exports = {
       type: 'string'
     },
 
+    status: {
+      type: 'string',
+    },
+
     description: {
       type: 'string'
     },

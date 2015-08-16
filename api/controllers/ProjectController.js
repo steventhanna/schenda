@@ -31,11 +31,13 @@ module.exports = {
             var tasks = [];
             var duedate = post.duedate;
             var description = post.description;
+            var status = "incomplete";
             var projectData = {
               pid: pid,
               name: name,
               tasks: tasks,
               duedate: duedate,
+              status: status,
               description: description
             };
             Project.create(projectData).exec(function(err, newProject) {
