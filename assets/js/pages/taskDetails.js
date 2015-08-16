@@ -24,6 +24,48 @@ $(document).ready(function() {
     });
   });
 
+  $("#deleteTaskButton").click(function() {
+    var cid = document.getElementById('classId').innerHTML;
+    var tid = document.getElementById('taskId').innerHTML;
+    var returnUrl = document.getElementById('returnURL').innerHTML;
+    var postObj = {
+      tid: tid,
+      cid: cid,
+    };
+    swal({
+      type: 'warning',
+      title: 'Are you sure?',
+      text: 'This task can not be recovered once deleted.',
+      showCancelButton: true,
+      closeOnCancel: true,
+      showConfirmButton: true,
+      showLoaderOnConfirm: true,
+    }, function() {
+      $.ajax({
+        type: 'POST',
+        url: 'task/remove',
+        data: postObj,
+        success: function(data) {
+          if (data.success == true) {
+            swal({
+              type: 'success',
+              title: 'Success!',
+              text: 'The task has successfully been deleted.',
+              showCancelButton: false
+            }, function() {
+              window.location.href = data.url
+            });
+          } else {
+            swal("Uh-Oh!", "There was an error deleting the task.", "error");
+          }
+        },
+        error: function(data) {
+          swal("Uh-Oh!", "There was an error deleting the task.", "error");
+        },
+      });
+    });
+  });
+
   $("#addTaskButton").click(function() {
     // var cid = $('#classId').val();
     var cid = document.getElementById('classId').innerHTML;

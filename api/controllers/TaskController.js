@@ -202,6 +202,57 @@ module.exports = {
     });
   },
 
+  remove: function(req, res) {
+    var post = req.body;
+    User.findOne({
+      id: req.user.id
+    }).exec(function(err, user) {
+      if (err || user == undefined) {
+        console.log("There was an error looking up the logged in user.");
+        console.log("Error = " + err);
+        console.log("Error Code 0003.0");
+        res.serverError();
+      } else {
+        Classroom.findOne({
+          cid: post.classId
+        }).exec(function(err, className) {
+          if (err || className == undefined) {
+            console.log("There was an error looking up the classroom.");
+            console.log("Error = " + err);
+            res.serverError();
+          } else {
+            // Destroy the task
+            Task.destroy({
+              tid: post.taskId
+            }).exec(function(err) {
+              if (err) {
+                console.log("There was an error deleting the task.");
+                console.log("Error = " + err);
+                res.serverError();
+              } else {
+                var index = className.tasks.indexOf(post.taskId);
+                if (index > -1) {
+                  className.tasks.splice(index, 1);
+                }
+                className.save(function(err) {
+                  if (err) {
+                    console.log("There was an error saving the classroom.");
+                    console.log("Error = " + err);
+                    res.serverError();
+                  } else {
+                    res.send({
+                      success: true
+                    });
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
+    });
+  },
+
   specificTask: function(req, res) {
     var post = req.body;
     User.findOne({

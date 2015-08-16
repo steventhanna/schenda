@@ -132,6 +132,11 @@ module.exports.routes = {
     action: 'update'
   },
 
+  'POST /task/remove': {
+    controller: 'task',
+    action: 'remove'
+  },
+
   'POST /note/new': {
     controller: 'note',
     action: 'new'
