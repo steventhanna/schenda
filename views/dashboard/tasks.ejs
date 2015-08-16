@@ -62,7 +62,7 @@ window.onload = function() {
         <div class="row">
           <div class="col-lg-8">
             <% for (var i = 0; i < tasks.length; i++) { %>
-              <% if (tasks[i].status == "incomplete") { %>
+              <% if (tasks[i].status == false) { %>
                 <div class="task">
                   <div class="title">
                     <a href="/class/<%= classroom.urlName %>/tasks/<%= tasks[i].tid %>">

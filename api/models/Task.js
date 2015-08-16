@@ -22,9 +22,11 @@ module.exports = {
       type: 'string'
     },
 
+    // False == incomplete
+    // True == complete
     status: {
-      type: 'string',
-      defaultsTo: 'incomplete'
+      type: 'boolean',
+      defaultsTo: false
     },
 
     // MM/DD/YYYY
