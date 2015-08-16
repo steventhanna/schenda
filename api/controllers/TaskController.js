@@ -94,7 +94,7 @@ module.exports = {
       } else {
         // Lookup classroom
         Classroom.findOne({
-          cid: post.cid
+          cid: post.classId
         }).exec(function(err, className) {
           if (err || className == undefined) {
             console.log("There was an error looking up the class.");
@@ -102,7 +102,7 @@ module.exports = {
             console.log("Error Code 00006.0");
             res.serverError();
           } else {
-            var tid = post.tid;
+            var tid = post.taskId;
             var statusBool = post.status;
             // If status == true, then complete.... else incomplete
             if (statusBool == true) {
@@ -112,15 +112,15 @@ module.exports = {
             }
             Task.findOne({
               tid: tid
-            }).exec(function(err, task) {
-              if (err || task == undefined) {
+            }).exec(function(err, taskName) {
+              if (err || taskName == undefined) {
                 console.log("There was an error looking up the task.");
                 console.log("Error = " + err);
                 console.log("Error Code 0012.0");
                 res.serverError();
               }
-              task.status = status;
-              task.save(function(err) {
+              taskName.status = status;
+              taskName.save(function(err) {
                 if (err) {
                   console.log("The status on the task could not be updated");
                   console.log("Error = " + err);
@@ -240,8 +240,10 @@ module.exports = {
                     console.log("Error = " + err);
                     res.serverError();
                   } else {
+                    var url = "/class/" + className.urlName + "/tasks";
                     res.send({
-                      success: true
+                      success: true,
+                      url: url,
                     });
                   }
                 });

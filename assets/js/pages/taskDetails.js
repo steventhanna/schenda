@@ -6,8 +6,8 @@ $(document).ready(function() {
     var returnUrl = document.getElementById('returnURL').innerHTML;
     var postObj = {
       status: true,
-      tid: tid,
-      cid: cid,
+      taskId: tid,
+      classId: cid,
     };
     $.ajax({
       type: 'POST',
@@ -29,39 +29,40 @@ $(document).ready(function() {
     var tid = document.getElementById('taskId').innerHTML;
     var returnUrl = document.getElementById('returnURL').innerHTML;
     var postObj = {
-      tid: tid,
-      cid: cid,
+      taskId: tid,
+      classId: cid,
     };
     swal({
-      type: 'warning',
-      title: 'Are you sure?',
-      text: 'This task can not be recovered once deleted.',
+      title: "Are you sure?",
+      text: "You will not be able to recover this task!",
+      type: "warning",
       showCancelButton: true,
-      closeOnCancel: true,
-      showConfirmButton: true,
+      confirmButtonColor: "#2cc36b",
       showLoaderOnConfirm: true,
+      confirmButtonText: "Yes, delete it!",
+      closeOnConfirm: false,
     }, function() {
       $.ajax({
         type: 'POST',
-        url: 'task/remove',
+        url: '/task/remove',
         data: postObj,
         success: function(data) {
-          if (data.success == true) {
+          if (data.success) {
             swal({
-              type: 'success',
-              title: 'Success!',
-              text: 'The task has successfully been deleted.',
-              showCancelButton: false
+              title: "Deleted!",
+              text: "The class has been deleted.",
+              type: "success",
+              confirmButtonText: "OK",
             }, function() {
-              window.location.href = data.url
+              window.location.href = data.url;
             });
           } else {
-            swal("Uh-Oh!", "There was an error deleting the task.", "error");
+            swal("Uh-oh!", "There was an error deleting the task.", "error");
           }
         },
         error: function(data) {
-          swal("Uh-Oh!", "There was an error deleting the task.", "error");
-        },
+          swal("Uh-oh!", "There was an error deleting the task.", "error");
+        }
       });
     });
   });
@@ -72,12 +73,7 @@ $(document).ready(function() {
     console.log(cid);
     var name = $("#newTaskName").val();
     var notes = document.getElementById('newNote').value;
-    // var picker = new Pikaday({
-    //   field: document.getElementById('datepicker')
-    // });
-    // var duedate = picker.toString('DD-MM-YYYY');
-    // var duedate = $("#date").val();
-    var duedate = document.getElementById("date").value;
+    var duedate = document.getElementById("date").innerHTML;
 
     if (name == " " || name == "") {
       swal("Enter Task Name", "You need to enter a task name to create a task.", "error");

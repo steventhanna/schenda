@@ -6,7 +6,6 @@ $(document).ready(function() {
     var cid = document.getElementById('classId').innerHTML;
     var duedate = document.getElementById('date').innerHTML;
     // var duedate = $("#date").val();
-    alert(note + duedate);
     if (name == undefined) {
       swal("Uh-oh", "Please include a task name.", "error");
     } else {
