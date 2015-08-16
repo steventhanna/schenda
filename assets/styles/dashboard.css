@@ -466,3 +466,9 @@ ul.alert-dropdown {
   padding-right: 6px;
   padding-bottom: 6px;
 }
+
+.duedate {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+}

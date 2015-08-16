@@ -51,24 +51,26 @@ window.onload = function() {
         <div class="row">
           <div class="col-lg-8">
             <% for (var i = 0; i < projects.length; i++) { %>
-                <div class="task">
-                  <div class="title">
-                    <a href="/class/<%= classroom.urlName %>/projects/<%= projects[i].pid %>"> <%= projects[i].name %></a>
-                    <span style="margin-top: 10px; background-color: #16a085;" class="pull-right badge badge-padding"><%= projects[i].tasks.length %> Task<% if (projects[i].tasks.length != 1) { %>s <% } %></span>
-                    <% if (projects[i].duedate !== undefined) { %>
-                    <span class="date">
-                        <%= projects[i].duedate %>
-                    </span>
+                <% if (projects[i].status == "incomplete") {%>
+                  <div class="task">
+                    <div class="title">
+                      <a href="/class/<%= classroom.urlName %>/projects/<%= projects[i].pid %>"> <%= projects[i].name %></a>
+                      <span style="margin-top: 10px; background-color: #16a085;" class="pull-right badge badge-padding"><%= projects[i].tasks.length %> Task<% if (projects[i].tasks.length != 1) { %>s <% } %></span>
+                      <% if (projects[i].duedate !== undefined) { %>
+                      <span class="date">
+                          <%= projects[i].duedate %>
+                      </span>
+                    </div>
+                    <!-- TODO :: This is not operating correctly -->
+                    <div class="description">
+                      <% if (projects[i].description == "") { %>
+                          No description
+                      <% } else { %>
+                        <%= projects[i].description %>
+                      <% } %>
+                    </div>
                   </div>
-                  <!-- TODO :: This is not operating correctly -->
-                  <div class="description">
-                    <% if (projects[i].description == "") { %>
-                        No description
-                    <% } else { %>
-                      <%= projects[i].description %>
-                    <% } %>
-                  </div>
-                </div>
+                <% } %>
               <% } %>
             <% } %>
           </div>

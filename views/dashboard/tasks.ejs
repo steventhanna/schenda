@@ -55,7 +55,7 @@ window.onload = function() {
       </div>
       <div class="row visible-xs">
         <div class="col-lg-12">
-          <a class="visible-xs btn btn-block btn-success btn-md" style="margin-top: 10px;" data-target="#addTask" data-toggle="modal" href="#">Add Task</a>
+          <a class="visible-xs btn btn-block btn-success btn-md" data-target="#addTask" data-toggle="modal" href="#" style="margin-top: 10px;">Add Task</a>
         </div>
       </div>
       <% if (tasks !== undefined && tasks !== null && tasks.length > 0) { %>
@@ -65,39 +65,39 @@ window.onload = function() {
               <% if (tasks[i].status == "incomplete") { %>
                 <div class="task">
                   <div class="title">
-                    <a href="/class/<%= classroom.urlName %>/tasks/<%= tasks[i].tid %>"> <%= tasks[i].name %></a>
-                    <% if (tasks[i].duedate !== undefined) { %>
-                    <span class="date">
-                        <%= tasks[i].duedate %>
-                    </span>
-                    <% } %>
+                    <a href="/class/<%= classroom.urlName %>/tasks/<%= tasks[i].tid %>">
+                      <%= tasks[i].name %></a>
                   </div>
-
 
                   <!-- TODO :: This is not operating correctly -->
-                  <div class="description">
-                    <% if (tasks[i].note == "") { %>
-                        No notes
-                    <% } else { %>
-                      <%= tasks[i].note %>
+                  <div class="duedate" style="color: <%= classroom.color %>">
+                    <% if (tasks[i].dueDate !== "") { %>
+                      Due <%= tasks[i].dueDate %>
                     <% } %>
-                  </div>
                 </div>
-              <% } %>
-            <% } %>
-          </div>
-          <div class="col-lg-4">
-            <h2 class="upcoming">Upcoming Tasks</h2>
-          </div>
-        </div>
-      <% } else { %>
-      <center>
-        <h1 style="margin-top: 50px; font-weight: 300;">No Tasks</h1>
-      </center>
-    <% } %>
+                <div class="description">
+                  <% if (tasks[i].note == "") { %>
+                    No notes
+                  <% } else { %>
+                  <%= tasks[i].note %>
+                <% } %>
+              </div>
+            </div>
+          <% } %>
+        <% } %>
+      </div>
+      <div class="col-lg-4">
+        <h2 class="upcoming">Upcoming Tasks</h2>
+      </div>
+    </div>
+  <% } else { %>
+  <center>
+    <h1 style="margin-top: 50px; font-weight: 300;">No Tasks</h1>
+  </center>
+<% } %>
 <!-- /.row -->
 
-  </div>
+</div>
 <!-- /.container-fluid -->
 
 </div>
@@ -108,34 +108,34 @@ window.onload = function() {
 
 <!-- Modal -->
 <div aria-labelledby="addTaskLabel" class="modal fade" id="addTask" role="dialog" tabindex="-1">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="modal-title" id="addTaskLabel">Add Task</h4>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="form-group">
-            <label for="newTaskName">New Task Name</label>
-            <input class="form-control" id="newTaskName" placeholder="Add New Task" style="border-color: <%= classroom.color %>" type="text">
-          </div>
-          <div class="form-group">
-            <label for="newNote">Notes</label>
-            <textarea id="newNote" class="form-control" rows="3" style="border-color: <%= classroom.color %>"></textarea>
-          </div>
-          <div class="form-group">
-            <label for="date">Due Date</label>
-            <input class="form-control" id="date" style="border-color: <%= classroom.color %>" type="date">
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
-        <a class="btn btn-primary" href="#" id="addTaskButton">Add Task</a>
-      </div>
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+  <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <h4 class="modal-title" id="addTaskLabel">Add Task</h4>
+</div>
+<div class="modal-body">
+  <form>
+    <div class="form-group">
+      <label for="newTaskName">New Task Name</label>
+      <input class="form-control" id="newTaskName" placeholder="Add New Task" style="border-color: <%= classroom.color %>" type="text">
     </div>
-  </div>
+    <div class="form-group">
+      <label for="newNote">Notes</label>
+      <textarea class="form-control" id="newNote" rows="3" style="border-color: <%= classroom.color %>"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="date">Due Date</label>
+      <input class="form-control" id="date" style="border-color: <%= classroom.color %>" type="date">
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
+  <a class="btn btn-primary" href="#" id="addTaskButton">Add Task</a>
+</div>
+</div>
+</div>
 </div>
