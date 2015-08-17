@@ -24,6 +24,31 @@ $(document).ready(function() {
     });
   });
 
+  $("#taskIncompleteButton").click(function() {
+    var cid = document.getElementById('classId').innerHTML;
+    var tid = document.getElementById('taskId').innerHTML;
+    var returnUrl = document.getElementById('returnURL').innerHTML;
+    var postObj = {
+      status: false,
+      taskId: tid,
+      classId: cid,
+    };
+    $.ajax({
+      type: 'POST',
+      url: '/task/status',
+      data: postObj,
+      success: function(data) {
+        if (data.success == true) {
+          window.location.href = returnUrl;
+        }
+      },
+      error: function(data) {
+        swal("Uh-Oh!", "The task could not be marked as incomplete.", "error");
+      }
+    });
+  });
+
+
   $("#deleteTaskButton").click(function() {
     var cid = document.getElementById('classId').innerHTML;
     var tid = document.getElementById('taskId').innerHTML;

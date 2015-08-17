@@ -119,11 +119,23 @@ module.exports = {
                     console.log("Error = " + err);
                     res.serverError();
                   } else {
-                    var index = className.incompletedTasks.indexOf(post.taskId);
-                    if (index > -1) {
-                      className.incompletedTasks.splice(index, 1);
+                    // Task is now complete
+                    if (post.status == true) {
+                      // Remove from incomplete
+                      var index = className.incompletedTasks.indexOf(post.taskId);
+                      if (index > -1) {
+                        className.incompletedTasks.splice(index, 1);
+                      }
+                      className.completedTasks[className.completedTasks.length] = post.taskId;
                     }
-                    className.completedTasks[className.completedTasks.length] = post.taskId;
+                    if (post.status == false) {
+                      // Remove from complete
+                      var index = className.completedTasks.indexOf(post.taskId);
+                      if (index > -1) {
+                        className.completedTasks.splice(index, 1);
+                      }
+                      className.incompletedTasks[className.incompletedTasks.length] = post.taskId;
+                    }
                     className.save(function(err) {
                       if (err) {
                         console.log("There was an error saving the classroom.");
@@ -231,28 +243,50 @@ module.exports = {
             res.serverError();
           } else {
             // Destroy the task
-            Task.destroy({
+            Task.findOne({
               tid: post.taskId
-            }).exec(function(err) {
-              if (err) {
-                console.log("There was an error deleting the task.");
+            }).exec(function(err, taskName) {
+              if (err || taskName == undefined) {
+                console.log("There was an error looking up the task.");
                 console.log("Error = " + err);
                 res.serverError();
               } else {
-                var index = className.tasks.indexOf(post.taskId);
-                if (index > -1) {
-                  className.tasks.splice(index, 1);
+                var status = taskName.status;
+                if (status == true) {
+                  var index = className.completedTasks.indexOf(post.taskId);
+                  if (index > -1) {
+                    className.completedTasks.splice(index, 1);
+                  }
+                } else {
+                  var index = className.incompletedTasks.indexOf(post.taskId);
+                  if (index > -1) {
+                    className.incompletedTasks.splice(index, 1);
+                  }
                 }
-                className.save(function(err) {
+                Task.destroy({
+                  tid: post.taskId
+                }).exec(function(err) {
                   if (err) {
-                    console.log("There was an error saving the classroom.");
+                    console.log("There was an error deleting the task.");
                     console.log("Error = " + err);
                     res.serverError();
                   } else {
-                    var url = "/class/" + className.urlName + "/tasks";
-                    res.send({
-                      success: true,
-                      url: url,
+                    var index = className.tasks.indexOf(post.taskId);
+                    if (index > -1) {
+                      className.tasks.splice(index, 1);
+                    }
+                    className.save(function(err) {
+                      if (err) {
+                        console.log("There was an error saving the classroom.");
+                        console.log("Error = " + err);
+                        res.serverError();
+                      } else {
+                        var url = "/class/" + className.urlName + "/tasks";
+                        res.send({
+                          success: true,
+                          url: url,
+                        });
+                      }
                     });
                   }
                 });
@@ -338,9 +372,6 @@ module.exports = {
             console.log("There was an error looking up the class.");
             res.serverError();
           } else {
-            console.log("CLASS FOUND");
-            console.log(className.name);
-            console.log(className.tasks);
             var taskIds = className.tasks;
             console.log("CLASS IDS");
             console.log(taskIds);
@@ -367,26 +398,34 @@ module.exports = {
                       console.log("FINAL: " + finalTaskList.length);
                       console.log("TID LIST: " + taskIds.length);
                       if (finalTaskList.length == taskIds.length) {
-                        res.view('dashboard/tasks', {
-                          user: user,
-                          classroom: className,
-                          tasks: finalTaskList,
-                          currentPage: 'tasks'
-                        });
+                        var incompletedTasksList = className.incompletedTasks;
+                        var incompleteTasks = [];
+                        for (var i = 0; i < incompletedTasksList.length; i++) {
+                          var index = taskIds.indexOf(incompletedTasksList[i]);
+                          incompleteTasks[i] = finalTaskList[index];
+                        }
+                        if (incompleteTasks.length == incompletedTasksList.length) {
+                          res.view('dashboard/tasks', {
+                            user: user,
+                            classroom: className,
+                            tasks: finalTaskList,
+                            incompletedTasks: incompleteTasks,
+                            currentPage: 'tasks',
+                          });
+                        }
                       }
                     }
+                    console.log(finalTaskList);
+                    console.log(incompleteTasks);
                   });
-                  console.log(finalTaskList);
                 }
               }
-              // Get incompleted tasks
-              var incompletedTasksList = className.incompletedTasks;
-
             } else {
               res.view('dashboard/tasks', {
                 user: user,
                 classroom: className,
                 tasks: finalTaskList,
+                incompletedTasks: null,
                 currentPage: 'tasks'
               });
             }
@@ -397,4 +436,4 @@ module.exports = {
   },
 
 
-}; // Deterine what has changed
+};

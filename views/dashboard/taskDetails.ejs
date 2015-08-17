@@ -26,7 +26,11 @@
           <h3 class="col-heading-no-border">Task Actions</h3>
           <center>
             <div class="hidden" id="returnURL">/class/<%= classroom.urlName %>/tasks</div>
-            <a  style="margin-top: 30px;" href="#" id="taskCompleteButton" class="btn btn-success btn-block btn-lg btn-square">Task Complete</a>
+            <% if (task.status == true) { %>
+              <a style="margin-top: 30px;" href="#" id="taskIncompleteButton" class="btn btn-primary btn-block btn-lg btn-square">Mark as Incomplete</a>
+            <% } else { %>
+              <a style="margin-top: 30px;" href="#" id="taskCompleteButton" class="btn btn-success btn-block btn-lg btn-square">Mark as Complete</a>
+            <% } %>
             <br />
             <a href="#" id="deleteTaskButton" class="btn btn-danger btn-block btn-lg btn-square">Delete Task</a>
           </center>

@@ -1,4 +1,14 @@
 $(document).ready(function() {
+  $("#seeAllTasks").click(function() {
+    document.getElementById('viewAllTasks').className = "";
+    document.getElementById('viewIncompleteTasks').className = "hidden";
+  });
+
+  $("#showIncompleteTasks").click(function() {
+    document.getElementById('viewAllTasks').className = "hidden";
+    document.getElementById('viewIncompleteTasks').className = "";
+  });
+
   $("#addTaskButton").click(function() {
     // var cid = $('#classId').val();
     var name = $("#newTaskName").val();
