@@ -198,6 +198,7 @@ module.exports = {
                 if (taskList.length != fullTaskList.length) {
                   for (var i = 0; i < taskList.length; i++) {
                     if (taskList.length == fullTaskList.length) {
+                      console.log(fullTaskList);
                       res.view('dashboard/projectDetails', {
                         user: user,
                         classroom: className,
@@ -216,6 +217,7 @@ module.exports = {
                         } else {
                           fullTaskList[fullTaskList.length] = taskName;
                           if (taskList.length == fullTaskList.length) {
+                            console.log(fullTaskList);
                             res.view('dashboard/projectDetails', {
                               user: user,
                               classroom: className,
@@ -230,6 +232,7 @@ module.exports = {
                   }
                 } else {
                   if (taskList.length == fullTaskList.length) {
+                    console.log(fullTaskList);
                     res.view('dashboard/projectDetails', {
                       user: user,
                       classroom: className,
@@ -356,6 +359,7 @@ module.exports = {
                     res.serverError();
                   } else {
                     projectName.tasks[projectName.tasks.length] = newTask.tid;
+                    console.log(projectName.tasks);
                     projectName.save(function(err) {
                       if (err) {
                         console.log("There was an error saving the project.");

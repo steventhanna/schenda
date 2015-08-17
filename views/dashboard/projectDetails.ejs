@@ -48,11 +48,12 @@ window.onload = function() {
           <a class="visible-xs btn btn-block btn-success btn-md" style="margin-top: 10px;" data-target="#addTask" data-toggle="modal" href="#">Add Task</a>
         </div>
       </div>
+
       <% if (tasks !== undefined && tasks !== null && tasks.length > 0) { %>
         <div class="row">
           <div class="col-lg-8">
             <% for (var i = 0; i < tasks.length; i++) { %>
-              <% if (tasks[i].status == "incomplete") { %>
+              <% if (tasks[i].status == false) { %>
                 <div class="task">
                   <div class="title">
                     <a href="/class/<%= classroom.urlName %>/projects/<%= project.pid %>/<%= tasks[i].tid %>"> <%= tasks[i].name %></a>

@@ -47,6 +47,7 @@ $(document).ready(function() {
         duedate: duedate
       };
       console.log("postOBj " + postObj.duedate);
+      alert(postObj.name);
       $.ajax({
         type: 'POST',
         url: '/project/addTask',
