@@ -56,8 +56,12 @@ module.exports = {
                 if (className.tasks == null || className.tasks == undefined) {
                   className.tasks = [];
                 }
+                if (className.incompletedTasks == null || className.incompletedTasks == undefined) {
+                  className.incompletedTasks = [];
+                }
                 var taskCount = className.tasks.length;
                 className.tasks[taskCount] = newTask.tid;
+                className.incompletedTasks[className.incompletedTasks.length] = newTask.tid;
 
                 // Save the class
                 className.save(function(err) {
@@ -115,11 +119,24 @@ module.exports = {
                     console.log("Error = " + err);
                     res.serverError();
                   } else {
-                    var url = "/class/" + className.urlName + "/tasks";
-                    console.log(taskName.status);
-                    res.send({
-                      success: true,
-                      returnUrl: url,
+                    var index = className.incompletedTasks.indexOf(post.taskId);
+                    if (index > -1) {
+                      className.incompletedTasks.splice(index, 1);
+                    }
+                    className.completedTasks[className.completedTasks.length] = post.taskId;
+                    className.save(function(err) {
+                      if (err) {
+                        console.log("There was an error saving the classroom.");
+                        console.log("Error = " + err);
+                        res.serverError();
+                      } else {
+                        var url = "/class/" + className.urlName + "/tasks";
+                        console.log(taskName.status);
+                        res.send({
+                          success: true,
+                          returnUrl: url,
+                        });
+                      }
                     });
                   }
                 });
@@ -338,10 +355,6 @@ module.exports = {
                     currentPage: 'tasks'
                   });
                 } else {
-                  console.log("FINAL: " + finalTaskList.length);
-                  console.log("TID LIST: " + taskIds.length);
-                  console.log(finalTaskList);
-
                   Task.findOne({
                     tid: taskIds[i]
                   }).exec(function(err, taskName) {
@@ -366,6 +379,9 @@ module.exports = {
                   console.log(finalTaskList);
                 }
               }
+              // Get incompleted tasks
+              var incompletedTasksList = className.incompletedTasks;
+
             } else {
               res.view('dashboard/tasks', {
                 user: user,

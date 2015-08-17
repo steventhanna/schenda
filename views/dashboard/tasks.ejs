@@ -58,7 +58,7 @@ window.onload = function() {
           <a class="visible-xs btn btn-block btn-success btn-md" data-target="#addTask" data-toggle="modal" href="#" style="margin-top: 10px;">Add Task</a>
         </div>
       </div>
-      <% if (tasks !== undefined && tasks !== null && tasks.length > 0) { %>
+      <% if (classroom.incompletedTasks !== undefined && classroom.incompletedTasks !== null && classroom.incompletedTasks.length > 0) { %>
         <div class="row">
           <div class="col-lg-8">
             <% for (var i = 0; i < tasks.length; i++) { %>

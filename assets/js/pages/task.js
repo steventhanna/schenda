@@ -4,8 +4,8 @@ $(document).ready(function() {
     var name = $("#newTaskName").val();
     var note = document.getElementById('newNote').value;
     var cid = document.getElementById('classId').innerHTML;
-    var duedate = document.getElementById('date').innerHTML;
-    // var duedate = $("#date").val();
+    // var duedate = document.getElementById('date').innerHTML;
+    var duedate = $("#date").val();
     if (name == undefined) {
       swal("Uh-oh", "Please include a task name.", "error");
     } else {

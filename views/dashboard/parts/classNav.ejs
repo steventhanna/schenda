@@ -81,7 +81,7 @@ window.onload = function() {
       <li <% if (currentPage == "tasks") { %> class="active"<% } %>>
         <a href="/class/<%= classroom.urlName %>/tasks">
           <i style="color: #16a085;"class="fa fa-fw fa-check"></i>Tasks
-          <span class="pull-right badge" style="background-color: #16a085;"><%= classroom.tasks.length %></span>
+          <span class="pull-right badge" style="background-color: #16a085;"><%= classroom.incompletedTasks.length %></span>
         </a>
       </li>
       <li <% if (currentPage == "project") { %> class="active"<% } %>>

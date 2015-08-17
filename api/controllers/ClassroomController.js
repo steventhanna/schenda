@@ -22,6 +22,8 @@ module.exports = {
         var cid = Math.floor(Math.random() * 1000000000000000000000);
         var name = post.name;
         var tasks = [];
+        var completedTasks = [];
+        var incompletedTasks = [];
         var projects = [];
         var className = name.split(' ').join('-');
         var notes = [];
@@ -31,6 +33,8 @@ module.exports = {
           cid: cid,
           name: name,
           tasks: tasks,
+          completedTasks: completedTasks,
+          incompletedTasks: incompletedTasks,
           color: color,
           projects: projects,
           urlName: className,

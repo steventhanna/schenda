@@ -31,6 +31,16 @@ module.exports = {
       defaultsTo: '[]'
     },
 
+    completedTasks: {
+      type: 'array',
+      defaultsTo: []
+    },
+
+    incompletedTasks: {
+      type: 'array',
+      defaultsTo: []
+    },
+
     projects: {
       type: 'array',
       defaultsTo: '[]'
