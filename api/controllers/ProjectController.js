@@ -250,6 +250,55 @@ module.exports = {
     });
   },
 
+  update: function(req, res) {
+    var post = req.body;
+    User.findOne({
+      id: req.user.id
+    }).exec(function(err, user) {
+      if (err || user == undefined) {
+        console.log("There was an error looking up the logged in user.");
+        console.log("Error = " + err);
+        console.log("Error Code 0003.0");
+        res.serverError();
+      } else {
+        Project.findOne({
+          pid: post.projectId
+        }).exec(function(err, projectName) {
+          if (err || projectName == undefined) {
+            console.log("There was an error looking up the project.");
+            console.log("Error = " + err);
+            console.log("Error Code 0003.0");
+            res.serverError();
+          } else {
+            var name = post.name;
+            var description = post.description;
+            var duedate = post.duedate;
+            if (name !== undefined && name !== "") {
+              projectName.name = name;
+            }
+            if (description !== undefined && description !== "") {
+              projectName.description = description;
+            }
+            if (duedate !== undefined && duedate !== "") {
+              projectName.duedate = duedate;
+            }
+            projectName.save(function(err) {
+              if (err) {
+                console.log("There was an error saving the project.");
+                console.log("Error = " + err);
+                res.serverError();
+              } else {
+                res.send({
+                  success: true
+                });
+              }
+            });
+          }
+        });
+      }
+    });
+  },
+
   remove: function(req, res) {
     var post = req.body;
     var url = req.url;
@@ -429,6 +478,53 @@ module.exports = {
                       project: projectName,
                       task: taskName,
                       currentPage: 'taskDetails'
+                    });
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
+    });
+  },
+
+  taskStatus: function(req, res) {
+    var post = req.body;
+    User.findOne({
+      id: req.user.id
+    }).exec(function(err, user) {
+      if (err || user == undefined) {
+        console.log("There was an error looking up the logged in user.");
+        console.log("Error = " + err);
+        console.log("Error Code 0003.0");
+        res.serverError();
+      } else {
+        Classroom.findOne({
+          cid: post.classId
+        }).exec(function(err, className) {
+          if (err || className == undefined) {
+            console.log("There was an error looking up the classroom.");
+            console.log("Error = " + err);
+            res.serverError();
+          } else {
+            Task.findOne({
+              tid: post.taskId
+            }).exec(function(err, taskName) {
+              if (err || taskName == undefined) {
+                console.log("There was an error looking up the task.");
+                console.log("Error = " + err);
+                res.serverError();
+              } else {
+                taskName.status = post.status;
+                taskName.save(function(err) {
+                  if (err) {
+                    console.log("The task status could not be saved.");
+                    console.log("Error = " + err);
+                    res.serverError();
+                  } else {
+                    res.send({
+                      success: true
                     });
                   }
                 });

@@ -7,9 +7,9 @@ $(document).ready(function() {
     var returnUrl = document.getElementById('returnURL').innerHTML;
     var postObj = {
       status: true,
-      pid: pid,
-      tid: tid,
-      cid: cid,
+      projectId: pid,
+      taskId: tid,
+      classId: cid,
     };
     $.ajax({
       type: 'POST',

@@ -157,6 +157,11 @@ module.exports.routes = {
     action: 'new',
   },
 
+  'POST /project/update': {
+    controller: 'project',
+    action: 'update'
+  },
+
   'POST /project/remove': {
     controller: 'project',
     action: 'remove'
@@ -175,6 +180,11 @@ module.exports.routes = {
   'GET /class/:className/projects/:projectID/:taskID': {
     controller: 'project',
     action: 'specificTask'
+  },
+
+  'POST /project/taskStatus': {
+    controller: 'project',
+    action: 'taskStatus'
   },
 
 

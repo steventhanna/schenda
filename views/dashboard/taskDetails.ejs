@@ -40,11 +40,11 @@
             </div>
             <div class="form-group">
               <label for="note">Note</label>
-              <textarea id="newNote" class="form-control" rows="3" style="border-color: <%= classroom.color %>"><%= task.note %></textarea>
+              <textarea id="newNote" class="form-control" rows="3" style="border-color: <%= classroom.color %>" placeholder="<%= task.note %>"></textarea>
             </div>
             <div class="form-group">
               <label for="date">Due Date</label>
-              <input class="form-control" id="date" placeholder="<%= task.duedate %>" style="border-color: <%= classroom.color %>" type="date">
+              <input class="form-control" id="date" placeholder="<%= task.duedate %>" style="border-color: <%= classroom.color %>" type="date" value="<%= task.duedate %>">
             </div>
             <a href="#" class="btn btn-primary btn-block btn-square btn-lg">Save</a>
           </form>

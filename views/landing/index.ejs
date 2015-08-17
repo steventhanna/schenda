@@ -20,8 +20,12 @@
 <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
-        <li><a class="dark" href="/signup">Sign Up</a><li>
-        <li><a href="/login">Log In</a></li>
+        <% if (user !== null) { %>
+          <li><a href="/overview"><%= user.displayName %></a></li>
+        <% } else { %>
+          <li><a class="dark" href="/signup">Sign Up</a><li>
+          <li><a href="/login">Log In</a></li>
+        <% } %>
       </ul>
     </div>
 <!-- /.navbar-collapse -->
@@ -33,7 +37,11 @@
     <div class="row">
       <h1>Welcome to Schenda</h1>
       <h2>We help organize your busy student life, so you can focus on learning.</h2>
-      <a class="btn btn-lg btn-blue" href="/register">Get Started</a>
+      <% if (user !== null) { %>
+        <a class="btn btn-lg btn-blue" href="/overview">View Class Overview</a>
+      <% } else { %>
+        <a class="btn btn-lg btn-blue" href="/signup">Get Started</a>
+      <% } %>
     </div>
   </div>
 </div>

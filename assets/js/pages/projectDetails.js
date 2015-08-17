@@ -1,5 +1,42 @@
 $(document).ready(function() {
 
+  $("#updateProject").click(function() {
+    var cid = document.getElementById('classId').innerHTML;
+    var pid = document.getElementById('projectId').innerHTML;
+    var postObj = {
+      classId: cid,
+      projectId: pid,
+    };
+    var name = $("#projectName").val();
+    var description = document.getElementById('projectDescription').innerHTML;
+    var duedate = $("#projectDate").val();
+
+    if (name !== undefined && name !== "") {
+      postObj.name = name;
+    }
+    if (description !== undefined && description !== "") {
+      postObj.description = description;
+    }
+    if (duedate !== undefined && duedate !== "") {
+      postObj.duedate = duedate;
+    }
+    $.ajax({
+      type: 'POST',
+      url: '/project/update',
+      data: postObj,
+      success: function(data) {
+        if (data.success == true) {
+          swal("Success!", "The project has been updated.", "success");
+        } else {
+          swal("Uh-Oh!", "There was an error updating the proejct.", "error");
+        }
+      },
+      error: function(data) {
+        swal("Uh-Oh!", "There was an error updating the proejct.", "error");
+      },
+    });
+  });
+
   $("#removeProject").click(function() {
     var cid = document.getElementById('classId').innerHTML;
     var pid = document.getElementById('projectId').innerHTML;

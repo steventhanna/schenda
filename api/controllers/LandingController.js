@@ -8,7 +8,29 @@
 module.exports = {
 
   home: function(req, res) {
-    res.view('landing/index');
-  }
+    var post = req.body;
+    if (req.user) {
+      User.findOne({
+        id: req.user.id
+      }).exec(function(err, user) {
+        if (err || user == undefined) {
+          // console.log("There is an error looking up the user.");
+          // console.log("Error = " + err);
+          // res.serverError();
+          res.view('landing/index', {
+            user: null
+          });
+        } else {
+          res.view('landing/index', {
+            user: user
+          });
+        }
+      });
+    } else {
+      res.view('landing/index', {
+        user: null,
+      });
+    }
+  },
 
 };

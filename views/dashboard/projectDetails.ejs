@@ -37,7 +37,7 @@ window.onload = function() {
 <!-- Page Heading -->
       <div class="row">
         <div class="col-lg-12">
-          <h1 class="page-header" style="color: <%= classroom.color %>"><%= project.name %>
+          <h1 class="page-header" style="color: <%= classroom.color %>"><%= project.name %> <small>- <%= project.description %></small>
             <a class="hidden-xs btn btn-success pull-right" data-target="#addTask" data-toggle="modal" href="#">Add Task</a>
             <a class="hidden-xs btn btn-primary pull-right" style="margin-right: 5px;" data-target="#editProject" data-toggle="modal" href="#">Edit <%= project.name %></a>
           </h1>
@@ -145,19 +145,19 @@ window.onload = function() {
             <input class="form-control" id="projectName" placeholder="<%= project.name %>" style="border-color: <%= classroom.color %>" type="text">
           </div>
           <div class="form-group">
-            <label for="description">Description</label>
-            <textarea id="description" class="form-control" rows="3" style="border-color: <%= classroom.color %>" placeholder="<%= project.description %>"></textarea>
+            <label for="projectDescription">Description</label>
+            <textarea id="projectDescription" class="form-control" rows="3" style="border-color: <%= classroom.color %>" placeholder="<%= project.description %>"></textarea>
           </div>
           <div class="form-group">
-            <label for="date">Due Date</label>
-            <input class="form-control" id="date" style="border-color: <%= classroom.color %>" type="date">
+            <label for="projectDate">Due Date</label>
+            <input class="form-control" id="projectDate" style="border-color: <%= classroom.color %>" type="date">
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <a href="#" class="pull-left btn btn-danger" id="removeProject">Delete <%= project.name %></a>
         <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
-        <a class="btn btn-primary" href="#" id="addTaskButton">Add Task</a>
+        <a class="btn btn-primary" href="#" id="updateProject">Update <%= project.name %></a>
       </div>
     </div>
   </div>
