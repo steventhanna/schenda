@@ -1,12 +1,12 @@
 $(document).ready(function() {
   $("#seeAllTasks").click(function() {
     document.getElementById('viewAllTasks').className = "";
-    document.getElementById('viewIncompleteTasks').className = "hidden";
+    document.getElementById('incompleteTasksPane').className = "hidden";
   });
 
   $("#showIncompleteTasks").click(function() {
     document.getElementById('viewAllTasks').className = "hidden";
-    document.getElementById('viewIncompleteTasks').className = "";
+    document.getElementById('incompleteTasksPane').className = "";
   });
 
   $("#addTaskButton").click(function() {

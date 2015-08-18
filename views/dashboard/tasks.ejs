@@ -83,12 +83,15 @@ window.onload = function() {
               </div>
             <% } %>
           </div>
+          <center>
+            <br />
+            <a href="#" style="margin-top: 50px;" id="showIncompleteTasks" class="btn btn-success btn-lg">Show Incomplete Tasks</a>
+          </center>
       </div>
       <% } %>
     </div>
     <div class="" id="incompleteTasksPane">
     <% if (incompletedTasks !== undefined && incompletedTasks !== null && incompletedTasks.length > 0) { %>
-
         <div class="row">
           <div class="col-lg-8">
             <% for (var i = 0; i < incompletedTasks.length; i++) { %>
@@ -99,7 +102,7 @@ window.onload = function() {
                       <%= incompletedTasks[i].name %></a>
                   </div>
 
-<!-- TODO :: This is not operating correctly -->
+                  <!-- TODO :: This is not operating correctly -->
                   <div class="duedate" style="color: <%= classroom.color %>">
                     <% if (incompletedTasks[i].dueDate !== "") { %>
                       Due
