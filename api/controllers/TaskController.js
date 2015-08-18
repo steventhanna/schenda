@@ -112,41 +112,47 @@ module.exports = {
                 res.serverError();
               } else {
                 taskName.status = post.status;
-                console.log(taskName.status);
                 taskName.save(function(err) {
                   if (err) {
                     console.log("There was an error saving the task.");
                     console.log("Error = " + err);
                     res.serverError();
                   } else {
-                    // Task is now complete
-                    if (post.status == true) {
-                      // Remove from incomplete
-                      var index = className.incompletedTasks.indexOf(post.taskId);
+                    // Remove task from class lists
+                    var status = post.status;
+                    console.log("STATUS: " + status);
+                    // Task is complete
+                    if (status == "true") {
+                      // Remove from incomplete list
+                      var index = className.incompletedTasks.indexOf(taskName.tid);
                       if (index > -1) {
                         className.incompletedTasks.splice(index, 1);
                       }
-                      className.completedTasks[className.completedTasks.length] = post.taskId;
+                      // Add to completed list
+                      className.completedTasks.push(taskName.tid);
+                      console.log("Completed Tasks: " + className.completedTasks);
                     }
-                    if (post.status == false) {
-                      // Remove from complete
-                      var index = className.completedTasks.indexOf(post.taskId);
+                    // Task is no longer complete
+                    if (status == "false") {
+                      // Remove from complete list
+                      var index = className.completedTasks.indexOf(taskName.tid);
                       if (index > -1) {
                         className.completedTasks.splice(index, 1);
                       }
-                      className.incompletedTasks[className.incompletedTasks.length] = post.taskId;
+                      // Add to incomplete list
+                      className.incompletedTasks.push(taskName.tid);
+                      console.log("Incompleted Tasks: " + className.incompletedTasks);
                     }
+                    var returnUrl = "/class/" + className.urlName + "/tasks";
                     className.save(function(err) {
                       if (err) {
-                        console.log("There was an error saving the classroom.");
+                        console.log("There was an error saving the classroom after altering the task arrays.");
                         console.log("Error = " + err);
                         res.serverError();
                       } else {
-                        var url = "/class/" + className.urlName + "/tasks";
-                        console.log(taskName.status);
                         res.send({
                           success: true,
-                          returnUrl: url,
+                          returnUrl: returnUrl
                         });
                       }
                     });
