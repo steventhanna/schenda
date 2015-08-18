@@ -40,6 +40,7 @@ module.exports = {
               status: status,
               description: description
             };
+            console.log("DUEDATE" + duedate);
             Project.create(projectData).exec(function(err, newProject) {
               if (err || newProject == undefined) {
                 console.log("The project could not be created.");

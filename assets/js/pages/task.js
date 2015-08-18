@@ -15,7 +15,12 @@ $(document).ready(function() {
     var note = document.getElementById('newNote').value;
     var cid = document.getElementById('classId').innerHTML;
     // var duedate = document.getElementById('date').innerHTML;
-    var duedate = $("#date").val();
+    var duedate = $("#newDate").val();
+    var d = new Date(duedate);
+    var month = d.getMonth() + 1;
+    var day = d.getDay();
+    var year = d.getFullYear();
+    var da = month + "/" + day + "/" + year;
     if (name == undefined) {
       swal("Uh-oh", "Please include a task name.", "error");
     } else {
@@ -23,7 +28,7 @@ $(document).ready(function() {
         classId: cid,
         name: name,
         note: note,
-        duedate: duedate
+        duedate: da
       };
       console.log("postOBj " + postObj);
       $.ajax({

@@ -101,7 +101,6 @@ window.onload = function() {
                     <a href="/class/<%= classroom.urlName %>/tasks/<%= incompletedTasks[i].tid %>">
                       <%= incompletedTasks[i].name %></a>
                   </div>
-
                   <!-- TODO :: This is not operating correctly -->
                   <div class="duedate" style="color: <%= classroom.color %>">
                     <% if (incompletedTasks[i].dueDate !== "") { %>
@@ -168,8 +167,8 @@ window.onload = function() {
           <textarea class="form-control" id="newNote" rows="3" style="border-color: <%= classroom.color %>"></textarea>
         </div>
         <div class="form-group">
-          <label for="date">Due Date</label>
-          <input class="form-control" id="date" style="border-color: <%= classroom.color %>" type="date">
+          <label for="newDate">Due Date</label>
+          <input class="form-control" id="newDate" style="border-color: <%= classroom.color %>" type="date">
         </div>
       </form>
       </div>

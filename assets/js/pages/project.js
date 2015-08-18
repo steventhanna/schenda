@@ -5,7 +5,13 @@ $(document).ready(function() {
     var note = document.getElementById('newDescription').value;
     var cid = document.getElementById('classId').innerHTML;
     // var duedate = document.getElementById('date').innerHTML;
-    var duedate = document.getElementById('date').innerHTML;
+    // var duedate = document.getElementById('newDate').innerHTML;
+    var duedate = $("#newDate").val();
+    var d = new Date(duedate);
+    var month = d.getMonth() + 1;
+    var day = d.getDay();
+    var year = d.getFullYear();
+    var da = month + "/" + day + "/" + year;
     if (name == undefined) {
       swal("Uh-oh", "Please include a project name.", "error");
     } else {
@@ -13,7 +19,7 @@ $(document).ready(function() {
         classId: cid,
         name: name,
         description: note,
-        duedate: duedate
+        duedate: da
       };
       $.ajax({
         type: 'POST',
