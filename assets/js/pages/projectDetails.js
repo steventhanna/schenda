@@ -18,7 +18,13 @@ $(document).ready(function() {
       postObj.description = description;
     }
     if (duedate !== undefined && duedate !== "") {
-      postObj.duedate = duedate;
+      var d = new Date(duedate);
+      var month = d.getMonth() + 1;
+      var day = d.getDay();
+      var year = d.getFullYear();
+      var da = month + "/" + day + "/" + year
+      alert(da);
+      postObj.duedate = da;
     }
     $.ajax({
       type: 'POST',
@@ -72,19 +78,26 @@ $(document).ready(function() {
     var cid = document.getElementById('classId').innerHTML;
     var pid = document.getElementById('projectId').innerHTML;
     // var duedate = document.getElementById('date').innerHTML;
-    var duedate = $("#date").val();
+    var date = $("#newTaskDate").val();
     if (name == undefined) {
       swal("Uh-oh", "Please include a task name.", "error");
     } else {
+
       var postObj = {
         classId: cid,
         projectId: pid,
         name: name,
         note: note,
-        duedate: duedate
       };
+      if (date !== undefined && date !== null && date !== "") {
+        var d = new Date(date);
+        var month = d.getMonth() + 1;
+        var day = d.getDay();
+        var year = d.getFullYear();
+        var da = month + "/" + day + "/" + year;
+        postObj.duedate = da;
+      }
       console.log("postOBj " + postObj.duedate);
-      alert(postObj.name);
       $.ajax({
         type: 'POST',
         url: '/project/addTask',

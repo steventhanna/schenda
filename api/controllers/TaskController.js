@@ -18,7 +18,6 @@ module.exports = {
         console.log("Error Code 0003.0");
         res.serverError();
       } else {
-
         // Lookup class for task to be assigned to.
         console.log("POSTINFO " + post.name);
         console.log("CLASSID " + post.classId);
