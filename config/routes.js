@@ -187,6 +187,11 @@ module.exports.routes = {
     action: 'taskStatus'
   },
 
+  'POST /project/removeTask': {
+    controller: 'project',
+    action: 'removeTask'
+  },
+
 
 
   /***************************************************************************

@@ -39,6 +39,8 @@ module.exports = {
               duedate: duedate,
               status: status,
               description: description
+              incompletedTasks: [],
+              completedTasks: [],
             };
             console.log("DUEDATE" + duedate);
             Project.create(projectData).exec(function(err, newProject) {
@@ -409,6 +411,7 @@ module.exports = {
                     res.serverError();
                   } else {
                     projectName.tasks[projectName.tasks.length] = newTask.tid;
+                    projectName.incompletedTasks.push(newTask.tid);
                     console.log(projectName.tasks);
                     projectName.save(function(err) {
                       if (err) {
@@ -536,4 +539,104 @@ module.exports = {
       }
     });
   },
+
+  taskStatus: function(req, res) {
+    var post = req.body;
+    User.findOne({
+      id: req.user.id
+    }).exec(function(err, user) {
+      if (err || user == undefined) {
+        console.log("There was an error looking up the logged in user.");
+        console.log("Error = " + err);
+        console.log("Error Code 0003.0");
+        res.serverError();
+      } else {
+        Project.findOne({
+          pid: post.projectId
+        }).exec(function(err, projectName) {
+          if (err || projectName == undefined) {
+            console.log("There was an error looking up the project.");
+            console.log("Error = " + err);
+            res.serverError();
+          } else {
+            Task.findOne({
+              tid: post.taskId
+            }).exec(function(err, taskName) {
+              if (err || taskName == undefined) {
+                console.log("There was an error looking up the task.");
+                console.log("Error = " + err);
+                res.serverError();
+              } else {
+                var status = post.status;
+                // Task moves from incomplete to complete
+                if (status == "true") {
+                  var index = projectName.incompletedTasks.indexOf(post.taskId);
+                  if (index > -1) {
+                    projectName.incompletedTasks.splice(index, 1);
+                  }
+                  // Move tid to completed
+                  projectName.completedTasks.push(post.taskId);
+                }
+                // Task moves from complete to incomplete
+                if (status == "false") {
+                  var index = projectName.completedTasks.indexOf(post.taskId);
+                  if (index > -1) {
+                    projectName.completedTasks.splice(index, 1);
+                  }
+                  // Move tid to incomplete
+                  projectName.incompletedTasks.push(post.taskId);
+                }
+                taskName.status = status;
+                taskName.save(function(err) {
+                  if (err) {
+                    console.log("The task could not be saved.");
+                    console.log("Error = " + err);
+                    res.serverError();
+                  } else {
+                    projectName.save(function(err) {
+                      if (err) {
+                        console.log("The project could not be saved.");
+                        console.log("Error = " + err);
+                        res.serverError();
+                      } else {
+                        res.send({
+                          success: true,
+                        });
+                      }
+                    });
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
+    });
+  },
+
+  removeTask: function(req, res) {
+    var post = req.body;
+    User.findOne({
+      id: req.user.id
+    }).exec(function(err, user) {
+      if (err || user == undefined) {
+        console.log("There was an error looking up the logged in user.");
+        console.log("Error = " + err);
+        console.log("Error Code 0003.0");
+        res.serverError();
+      } else {
+        Project.findOne({
+          pid: post.projectId
+        }).exec(function(err, projectName) {
+          if (err || projectName == undefined) {
+            console.log("There was an error looking up the project.");
+            console.log("Error = " + err);
+            res.serverError();
+          } else {
+
+          }
+        })
+      }
+    })
+  }
 };

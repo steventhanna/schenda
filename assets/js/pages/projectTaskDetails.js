@@ -1,5 +1,50 @@
 $(document).ready(function() {
 
+  $("#deleteTaskButton").click(function() {
+    var cid = document.getElementById('classId').innerHTML;
+    var tid = document.getElementById('taskId').innerHTML;
+    var pid = document.getElementById('projectId').innerHTML;
+    var returnUrl = document.getElementById('returnURL').innerHTML;
+    var postObj = {
+      projectId: pid,
+      taskId: tid,
+      classId: cid
+    };
+    swal({
+      title: 'Are you sure?',
+      type: 'warning',
+      text: 'Once deleted, this task can not be recovered.',
+      showConfirmButton: true,
+      showCancelButton: true,
+      closeOnConfirm: true,
+      showLoaderOnConfirm: true,
+    }, function() {
+      $.ajax({
+        type: 'POST',
+        url: '/project/removeTask',
+        data: postObj,
+        success: function(data) {
+          if (data.success == true) {
+            swal({
+              title: 'Success!',
+              type: 'success',
+              text: 'The task has been deleted.',
+              showCancelButton: false,
+              showConfirmButton: true
+            }, function() {
+              window.location.href = returnUrl;
+            });
+          } else {
+            swal("Uh-Oh!", "There was an error deleting the task.", "error");
+          }
+        },
+        error: function(data) {
+          swal("Uh-Oh!", "There was an error deleting the task.", "error");
+        },
+      });
+    });
+  });
+
   $("#taskCompleteButton").click(function() {
     var cid = document.getElementById('classId').innerHTML;
     var tid = document.getElementById('taskId').innerHTML;
