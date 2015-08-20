@@ -3,6 +3,7 @@
 <!-- Load navbar -->
 <script src="/js/pages/noteDetails.js"></script>
 <link href='http://fonts.googleapis.com/css?family=Roboto+Mono' rel='stylesheet' type='text/css'>
+<script src="/js/pages/marked.js"></script>
 
 <style media="screen" type="text/css">
   #editor {
@@ -11,12 +12,23 @@
     width: 75%;
     margin-left: 15px;
     margin-right: 0;
-    margin-top: 25px;
+    margin-top: 0px;
     padding-left: 10px;
   }
 
   .ace_gutter {
     display: none;
+  }
+
+  .nav-tabs {
+    margin-left: 15px;
+    margin-top: 20px;
+    margin-right: 15px;
+  }
+
+  .previewText {
+    margin-left: 15px;
+    margin-top: 25px;
   }
 </style>
 
@@ -46,7 +58,26 @@
         </div>
       </div>
       <div class="row">
-        <div id="editor"><%= note.body %></div>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" class="active"><a href="#edit" aria-controls="edit" role="tab" data-toggle="tab">Edit</a></li>
+          <li role="presentation"><a href="#preview" aria-controls="preview" role="tab" data-toggle="tab">Preview</a></li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active" id="edit">
+            <div id="editor"><%= note.body %></div>
+          </div>
+          <div role="tabpanel" class="tab-pane" id="preview"></div>
+            <div class="previewText" id="previewText">
+            </div>
+        </div>
+      </div>
+<!-- /.row -->
+
+    </div>
+      <div class="row">
+
       </div>
 <!-- /.row -->
 
@@ -100,4 +131,6 @@ document.getElementById('editor').style.fontFamily = 'Roboto Mono';
 document.getElementById('editor').style.fontSize = '14px';
 editor.setShowPrintMargin(false);
 editor.getSession().setUseWrapMode(true);
+var text = editor.getValue();
+document.getElementById('previewText').innerHTML = marked(text);
 </script>
