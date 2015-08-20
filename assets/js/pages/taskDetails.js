@@ -75,9 +75,10 @@ $(document).ready(function() {
           if (data.success) {
             swal({
               title: "Deleted!",
-              text: "The class has been deleted.",
+              text: "The task has been deleted.",
               type: "success",
               confirmButtonText: "OK",
+              timer: 2000,
             }, function() {
               window.location.href = data.url;
             });

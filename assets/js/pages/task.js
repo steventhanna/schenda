@@ -16,20 +16,19 @@ $(document).ready(function() {
     var cid = document.getElementById('classId').innerHTML;
     // var duedate = document.getElementById('date').innerHTML;
     var duedate = $("#newDate").val();
-    var d = new Date(duedate);
-    var month = d.getMonth() + 1;
-    var day = d.getDay();
-    var year = d.getFullYear();
-    var da = month + "/" + day + "/" + year;
-    if (name == undefined) {
+    if (name == undefined || name == "" || name == null) {
       swal("Uh-oh", "Please include a task name.", "error");
     } else {
       var postObj = {
         classId: cid,
         name: name,
         note: note,
-        duedate: da
       };
+      if (duedate !== "" && duedate !== undefined && duedate !== null) {
+        var array = duedate.split("-");
+        var duedate = array[1] + "/" + array[2] + "/" + array[0];
+        postObj.duedate = duedate;
+      }
       console.log("postOBj " + postObj);
       $.ajax({
         type: 'POST',
