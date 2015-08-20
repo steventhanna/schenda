@@ -633,7 +633,54 @@ module.exports = {
             console.log("Error = " + err);
             res.serverError();
           } else {
+            Task.findOne({
+              tid: post.taskId
+            }).exec(function(err, taskName) {
+              if (err || taskName == undefined) {
+                console.log("There was an error looking up the task.");
+                console.log("Error = " + err);
+                res.serverError();
+              } else {
+                // Remove from main task list
+                var mainIndex = projectName.tasks.indexOf(taskName.tid);
+                if (mainIndex > -1) {
+                  projectName.tasks.splice(mainIndex, 1);
+                }
+                // Remove from other list
+                if (taskName.status == "true") {
+                  var index = projectName.completedTasks.indexOf(taskName.tid);
+                  if (index > -1) {
+                    projectName.completedTasks.splice(index, 1);
+                  }
+                }
+                if (taskName.status == "false") {
+                  var index = projectName.incompletedTasks.indexOf(taskName.tid);
+                  if (index > -1) {
+                    projectName.incompletedTasks.splice(index, 1);
+                  }
+                }
+                // Delete the Task
+                Task.destroy({
+                  tid: post.tid
+                }).exec(function(err) {
+                  if (err) {
+                    console.log("There was an error deleting the task.");
+                    console.log("Error = " + err);
+                    res.serverError();
+                  } else {
+                    projectName.save(function(err) {
+                      if (err) {
+                        console.log("There was an error updating the project");
+                        console.log("Error = " + err);
+                        res.serverError():
+                      } else {
 
+                      }
+                    })
+                  }
+                })
+              }
+            })
           }
         })
       }
