@@ -88,7 +88,7 @@ $(document).ready(function() {
   $("#addTaskButton").click(function() {
     // var cid = $('#classId').val();
     var name = $("#newTaskName").val();
-    var note = document.getElementById('newNote').innerHTML;
+    var note = document.getElementById('newNote').value;
     var cid = document.getElementById('classId').innerHTML;
     var pid = document.getElementById('projectId').innerHTML;
     // var duedate = document.getElementById('date').innerHTML;
