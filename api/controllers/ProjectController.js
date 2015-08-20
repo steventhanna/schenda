@@ -38,7 +38,7 @@ module.exports = {
               tasks: tasks,
               duedate: duedate,
               status: status,
-              description: description
+              description: description,
               incompletedTasks: [],
               completedTasks: [],
             };
@@ -575,7 +575,8 @@ module.exports = {
                     projectName.incompletedTasks.splice(index, 1);
                   }
                   // Move tid to completed
-                  projectName.completedTasks.push(post.taskId);
+                  // projectName.completedTasks.push(post.taskId);
+                  projectName.completedTasks[projectName.completedTasks.length] = post.taskId;
                 }
                 // Task moves from complete to incomplete
                 if (status == "false") {
@@ -672,18 +673,32 @@ module.exports = {
                       if (err) {
                         console.log("There was an error updating the project");
                         console.log("Error = " + err);
-                        res.serverError():
+                        res.serverError();
                       } else {
-
+                        Classroom.findOne({
+                          cid: post.classId
+                        }).exec(function(err, className) {
+                          if (err || className == undefined) {
+                            console.log("There was an error finding the classroom.");
+                            console.log("Error = " + err);
+                            res.serverError();
+                          } else {
+                            var returnUrl = "/class/" + className.urlName + "/projects/" + post.projectId;
+                            res.send({
+                              success: true,
+                              returnUrl: returnUrl
+                            });
+                          }
+                        });
                       }
-                    })
+                    });
                   }
-                })
+                });
               }
-            })
+            });
           }
-        })
+        });
       }
-    })
-  }
+    });
+  },
 };

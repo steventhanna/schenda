@@ -38,7 +38,7 @@ module.exports = {
 
     completedTasks: {
       type: 'array',
-      defualtsTo: []
+      defaultsTo: []
     },
 
     incompletedTasks: {

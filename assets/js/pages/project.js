@@ -7,11 +7,14 @@ $(document).ready(function() {
     // var duedate = document.getElementById('date').innerHTML;
     // var duedate = document.getElementById('newDate').innerHTML;
     var duedate = $("#newDate").val();
-    var d = new Date(duedate);
-    var month = d.getMonth() + 1;
-    var day = d.getDay();
-    var year = d.getFullYear();
-    var da = month + "/" + day + "/" + year;
+    var da = "";
+    if (duedate !== "") {
+      var d = new Date(duedate);
+      var month = d.getMonth() + 1;
+      var day = d.getDay();
+      var year = d.getFullYear();
+      var da = month + "/" + day + "/" + year;
+    }
     if (name == undefined) {
       swal("Uh-oh", "Please include a project name.", "error");
     } else {
