@@ -103,7 +103,7 @@ window.onload = function() {
                   </div>
                   <!-- TODO :: This is not operating correctly -->
                   <div class="duedate" style="color: <%= classroom.color %>">
-                    <% if (incompletedTasks[i].dueDate !== "") { %>
+                    <% if (incompletedTasks[i].dueDate !== "" && incompletedTasks[i].dueDate !== null) { %>
                       Due
                       <%= incompletedTasks[i].dueDate %>
                     <% } %>
