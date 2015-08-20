@@ -50,24 +50,38 @@ $(document).ready(function() {
       classId: cid,
       projectId: pid,
     };
-    $.ajax({
-      type: 'POST',
-      url: '/project/remove',
-      data: postObj,
-      success: function(data) {
-        if (data.success == true) {
-          swal({
-            type: 'success',
-            title: 'Success',
-            text: 'The project has successfully been deleted.',
-            showCancelButton: false,
-          }, function() {
+    swal({
+      type: 'warning',
+      title: 'Are you sure?',
+      text: 'If you delete this project, it can not be recovered.',
+      showCancelButton: true,
+      closeOnCancel: true,
+      showLoaderOnConfirm: true,
+      confirmButtonText: "Yes, delete it!",
+    }, function() {
+      $.ajax({
+        type: 'POST',
+        url: '/project/remove',
+        data: postObj,
+        success: function(data) {
+          if (data.success == true) {
             window.location.href = data.url;
-          });
-        } else {
+            // swal({
+            //   typ: 'success',
+            //   title: 'Success',
+            //   text: 'The project has successfully been deleted.',
+            //   showCancelButton: false,
+            // }, function() {
+            //   window.location.href = data.url;
+            // });
+          } else {
+            swal("Uh-Oh!", "There was an error deleting the project.", "erro");
+          }
+        },
+        error: function(data) {
           swal("Uh-Oh!", "There was an error deleting the project.", "erro");
         }
-      }
+      });
     });
   });
 
