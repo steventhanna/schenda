@@ -18,13 +18,9 @@ $(document).ready(function() {
       postObj.description = description;
     }
     if (duedate !== undefined && duedate !== "") {
-      var d = new Date(duedate);
-      var month = d.getMonth() + 1;
-      var day = d.getDay();
-      var year = d.getFullYear();
-      var da = month + "/" + day + "/" + year
-      alert(da);
-      postObj.duedate = da;
+      var array = duedate.split("-");
+      var duedate = array[1] + "/" + array[2] + "/" + array[0];
+      postObj.duedate = duedate;
     }
     $.ajax({
       type: 'POST',
@@ -104,12 +100,9 @@ $(document).ready(function() {
         note: note,
       };
       if (date !== undefined && date !== null && date !== "") {
-        var d = new Date(date);
-        var month = d.getMonth() + 1;
-        var day = d.getDay();
-        var year = d.getFullYear();
-        var da = month + "/" + day + "/" + year;
-        postObj.duedate = da;
+        var array = date.split("-");
+        var duedate = array[1] + "/" + array[2] + "/" + array[0];
+        postObj.duedate = duedate;
       }
       console.log("postOBj " + postObj.duedate);
       $.ajax({

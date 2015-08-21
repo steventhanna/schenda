@@ -55,7 +55,7 @@ window.onload = function() {
                   <div class="task">
                     <div class="title">
                       <a href="/class/<%= classroom.urlName %>/projects/<%= projects[i].pid %>"> <%= projects[i].name %></a>
-                      <span style="margin-top: 10px; background-color: #16a085;" class="pull-right badge badge-padding"><%= projects[i].tasks.length %> Task<% if (projects[i].tasks.length != 1) { %>s <% } %></span>
+                      <span style="margin-top: 10px; background-color: #16a085;" class="pull-right badge badge-padding"><%= projects[i].incompletedTasks.length %> Task<% if (projects[i].incompletedTasks.length != 1) { %>s <% } %></span>
                       <% if (projects[i].duedate !== undefined) { %>
                     </div>
                     <!-- TODO :: This is not operating correctly -->

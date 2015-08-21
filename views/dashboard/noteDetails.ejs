@@ -8,7 +8,7 @@
 <style media="screen" type="text/css">
   #editor {
     position: absolute;
-    height: 75%;
+    height: 100%;
     width: 75%;
     margin-left: 15px;
     margin-right: 0px;
@@ -132,6 +132,10 @@ document.getElementById('editor').style.fontFamily = 'Roboto Mono';
 document.getElementById('editor').style.fontSize = '14px';
 editor.setShowPrintMargin(false);
 editor.getSession().setUseWrapMode(true);
-var text = editor.getValue();
-document.getElementById('previewText').innerHTML = marked(text);
+editor.getSession().on('change', function(e) {
+    // e.type, etc
+    var text = editor.getValue();
+    document.getElementById('previewText').innerHTML = marked(text);
+});
+
 </script>

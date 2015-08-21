@@ -9,11 +9,9 @@ $(document).ready(function() {
     var duedate = $("#newDate").val();
     var da = "";
     if (duedate !== "") {
-      var d = new Date(duedate);
-      var month = d.getMonth() + 1;
-      var day = d.getDay();
-      var year = d.getFullYear();
-      var da = month + "/" + day + "/" + year;
+      var array = duedate.split("-");
+      var duedate = array[1] + "/" + array[2] + "/" + array[0];
+      var da = duedate;
     }
     if (name == undefined) {
       swal("Uh-oh", "Please include a project name.", "error");
