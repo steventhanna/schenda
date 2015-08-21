@@ -183,6 +183,18 @@ module.exports = {
 
   specificProject: function(req, res) {
     var post = req.body;
+
+    function dynamicSort(property) {
+      var sortOrder = 1;
+      if (property[0] === "-") {
+        sortOrder = -1;
+        property = property.substr(1);
+      }
+      return function(a, b) {
+        var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+        return result * sortOrder;
+      }
+    }
     User.findOne({
       id: req.user.id
     }).exec(function(err, user) {
@@ -221,6 +233,7 @@ module.exports = {
                 if (taskList.length != fullTaskList.length) {
                   for (var i = 0; i < taskList.length; i++) {
                     if (taskList.length == fullTaskList.length) {
+                      fullTaskList.sort(dynamicSort("duedate"));
                       console.log(fullTaskList);
                       res.view('dashboard/projectDetails', {
                         user: user,
@@ -240,6 +253,7 @@ module.exports = {
                         } else {
                           fullTaskList[fullTaskList.length] = taskName;
                           if (taskList.length == fullTaskList.length) {
+                            fullTaskList.sort(dynamicSort("duedate"));
                             console.log(fullTaskList);
                             res.view('dashboard/projectDetails', {
                               user: user,
@@ -255,6 +269,7 @@ module.exports = {
                   }
                 } else {
                   if (taskList.length == fullTaskList.length) {
+                    fullTaskList.sort(dynamicSort("duedate"));
                     console.log(fullTaskList);
                     res.view('dashboard/projectDetails', {
                       user: user,
