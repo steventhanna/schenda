@@ -446,7 +446,7 @@ module.exports = {
                 }
               }
             } else {
-              finalTaskList.sort(dynamicSort("dueDate"));
+              // finalTaskList.sort(dynamicSort("dueDate"));
               // console.log("SORTED FINALTASKLIST");
               // console.log(finalTaskList);
               // incompleteTasks.sort(dynamicSort("dueDate"));
