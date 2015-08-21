@@ -55,6 +55,12 @@ window.onload = function() {
                 <a href="/class/<%= classroom.urlName %>/notes/<%= notes[i].nid %>"> <%= notes[i].name %></a>
               </div>
               <div class="description">
+                <!--
+                <%= notes[i].updatedAt %>
+                <br />
+                <%= notes[i].createdAt %>
+                <br />
+              -->
                 <% if (notes[i].description == "") { %>
                   No description
                 <% } else {%>
