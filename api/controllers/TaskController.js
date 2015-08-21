@@ -433,25 +433,10 @@ module.exports = {
                         }
                       }
                     }
-                    // // Reorder the task list based on date
-                    // console.log("SORT");
-                    // finalTaskList.sort(dynamicSort("dueDate"));
-                    // incompleteTasks.sort(dynamicSort("dueDate"));
-                    // console.log("SORTED FINALTASKLIST");
-                    // console.log(finalTaskList);
-                    //
-                    // console.log("SORTED INCOMPLETETASK");
-                    // console.log(incompleteTasks);
                   });
                 }
               }
             } else {
-              // finalTaskList.sort(dynamicSort("dueDate"));
-              // console.log("SORTED FINALTASKLIST");
-              // console.log(finalTaskList);
-              // incompleteTasks.sort(dynamicSort("dueDate"));
-              // console.log("SORTED INCOMPLETETASK");
-              // console.log(incompleteTasks);
               res.view('dashboard/tasks', {
                 user: user,
                 classroom: className,

@@ -72,6 +72,18 @@ module.exports = {
 
   projects: function(req, res) {
     var post = req.body;
+
+    function dynamicSort(property) {
+      var sortOrder = 1;
+      if (property[0] === "-") {
+        sortOrder = -1;
+        property = property.substr(1);
+      }
+      return function(a, b) {
+        var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+        return result * sortOrder;
+      }
+    }
     User.findOne({
       id: req.user.id
     }).exec(function(err, user) {
@@ -102,6 +114,8 @@ module.exports = {
               if (fullProjectList.length < projectIdList.length) {
                 for (var i = 0; i < projectIdList.length; i++) {
                   if (fullProjectList.length == projectIdList.length) {
+                    console.log("SORT + 1");
+                    fullProjectList.sort(dynamicSort("duedate"));
                     res.view('dashboard/project', {
                       user: user,
                       currentPage: 'project',
@@ -119,6 +133,8 @@ module.exports = {
                       } else {
                         fullProjectList[fullProjectList.length] = projectName;
                         if (fullProjectList.length == projectIdList.length) {
+                          console.log("SORT + 2");
+                          fullProjectList.sort(dynamicSort("duedate"));
                           res.view('dashboard/project', {
                             user: user,
                             currentPage: 'project',
@@ -129,6 +145,8 @@ module.exports = {
                       }
                     });
                     if (fullProjectList.length == projectIdList.length) {
+                      console.log("SORT + 3");
+                      fullProjectList.sort(dynamicSort("duedate"));
                       res.view('dashboard/project', {
                         user: user,
                         currentPage: 'project',
@@ -139,6 +157,8 @@ module.exports = {
                   }
                 }
               } else {
+                console.log("SORT + 4");
+                fullProjectList.sort(dynamicSort("duedate"));
                 res.view('dashboard/project', {
                   user: user,
                   currentPage: 'project',
