@@ -369,6 +369,17 @@ module.exports = {
 
         console.log(cid);
 
+        function dynamicSort(property) {
+          var sortOrder = 1;
+          if (property[0] === "-") {
+            sortOrder = -1;
+            property = property.substr(1);
+          }
+          return function(a, b) {
+            var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+            return result * sortOrder;
+          }
+        }
         // var cid = post.classId;
         Classroom.findOne({
           cid: cid
@@ -378,8 +389,8 @@ module.exports = {
             res.serverError();
           } else {
             var taskIds = className.tasks;
-            console.log("CLASS IDS");
-            console.log(taskIds);
+            // console.log("CLASS IDS");
+            // console.log(taskIds);
             if (taskIds.length > 0) {
               var finalTaskList = [];
               for (var i = 0; i < taskIds.length; i++) {
@@ -398,10 +409,10 @@ module.exports = {
                       console.log("There was an error lookign up the task.");
                       res.serverError();
                     } else {
-                      console.log(taskName);
+                      // console.log(taskName);
                       finalTaskList.push(taskName);
-                      console.log("FINAL: " + finalTaskList.length);
-                      console.log("TID LIST: " + taskIds.length);
+                      // console.log("FINAL: " + finalTaskList.length);
+                      // console.log("TID LIST: " + taskIds.length);
                       if (finalTaskList.length == taskIds.length) {
                         var incompletedTasksList = className.incompletedTasks;
                         var incompleteTasks = [];
@@ -410,6 +421,8 @@ module.exports = {
                           incompleteTasks[i] = finalTaskList[index];
                         }
                         if (incompleteTasks.length == incompletedTasksList.length) {
+                          finalTaskList.sort(dynamicSort("dueDate"));
+                          incompleteTasks.sort(dynamicSort("dueDate"));
                           res.view('dashboard/tasks', {
                             user: user,
                             classroom: className,
@@ -420,12 +433,25 @@ module.exports = {
                         }
                       }
                     }
-                    console.log(finalTaskList);
-                    console.log(incompleteTasks);
+                    // // Reorder the task list based on date
+                    // console.log("SORT");
+                    // finalTaskList.sort(dynamicSort("dueDate"));
+                    // incompleteTasks.sort(dynamicSort("dueDate"));
+                    // console.log("SORTED FINALTASKLIST");
+                    // console.log(finalTaskList);
+                    //
+                    // console.log("SORTED INCOMPLETETASK");
+                    // console.log(incompleteTasks);
                   });
                 }
               }
             } else {
+              finalTaskList.sort(dynamicSort("dueDate"));
+              // console.log("SORTED FINALTASKLIST");
+              // console.log(finalTaskList);
+              // incompleteTasks.sort(dynamicSort("dueDate"));
+              // console.log("SORTED INCOMPLETETASK");
+              // console.log(incompleteTasks);
               res.view('dashboard/tasks', {
                 user: user,
                 classroom: className,

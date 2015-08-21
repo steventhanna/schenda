@@ -48,7 +48,7 @@ window.onload = function() {
       </div>
       <div class="row">
         <% if (notes !== undefined && notes !== null && notes.length > 0) { %>
-        <div class="col-lg-8">
+        <div class="col-lg-12">
           <% for (var i = 0; i < notes.length; i++) { %>
             <div class="note">
               <div class="title">
@@ -65,8 +65,6 @@ window.onload = function() {
             </div>
 
           <% } %>
-        </div>
-        <div class="col-lg-4">
         </div>
         <% } else {%>
           <div class="col-lg-12">
