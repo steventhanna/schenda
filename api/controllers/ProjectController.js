@@ -195,6 +195,7 @@ module.exports = {
         return result * sortOrder;
       }
     }
+
     User.findOne({
       id: req.user.id
     }).exec(function(err, user) {
@@ -227,58 +228,69 @@ module.exports = {
                 console.log("Error = " + err);
                 res.serverError();
               } else {
-                // Look up all the tasks
-                var taskList = projectName.tasks;
+                // This is where the fun things happen
+                var incompletedTaskList = [];
                 var fullTaskList = [];
-                if (taskList.length != fullTaskList.length) {
-                  for (var i = 0; i < taskList.length; i++) {
-                    if (taskList.length == fullTaskList.length) {
-                      fullTaskList.sort(dynamicSort("duedate"));
-                      console.log(fullTaskList);
-                      res.view('dashboard/projectDetails', {
-                        user: user,
-                        classroom: className,
-                        project: projectName,
-                        tasks: fullTaskList,
-                        currentPage: 'specificProject'
-                      });
-                    } else {
+                var taskIdList = projectName.tasks;
+                if (taskIdList.length !== fullTaskList.length) {
+                  console.log("PASS FIRST CONDITION");
+                  for (var i = 0; i < taskIdList.length; i++) {
+                    if (taskIdList.length !== fullTaskList.length) {
+                      console.log("PASS SECOND CONDITION");
                       Task.findOne({
-                        tid: taskList[i]
+                        tid: taskIdList[i]
                       }).exec(function(err, taskName) {
                         if (err || taskName == undefined) {
-                          console.log("There was an error looking up the task name.");
+                          console.log("There was an error looking up the task.");
                           console.log("Error = " + err);
                           res.serverError();
                         } else {
-                          fullTaskList[fullTaskList.length] = taskName;
-                          if (taskList.length == fullTaskList.length) {
-                            fullTaskList.sort(dynamicSort("duedate"));
-                            console.log(fullTaskList);
-                            res.view('dashboard/projectDetails', {
-                              user: user,
-                              classroom: className,
-                              project: projectName,
-                              tasks: fullTaskList,
-                              currentPage: 'specificProject'
-                            });
+                          console.log("PASS THIRD CONDITION");
+                          fullTaskList.push(taskName);
+                          if (taskName.status === "false") {
+                            console.log("ADDED TO INCOMPLETE");
+                            incompletedTaskList.push(taskName);
+                          } else {
+                            console.log("NOT ADDED TO INCOMPLETE");
+                            console.log(taskName.status);
                           }
                         }
+                      });
+                    } else {
+                      // Everything must be account for, so sort that shit
+                      if (fullTaskList !== undefined && fullTaskList !== null) {
+                        console.log("SORT ALL");
+                        fullTaskList.sort(dynamicSort("duedate"));
+                      }
+                      if (incompletedTaskList !== undefined && incompletedTaskList !== null) {
+                        console.log("SORT INCOMPLETE");
+                        incompletedTaskList.sort(dynamicSort("duedate"));
+                      }
+                      console.log("VIEW");
+                      res.view('dashboard/projectDetails', {
+                        user: user,
+                        project: projectName,
+                        currentPage: 'specificProject',
+                        incompletedTasks: incompletedTaskList,
+                        tasks: fullTaskList
                       });
                     }
                   }
                 } else {
-                  if (taskList.length == fullTaskList.length) {
+                  if (fullTaskList !== undefined && fullTaskList !== null) {
                     fullTaskList.sort(dynamicSort("duedate"));
-                    console.log(fullTaskList);
-                    res.view('dashboard/projectDetails', {
-                      user: user,
-                      classroom: className,
-                      project: projectName,
-                      tasks: fullTaskList,
-                      currentPage: 'specificProject'
-                    });
                   }
+                  if (incompletedTaskList !== undefined && incompletedTaskList !== null) {
+                    incompletedTaskList.sort(dynamicSort("duedate"));
+                  }
+                  console.log("VIEW 2");
+                  res.view('dashboard/projectDetails', {
+                    user: user,
+                    project: projectName,
+                    currentPage: 'specificProject',
+                    incompletedTasks: incompletedTaskList,
+                    tasks: fullTaskList
+                  });
                 }
               }
             });
@@ -287,6 +299,113 @@ module.exports = {
       }
     });
   },
+
+  // specificProject: function(req, res) {
+  //   var post = req.body;
+  //
+  //   function dynamicSort(property) {
+  //     var sortOrder = 1;
+  //     if (property[0] === "-") {
+  //       sortOrder = -1;
+  //       property = property.substr(1);
+  //     }
+  //     return function(a, b) {
+  //       var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+  //       return result * sortOrder;
+  //     }
+  //   }
+  //   User.findOne({
+  //     id: req.user.id
+  //   }).exec(function(err, user) {
+  //     if (err || user == undefined) {
+  //       console.log("There was an error looking up the logged in user.");
+  //       console.log("Error = " + err);
+  //       console.log("Error Code 0003.0");
+  //       res.serverError();
+  //     } else {
+  //       // Find the project
+  //       var url = req.url;
+  //       var array = url.split("/");
+  //       var classUrl = array[2];
+  //       var projectId = array[4];
+  //       var index = user.classUrlNames.indexOf(classUrl);
+  //       var cid = user.classes[index];
+  //       Classroom.findOne({
+  //         cid: cid
+  //       }).exec(function(err, className) {
+  //         if (err || className == undefined) {
+  //           console.log("There was an error looking up the class.");
+  //           console.log("Error = " + err);
+  //           res.serverError();
+  //         } else {
+  //           Project.findOne({
+  //             pid: projectId
+  //           }).exec(function(err, projectName) {
+  //             if (err || projectName == undefined) {
+  //               console.log("There was an error looking up the project.");
+  //               console.log("Error = " + err);
+  //               res.serverError();
+  //             } else {
+  //               // Look up all the tasks
+  //               var taskList = projectName.tasks;
+  //               var fullTaskList = [];
+  //               if (taskList.length != fullTaskList.length) {
+  //                 for (var i = 0; i < taskList.length; i++) {
+  //                   if (taskList.length == fullTaskList.length) {
+  //                     fullTaskList.sort(dynamicSort("duedate"));
+  //                     console.log(fullTaskList);
+  //                     res.view('dashboard/projectDetails', {
+  //                       user: user,
+  //                       classroom: className,
+  //                       project: projectName,
+  //                       tasks: fullTaskList,
+  //                       currentPage: 'specificProject'
+  //                     });
+  //                   } else {
+  //                     Task.findOne({
+  //                       tid: taskList[i]
+  //                     }).exec(function(err, taskName) {
+  //                       if (err || taskName == undefined) {
+  //                         console.log("There was an error looking up the task name.");
+  //                         console.log("Error = " + err);
+  //                         res.serverError();
+  //                       } else {
+  //                         fullTaskList[fullTaskList.length] = taskName;
+  //                         if (taskList.length == fullTaskList.length) {
+  //                           fullTaskList.sort(dynamicSort("duedate"));
+  //                           console.log(fullTaskList);
+  //                           res.view('dashboard/projectDetails', {
+  //                             user: user,
+  //                             classroom: className,
+  //                             project: projectName,
+  //                             tasks: fullTaskList,
+  //                             currentPage: 'specificProject'
+  //                           });
+  //                         }
+  //                       }
+  //                     });
+  //                   }
+  //                 }
+  //               } else {
+  //                 if (taskList.length == fullTaskList.length) {
+  //                   fullTaskList.sort(dynamicSort("duedate"));
+  //                   console.log(fullTaskList);
+  //                   res.view('dashboard/projectDetails', {
+  //                     user: user,
+  //                     classroom: className,
+  //                     project: projectName,
+  //                     tasks: fullTaskList,
+  //                     currentPage: 'specificProject'
+  //                   });
+  //                 }
+  //               }
+  //             }
+  //           });
+  //         }
+  //       });
+  //     }
+  //   });
+  // },
 
   update: function(req, res) {
     var post = req.body;

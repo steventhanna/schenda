@@ -56,41 +56,36 @@ window.onload = function() {
       </div>
 
       <% if (tasks !== undefined && tasks !== null && tasks.length > 0) { %>
-        <div class="row">
-          <div class="col-lg-8">
-            <% for (var i = 0; i < tasks.length; i++) { %>
-              <% if (tasks[i].status == false) { %>
+        <% if (incompletedTasks !== undefined && incompletedTasks !== null && incompletedTasks.length > 0) { %>
+          <div class="row">
+            <div class="col-lg-8">
+              <% for (var i = 0; i < incompletedTasks.length; i++) { %>
                 <div class="task">
                   <div class="title">
-                    <a href="/class/<%= classroom.urlName %>/projects/<%= project.pid %>/<%= tasks[i].tid %>">
-                      <%= tasks[i].name %></a>
+                    <a href="/class/<%= classroom.urlName %>/projects/<%= project.pid %>/<%= tasks[i].tid %>"><%= incompletedTasks[i].name %></a>
                   </div>
                   <div class="duedate" style="color: <%= classroom.color %>">
-                    <% if (tasks[i].duedate !== "" && tasks[i].duedate !== undefined && tasks[i].duedate !== null) { %>
-                      Due
-                      <%= tasks[i].duedate %>
+                    <% if (incompletedTasks[i].duedate !== "" && incompletedTasks[i].duedate !== undefined && incompletedTasks[i].duedate !== null) { %>
+                      Due <%= incompletedTasks[i].duedate %>
                     <% } %>
                   </div>
                   <div class="description">
-                    <% if (tasks[i].note == "") { %>
-                      No notes
+                    <% if (incompletedTasks[i].note == "") { %>
+                        No notes
                     <% } else { %>
-                    <%= tasks[i].note %>
-                  <% } %>
+                        <%= incompletedTasks[i].note %>
+                    <% } %>
+                  </div>
                 </div>
-              </div>
-            <% } %>
+              <% } %>
+            </div>
+            <div class="col-lg-4">
+              <h2 class="upcoming">Upcoming Tasks</h2>
+            </div>
+          </div>
+          <% { else { %>
           <% } %>
-        </div>
-        <div class="col-lg-4">
-          <h2 class="upcoming">Upcoming Tasks</h2>
-        </div>
-      </div>
-    <% } else { %>
-    <center>
-      <h1 style="margin-top: 50px; font-weight: 300;">No Tasks</h1>
-    </center>
-  <% } %>
+      <% } %>
 <!-- /.row -->
 
 </div>
