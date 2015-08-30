@@ -120,7 +120,12 @@ window.onload = function() {
           <% } %>
         </div>
         <div class="col-lg-4">
-          <h2 class="upcoming">Upcoming Tasks</h2>
+          <h2 class="upcoming" style="margin-bottom: 20px;">Upcoming Tasks</h2>
+          <% for (var i = 0; i < incompletedTasks.length; i++) { %>
+            <% if (incompletedTasks[i].dueDate !== undefined || incompletedTasks[i].dueDate !== null) { %>
+                <a href="/class/<%= classroom.urlName %>/tasks/<%= incompletedTasks[i].tid %>"><h4 style="color: <%= classroom.color %>"><%= incompletedTasks[i].name %><p style="color: black" class="pull-right"><%= incompletedTasks[i].dueDate %></p></h4></a>
+              <% } %>
+            <% } %>
         </div>
       </div>
     <% } else { %>
