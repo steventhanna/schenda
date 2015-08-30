@@ -25,15 +25,8 @@ $(document).ready(function() {
         data: postObj,
         success: function(data) {
           if (data.success == true) {
-            swal({
-              title: 'Success!',
-              type: 'success',
-              text: 'The task has been deleted.',
-              showCancelButton: false,
-              showConfirmButton: true
-            }, function() {
-              window.location.href = returnUrl;
-            });
+            // Error having swal so just use this
+            window.location.href = returnUrl;
           } else {
             swal("Uh-Oh!", "There was an error deleting the task.", "error");
           }
