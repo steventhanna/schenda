@@ -94,14 +94,14 @@ module.exports = {
                           if (err || taskName == undefined) {
                             console.log("There was an error looking up the task name");
                             console.log("Error = " + err);
-                            res.serverError():
+                            res.serverError();
                           } else {
                             actualTaskList.push(taskName);
                             // If complete sort
                             if (actualTaskList.length == fullTaskList.length) {
                               actualTaskList.sort(dynamicSort('duedate'));
                               taskComplete = true;
-                              break;
+                              return;
                             }
                           }
                         });
@@ -123,7 +123,7 @@ module.exports = {
                             if (actualProjectList.length == fullProjectList.length) {
                               actualProjectList.sort(dynamicSort('dueDate'));
                               projectComplete = true;
-                              break;
+                              return;
                             }
                           }
                         });
