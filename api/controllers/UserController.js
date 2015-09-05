@@ -69,11 +69,12 @@ module.exports = {
                   res.serverError();
                 } else {
                   finalClassList.push(className);
-                  if (finalClassList.length == classIds.length) {
+                  if (finalClassList.length == classIds.length && finalClassList.length > 0) {
                     // All classes have been found.  get all tasks and projects
                     // NOTE :: Terribly inefficient
                     var fullTaskList = [];
                     var fullProjectList = [];
+                    console.log(finalClassList);
                     for (var i = 0; i < finalClassList.length; i++) {
                       for (var j = 0; j < finalClassList[i].tasks.length; i++) {
                         fullTaskList.push(finalClassList[i].tasks[j]);
@@ -148,53 +149,53 @@ module.exports = {
     });
   },
 
-  overview: function(req, res) {
-    var post = req.body;
-    User.findOne({
-      id: req.user.id
-    }).exec(function(err, user) {
-      if (err || user == undefined) {
-        console.log("There was an error looking up the logged in user.");
-        console.log("Error = " + err);
-        console.log("Error Code 0003.0");
-        res.serverError();
-      } else {
-        // Get the Classes
-        var classIds = user.classes;
-        var finalClassList = [];
-        if (classIds.length > 0) {
-          for (var i = 0; i < classIds.length; i++) {
-            if (finalClassList.length == classIds.length) {
-              res.view('dashboard/overview', {
-                user: user,
-                classes: finalClassList
-              });
-            } else {
-              Classroom.findOne({
-                cid: classIds[i]
-              }).exec(function(err, className) {
-                if (err || className == undefined) {
-                  console.log("There was an error looking up the class in the for loop.");
-                  res.serverError();
-                } else {
-                  finalClassList.push(className);
-                  if (finalClassList.length == classIds.length) {
-                    res.view('dashboard/overview', {
-                      user: user,
-                      classes: finalClassList
-                    });
-                  }
-                }
-              });
-            }
-          }
-        } else {
-          res.view('dashboard/overview', {
-            user: user,
-            classes: finalClassList
-          });
-        }
-      }
-    });
-  },
+  // overview: function(req, res) {
+  //   var post = req.body;
+  //   User.findOne({
+  //     id: req.user.id
+  //   }).exec(function(err, user) {
+  //     if (err || user == undefined) {
+  //       console.log("There was an error looking up the logged in user.");
+  //       console.log("Error = " + err);
+  //       console.log("Error Code 0003.0");
+  //       res.serverError();
+  //     } else {
+  //       // Get the Classes
+  //       var classIds = user.classes;
+  //       var finalClassList = [];
+  //       if (classIds.length > 0) {
+  //         for (var i = 0; i < classIds.length; i++) {
+  //           if (finalClassList.length == classIds.length) {
+  //             res.view('dashboard/overview', {
+  //               user: user,
+  //               classes: finalClassList
+  //             });
+  //           } else {
+  //             Classroom.findOne({
+  //               cid: classIds[i]
+  //             }).exec(function(err, className) {
+  //               if (err || className == undefined) {
+  //                 console.log("There was an error looking up the class in the for loop.");
+  //                 res.serverError();
+  //               } else {
+  //                 finalClassList.push(className);
+  //                 if (finalClassList.length == classIds.length) {
+  //                   res.view('dashboard/overview', {
+  //                     user: user,
+  //                     classes: finalClassList
+  //                   });
+  //                 }
+  //               }
+  //             });
+  //           }
+  //         }
+  //       } else {
+  //         res.view('dashboard/overview', {
+  //           user: user,
+  //           classes: finalClassList
+  //         });
+  //       }
+  //     }
+  //   });
+  // },
 };
