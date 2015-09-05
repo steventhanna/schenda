@@ -1,5 +1,6 @@
 <!-- Load dependencies -->
 <% include parts/dependencies.ejs %>
+<script src="/js/pages/overview.js"></script>
 <!-- Load navbar -->
 
 <div id="wrapper">
@@ -18,29 +19,38 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-lg-6">
-          <h2 class="col-heading">Active Tasks</h2>
-          <!-- TODO :: Pass all of the tasks and projects to the page -->
-          <% if (typeof tasks !== "undefined") { %>
-            <% for (var i = 0; i < tasks.length; i++) { %>
-              <div class="task">
-                <div class="title">
-                  <%= tasks[i].name %>
+        <% if (typeof classes == "undefined") { %>
+          <center style="margin-top: 50px;">
+            <div class="col-lg-12">
+              <h2>You haven't created any classes yet.</h2>
+              <a id="addClassButton" href="#" style="margin-top: 10px;" class="btn btn-lg btn-primary">Add Class</a>
+            </div>
+          </center>
+        <% } else { %>
+          <div class="col-lg-6">
+            <h2 class="col-heading">Active Tasks</h2>
+            <!-- TODO :: Pass all of the tasks and projects to the page -->
+            <% if (typeof tasks !== "undefined") { %>
+              <% for (var i = 0; i < tasks.length; i++) { %>
+                <div class="task">
+                  <div class="title">
+                    <%= tasks[i].name %>
+                  </div>
+                  <div class="body">
+                    <%= tasks[i].note %>
+                  </div>
                 </div>
-                <div class="body">
-                  <%= tasks[i].note %>
-                </div>
-              </div>
 
-              <br />
+                <br />
+              <% } %>
             <% } %>
-          <% } %>
 
-        </div>
-        <div class="col-lg-6">
-          <h2>Active Projects</h2>
+          </div>
+          <div class="col-lg-6">
+            <h2 class="col-heading">Active Projects</h2>
 
-        </div>
+          </div>
+        <% } %>
       </div>
 <!-- /.row -->
 
