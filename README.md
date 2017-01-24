@@ -1,4 +1,6 @@
 # schenda
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/steventhanna/schenda.svg)](https://greenkeeper.io/)
 A tool to help students stay organized
 
 - Use [Ace Editor](http://ace.c9.io/) for editing Markdown.
